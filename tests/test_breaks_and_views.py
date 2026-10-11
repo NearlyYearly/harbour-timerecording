@@ -171,17 +171,16 @@ def test_balance_before_start_is_opening(conn, store, clock):
     assert calc.balance(conn, "2026-10-05", clock()) == 30
 
 
-def test_month_and_holidays(conn, store, clock):
-    settings.set(conn, "holiday.entitlement", 30)
-    settings.set(conn, "holiday.carryover", {"2026": 2.5})
+def test_month_and_vacation(conn, store, clock):
+    store.set_vacation_year(2026, 30, 2.5)
     store.set_day_note("2026-10-01", 1, "")   # vacation, past
     store.set_day_note("2026-10-02", 2, "")   # half, past
     store.set_day_note("2026-12-28", 1, "")   # planned
-    store.set_day_note("2026-10-06", 3, "")   # sick: no holiday
+    store.set_day_note("2026-10-06", 3, "")   # sick: no vacation
     clock.set("2026-10-05T12:00")
     month = calc.month_summary(conn, 2026, 10, clock())
     assert len(month["days"]) == 31 and month["end"] == "2026-10-31"
-    h = month["holidays"]
+    h = month["vacation"]
     assert (h["taken"], h["planned"], h["remaining"]) == (1.5, 1.0, 30)
     # Oct 1 (Thu) vacation credits the full target, Oct 2 (Fri) half vacation half of it.
     oct1, oct2 = month["days"][0], month["days"][1]

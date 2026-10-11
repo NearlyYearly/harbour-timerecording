@@ -5,7 +5,7 @@ New tasks go in the phase they belong to.
 
 ## Now
 
-- [ ] P5 — install 0.6.0 on the phone, import the Android backup there, run the device checklist
+- [ ] P5 — install 0.7.0 on the phone, import the Android backup there, run the device checklist
 
 ## P1 — Core
 
@@ -71,6 +71,14 @@ New tasks go in the phase they belong to.
 - [x] `break.since`: history keeps its totals
 - [x] Tests against a made-up database in the same format; balances checked against the real one
 
+## P4b — Vacation
+
+- [x] "Vacation" in the UI, "Public holiday" stays for statutory days (D-026)
+- [x] Vacation page in the day pulley: years with days, carryover, taken, planned, left
+- [x] Add past years; days and carryover per year; days taken per year
+- [x] Schema v4 (`vacation_years`), migration and old backups convert the settings
+- [x] Android import writes vacation years (one undo step)
+
 ## P5 — Device test
 
 - [ ] Install via File Browser and via `pkcon` (`BUILD.md`)
@@ -83,7 +91,8 @@ New tasks go in the phase they belong to.
 - [ ] Reminder arrives with the display off (app on the cover)
 - [ ] Tapping a notification opens the app; with the app closed, it starts it (D-015)
 - [ ] Backup lands in `~/Documents`; restore works
-- [ ] Import `timerec.db.gz` from `~/Documents`; balance and holidays match Android
+- [ ] Import `timerec.db.gz` from `~/Documents`; balance and vacation match Android
+- [ ] Updating from 0.6.0 keeps the vacation numbers (schema v4 migration)
 - [ ] Colours follow a light and a dark ambience (D-016)
 
 ## P6 — Polish

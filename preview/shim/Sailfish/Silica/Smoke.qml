@@ -94,6 +94,20 @@ Item {
             page("10-break-rules", "BreakRulesPage.qml"),
             page("11-break-rule-time", "BreakRuleDialog.qml", { afterMin: 360, breakMin: 30, at: "12:00" }),
             page("12-balance", "BalancePage.qml"),
+            function() {
+                var y = new Date().getFullYear()
+                backend.mutate("set_vacation_year", [y, 30, 4.5])
+                backend.mutate("set_vacation_year", [y - 2, 28, 0])
+                later(run, 800)
+            },
+            page("12b-vacation", "VacationPage.qml"),
+            function() {
+                backend.run("vacation_years", [], function(years) {
+                    smoke.years = years
+                    page("12c-vacation-year", "VacationYearDialog.qml", { entry: years[0], years: years })()
+                })
+            },
+            function() { page("12d-vacation-add-year", "VacationYearDialog.qml", { entry: null, years: smoke.years })() },
             page("13-day-types", "NoteTypesPage.qml"),
             page("14-day-type", "NoteTypeDialog.qml"),
             page("15-backup", "BackupPage.qml"),
@@ -148,5 +162,6 @@ Item {
     }
 
     property var line
+    property var years: []
     property var tasks: []
 }

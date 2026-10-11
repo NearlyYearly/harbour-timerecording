@@ -1,4 +1,5 @@
 """SQLite storage and schema migrations."""
+import json
 import sqlite3
 
 # Each entry migrates from version i to i+1. Never edit a shipped entry; append.
@@ -67,12 +68,16 @@ MIGRATIONS = [
     ALTER TABLE tasks ADD COLUMN target_off INTEGER NOT NULL DEFAULT 0;
     ALTER TABLE tasks ADD COLUMN holiday_days REAL NOT NULL DEFAULT 0;
     """,
+    # v4: vacation per year (D-026). The old holiday settings move into the table.
+    lambda conn: (conn.execute(
+        "CREATE TABLE vacation_years (year INTEGER PRIMARY KEY, days REAL NOT NULL, "
+        "carryover REAL NOT NULL DEFAULT 0)"), holiday_settings_to_years(conn)),
 ]
 
 SCHEMA_VERSION = len(MIGRATIONS)
 
 # Tables in dependency order; used by backup/restore.
-TABLES = ["tasks", "note_types", "stamps", "day_notes", "templates", "settings"]
+TABLES = ["tasks", "note_types", "stamps", "day_notes", "templates", "settings", "vacation_years"]
 
 
 def connect(path):
@@ -88,8 +93,41 @@ def migrate(conn):
     if version > SCHEMA_VERSION:
         raise RuntimeError("database schema %d is newer than app (%d)" % (version, SCHEMA_VERSION))
     for i in range(version, SCHEMA_VERSION):
-        conn.executescript(
-            "BEGIN;" + MIGRATIONS[i] + "PRAGMA user_version = %d; COMMIT;" % (i + 1))
+        step = MIGRATIONS[i]
+        if callable(step):
+            # Python steps for data that SQL alone cannot move (JSON settings).
+            conn.commit()
+            try:
+                step(conn)
+                conn.execute("PRAGMA user_version = %d" % (i + 1))
+                conn.commit()
+            except Exception:
+                conn.rollback()
+                raise
+        else:
+            conn.executescript(
+                "BEGIN;" + step + "PRAGMA user_version = %d; COMMIT;" % (i + 1))
+
+
+def holiday_settings_to_years(conn):
+    """Move the pre-v4 settings holiday.entitlement / holiday.carryover into vacation_years.
+
+    Also run after restoring an older backup. Years that already have a row are kept.
+    """
+    def setting(key):
+        row = conn.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone()
+        return json.loads(row[0]) if row else None
+
+    entitlement = setting("holiday.entitlement")
+    carryover = setting("holiday.carryover") or {}
+    days = float(entitlement) if entitlement is not None else 30.0
+    for year, amount in carryover.items():
+        conn.execute("INSERT OR IGNORE INTO vacation_years (year, days, carryover) VALUES (?, ?, ?)",
+                     (int(year), days, float(amount)))
+    if entitlement is not None:
+        conn.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('vacation.default_days', ?)",
+                     (json.dumps(days),))
+    conn.execute("DELETE FROM settings WHERE key IN ('holiday.entitlement', 'holiday.carryover')")
 
 
 def row_dict(row):

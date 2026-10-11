@@ -253,6 +253,23 @@ Template:
   month-end in 2026). The real backup never enters the repo; tests use a made-up database
   (`tests/android_fixture.py`).
 
+### D-026 — Vacation per year, "vacation" instead of "holiday"
+
+- **Context:** "Holiday" meant both the user's days off and public holidays, which also exist
+  as a day type and a task rule. Vacation was one entitlement in Settings plus a carryover
+  map; past years could not have their own number of days.
+- **Decision:** The UI says **Vacation** for days off and **Public holiday** for statutory
+  days. Vacation has its own page in the day pulley, not in Settings. Schema v4 adds
+  `vacation_years(year, days, carryover)`; each year has its own days and carryover, past
+  years can be added, changes are undoable and part of backups. A year without an entry
+  gets the days of the latest earlier entry (else the setting `vacation.default_days`) and
+  no carryover. Adding a year suggests what the previous year left as carryover.
+  The v4 migration (a Python step) moves `holiday.entitlement` / `holiday.carryover` into
+  the table; restoring an older backup does the same. The Android import writes its
+  per-year corrections as rows (largest entry = days, rest = carryover) inside the undo step.
+- **Not renamed:** the columns `tasks.holiday_days` and `note_types.holiday_days` keep their
+  name; renaming needs SQLite 3.25+ on the phone and changes nothing for the user.
+
 ## Open questions
 
 | # | Question | When |

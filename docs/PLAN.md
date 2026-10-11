@@ -5,17 +5,17 @@ See `PLATFORM.md` for the platform facts this plan is based on.
 ## One-liner
 
 A native Sailfish OS time recorder in the spirit of *Time Recording* for Android: check in and
-out, tasks, day notes, automatic breaks by rule, flexitime and holiday balance — on-device.
+out, tasks, day notes, automatic breaks by rule, flexitime and vacation balance — on-device.
 
 ## Users & jobs
 
-People who track their working time (flexitime, overtime, holidays) and moved from Android to
+People who track their working time (flexitime, overtime, vacation) and moved from Android to
 Sailfish OS. They need to:
 
 - check in/out with one tap, also from the cover,
 - fix mistakes fast: tap a line to edit, hold to delete, undo anything,
 - have legal breaks applied automatically, the way their employer counts them,
-- see the day, the week and the month, and their flexitime and holiday balance,
+- see the day, the week and the month, and their flexitime and vacation balance,
 - keep backups and bring their history over from the Android app.
 
 ## Scope
@@ -29,8 +29,8 @@ Sailfish OS. They need to:
 - **Undo/redo** of every change, persisted (D-006); undo button in the bottom bar.
 - **Automatic breaks** by rule, three modes, *check out & in* by default (D-007…D-011).
 - **Punch rounding** and a **double-tap guard** (D-012).
-- **Day notes** with day types that credit the target and use holiday days; editable types.
-- **Week and month views**, per-task totals, **flexitime** (D-013) and **holiday balance**.
+- **Day notes** with day types that credit the target and use vacation days; editable types.
+- **Week and month views**, per-task totals, **flexitime** (D-013) and **vacation balance** (per year, D-026).
 - **Day templates**: save a day, apply it to another.
 - **Reminders** while the app runs (D-014); tapping a notification opens the app (D-015).
 - **Cover**: state, task, progress to target, day ±, flexitime, next break; check in/out and
@@ -42,7 +42,11 @@ Sailfish OS. They need to:
 
 - Import a *Time Recording* (dynamicg) backup (`timerec.db.gz`): tasks, lines, day notes,
   templates and optionally settings, with a preview first (D-025).
-- Tasks get rules like on Android: share that counts as work, no target, uses holiday.
+- Tasks get rules like on Android: share that counts as work, no target, uses vacation.
+
+### v0.7 — Vacation per year — done (needs a device test)
+
+- Vacation page in the day pulley, a history of years, own days and carryover per year (D-026).
 
 ### Backlog (not now)
 
@@ -81,7 +85,7 @@ SQLite (stdlib sqlite3) — ~/.local/share/org.timerecord/harbour-timerecord/tim
 - `Reminders.qml` (Nemo.KeepAlive + Nemo.Notifications) asks Python what is due.
 - `DBusActivation.qml` (Nemo.DBus) receives notification taps.
 
-## Data model (schema v3)
+## Data model (schema v4)
 
 | Table | Key fields |
 |-------|-----------|
@@ -90,6 +94,7 @@ SQLite (stdlib sqlite3) — ~/.local/share/org.timerecord/harbour-timerecord/tim
 | `note_types` | id, name, credit_factor, holiday_days, color, sort, archived |
 | `day_notes` | date, note_type_id, text |
 | `templates` | id, name, lines (json) |
+| `vacation_years` | year, days, carryover |
 | `settings` | key, value (json) |
 | `undo_log` | seq, label, changes (json), undone |
 
@@ -103,7 +108,7 @@ to `db.MIGRATIONS` and get a `DECISIONS.md` entry.
 | Phase | Outcome |
 |-------|---------|
 | **P1 Core** | Data layer, check in/out, lines, undo, notes, break rules, rounding, settings, backup, day page, cover basics. *(done)* |
-| **P2 Views & balances** | Week, month, flexitime, holidays, day types, templates, task totals. *(done)* |
+| **P2 Views & balances** | Week, month, flexitime, vacation, day types, templates, task totals. *(done)* |
 | **P3 Reminders** | Notifications, background job, full cover, notification tap opens the app. *(done)* |
 | **P4 Android import** | Importer with preview, per-task rules. *(done)* |
 | **P5 Device test** | Install on the phone, run the device checklist in `TODO.md`. |

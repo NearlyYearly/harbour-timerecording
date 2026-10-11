@@ -40,9 +40,9 @@ DEFAULTS = {
     # Flexitime balance. Empty start = from the first day with any line or note.
     "balance.start": "",
     "balance.opening_min": 0,
-    # Holidays.
-    "holiday.entitlement": 30.0,
-    "holiday.carryover": {},
+    # Vacation days for a year without its own entry and no earlier year to copy from.
+    # Per-year days and carryover live in the vacation_years table (D-026).
+    "vacation.default_days": 30.0,
     # Ignore a check-in/out this soon after the previous one (double taps).
     "punch.debounce_sec": 10,
     # Reminders (notifications while the app runs, also in the background/on the cover).

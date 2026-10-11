@@ -53,7 +53,7 @@ Dialog {
                     if (!e || e.id === null) return ""
                     var parts = []
                     if (e.credit_factor > 0) parts.push(qsTr("credits %1% of the target").arg(Math.round(e.credit_factor * 100)))
-                    if (e.holiday_days > 0) parts.push(qsTr("uses %1 holiday days").arg(e.holiday_days))
+                    if (e.holiday_days > 0) parts.push(qsTr("uses %1 vacation days").arg(e.holiday_days))
                     return parts.join(" · ")
                 }
                 menu: ContextMenu {

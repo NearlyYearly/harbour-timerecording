@@ -8,6 +8,7 @@ FocusScope {
     property alias acceptableInput: input.acceptableInput
     property alias inputMethodHints: input.inputMethodHints
     property alias horizontalAlignment: input.horizontalAlignment
+    property alias readOnly: input.readOnly
     property string label
     property string placeholderText
     property string description

@@ -105,9 +105,28 @@ def month(year, month_):
     return calc.month_summary(a.conn, int(year), int(month_), a.now())
 
 
-def holidays(year):
+def vacation(year):
     a = _a()
-    return calc.holidays(a.conn, int(year), a.now())
+    return calc.vacation(a.conn, int(year), a.now())
+
+
+def vacation_years():
+    a = _a()
+    return calc.vacation_years(a.conn, a.now())
+
+
+def vacation_days(year):
+    return calc.vacation_days(_a().conn, int(year))
+
+
+def set_vacation_year(year, days, carryover):
+    _a().store.set_vacation_year(_clean(year), days, carryover)
+    return vacation_years()
+
+
+def delete_vacation_year(year):
+    _a().store.delete_vacation_year(_clean(year))
+    return vacation_years()
 
 
 def punch(task_id):

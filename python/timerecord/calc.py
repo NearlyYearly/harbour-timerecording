@@ -1,4 +1,4 @@
-"""Day, week and month totals, flexitime and holiday balance.
+"""Day, week and month totals, flexitime and vacation balance.
 
 A line belongs to the day it was checked in. Ranges are loaded with one query each for
 lines and notes, then evaluated per day.
@@ -238,37 +238,75 @@ def month_summary(conn, year, month, now, values=None):
         "plan_target_min": sum(d["target_min"] for d in day_list),
         "tasks": task_totals(day_list),
         "balance_min": balance(conn, end, now, values),
-        "holidays": holidays(conn, year, now, values),
+        "vacation": vacation(conn, year, now, values),
     }
 
 
-def holidays(conn, year, now, values=None):
-    """Holiday balance of a year: entitlement + carryover - used/planned.
-
-    A day uses the holiday days of its day type or of a task it has a line of
-    (whichever is larger), so a day is never counted twice.
-    """
-    values = values or settings.get_all(conn)
+def _vacation_used(conn, year=None):
+    """{date: vacation days} from day types and tasks (the larger one per day, so a day
+    never counts twice). The columns are still called holiday_days (D-026)."""
+    def where(column):
+        return "substr(%s, 1, 4) = ? AND " % column if year is not None else ""
+    args = (str(year), str(year)) if year is not None else ()
     used = {}
     for row in conn.execute(
-            "SELECT n.date AS d, nt.holiday_days AS h FROM day_notes n "
+            "SELECT n.date AS d, nt.holiday_days AS h, nt.name AS name FROM day_notes n "
             "JOIN note_types nt ON nt.id = n.note_type_id "
-            "WHERE substr(n.date, 1, 4) = ? AND nt.holiday_days > 0 "
-            "UNION ALL SELECT substr(s.check_in, 1, 10), t.holiday_days FROM stamps s "
+            "WHERE " + where("n.date") + "nt.holiday_days > 0 "
+            "UNION ALL SELECT substr(s.check_in, 1, 10), t.holiday_days, t.name FROM stamps s "
             "JOIN tasks t ON t.id = s.task_id "
-            "WHERE substr(s.check_in, 1, 4) = ? AND t.holiday_days > 0 AND s.kind = 'work'",
-            (str(year), str(year))):
-        used[row["d"]] = max(used.get(row["d"], 0), row["h"])
+            "WHERE " + where("s.check_in") + "t.holiday_days > 0 AND s.kind = 'work'", args):
+        if row["h"] > used.get(row["d"], (0, ""))[0]:
+            used[row["d"]] = (row["h"], row["name"])
+    return used
+
+
+def _year_rows(conn):
+    return {r["year"]: dict(r) for r in conn.execute("SELECT * FROM vacation_years")}
+
+
+def _entitlement(rows, year, values):
+    """Days of a year: its own entry, else the latest earlier year's, else the default."""
+    if year in rows:
+        return rows[year]["days"], True
+    earlier = [y for y in rows if y < year]
+    if earlier:
+        return rows[max(earlier)]["days"], False
+    return float(values["vacation.default_days"]), False
+
+
+def vacation(conn, year, now, values=None, rows=None, used=None):
+    """Vacation balance of a year: days + carryover - taken/planned."""
+    values = values or settings.get_all(conn)
+    rows = _year_rows(conn) if rows is None else rows
+    used = _vacation_used(conn, year) if used is None else used
     today = now.date().isoformat()
-    taken = sum(h for d, h in used.items() if d <= today)
-    planned = sum(h for d, h in used.items() if d > today)
-    entitlement = float(values["holiday.entitlement"])
-    carryover = float(values["holiday.carryover"].get(str(year), 0))
+    prefix = str(year)
+    taken = sum(h for d, (h, _) in used.items() if d[:4] == prefix and d <= today)
+    planned = sum(h for d, (h, _) in used.items() if d[:4] == prefix and d > today)
+    days, own = _entitlement(rows, year, values)
+    carryover = float(rows[year]["carryover"]) if year in rows else 0.0
     return {
         "year": year,
-        "entitlement": entitlement,
+        "days": days,
+        "own_entry": own,
         "carryover": carryover,
         "taken": taken,
         "planned": planned,
-        "remaining": entitlement + carryover - taken - planned,
+        "remaining": days + carryover - taken - planned,
     }
+
+
+def vacation_years(conn, now, values=None):
+    """Every year with an entry or with vacation used, plus the current year; newest first."""
+    values = values or settings.get_all(conn)
+    rows = _year_rows(conn)
+    used = _vacation_used(conn)
+    years = set(rows) | {int(d[:4]) for d in used} | {now.year}
+    return [vacation(conn, y, now, values, rows, used) for y in sorted(years, reverse=True)]
+
+
+def vacation_days(conn, year):
+    """The vacation days of a year: [{date, days, name}]."""
+    return [{"date": d, "days": h, "name": name}
+            for d, (h, name) in sorted(_vacation_used(conn, year).items())]

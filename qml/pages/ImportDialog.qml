@@ -18,8 +18,7 @@ Dialog {
         "target.fri": qsTr("Target Friday"), "target.sat": qsTr("Target Saturday"),
         "target.sun": qsTr("Target Sunday"), "break.rules": qsTr("Break rules"),
         "break.since": qsTr("Automatic breaks from"), "balance.start": qsTr("Flexitime counted from"),
-        "balance.opening_min": qsTr("Opening balance"), "holiday.entitlement": qsTr("Holidays per year"),
-        "holiday.carryover": qsTr("Holiday carryover")
+        "balance.opening_min": qsTr("Opening balance")
     })
 
     function settingText(key, value) {
@@ -27,9 +26,6 @@ Dialog {
         if (key === "break.rules") return value.map(function(r) {
             return qsTr("> %1 → %2 min").arg(Format.duration(r.after_min)).arg(r.break_min)
                    + (r.at ? " " + qsTr("at %1").arg(r.at) : "")
-        }).join(", ")
-        if (key === "holiday.carryover") return Object.keys(value).sort().reverse().map(function(y) {
-            return y + ": " + value[y]
         }).join(", ")
         return String(value)
     }
@@ -99,10 +95,15 @@ Dialog {
                     label: qsTr("Templates")
                     value: dialog.preview ? String(dialog.preview.templates) : ""
                 }
+                DetailItem {
+                    label: qsTr("Vacation years")
+                    value: dialog.preview ? String(dialog.preview.vacation_years) : ""
+                }
 
                 SectionHeader {
                     visible: !!dialog.preview && (dialog.preview.skipped_days.length > 0 || dialog.preview.skipped_notes > 0
-                                                  || dialog.preview.matched_tasks.length > 0)
+                                                  || dialog.preview.matched_tasks.length > 0
+                                                  || dialog.preview.skipped_years.length > 0)
                     text: qsTr("Kept as they are here")
                 }
                 DetailItem {
@@ -114,6 +115,11 @@ Dialog {
                     visible: !!dialog.preview && dialog.preview.skipped_notes > 0
                     label: qsTr("Dates that already have a note")
                     value: dialog.preview ? String(dialog.preview.skipped_notes) : ""
+                }
+                DetailItem {
+                    visible: !!dialog.preview && dialog.preview.skipped_years.length > 0
+                    label: qsTr("Vacation years that already have an entry")
+                    value: dialog.preview ? dialog.preview.skipped_years.join(", ") : ""
                 }
                 DetailItem {
                     visible: !!dialog.preview && dialog.preview.matched_tasks.length > 0
@@ -128,7 +134,7 @@ Dialog {
                 TextSwitch {
                     visible: !!dialog.preview && dialog.preview.settings.length > 0
                     text: qsTr("Take over the settings")
-                    description: qsTr("Targets, break rules, flexitime carryover and holidays. Not undone by undo.")
+                    description: qsTr("Targets, break rules and flexitime carryover. Not undone by undo.")
                     checked: dialog.withSettings
                     onClicked: dialog.withSettings = checked
                 }

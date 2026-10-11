@@ -3,7 +3,7 @@ import Sailfish.Silica 1.0
 import "../components"
 import "../components/Format.js" as Format
 
-// Month calendar with day totals, month sums, holidays and task totals. Swipe for months.
+// Month calendar with day totals, month sums, vacation and task totals. Swipe for months.
 Page {
     id: page
 
@@ -144,15 +144,15 @@ Page {
                     }
                 }
 
-                SectionHeader { text: qsTr("Holidays %1").arg(view.first.getFullYear()) }
+                SectionHeader { text: qsTr("Vacation %1").arg(view.first.getFullYear()) }
                 DetailRow {
                     label: qsTr("Taken / planned")
-                    value: view.month ? view.month.holidays.taken + " / " + view.month.holidays.planned : ""
+                    value: view.month ? view.month.vacation.taken + " / " + view.month.vacation.planned : ""
                 }
                 DetailRow {
                     label: qsTr("Remaining")
-                    value: view.month ? String(view.month.holidays.remaining) : ""
-                    valueColor: view.month && view.month.holidays.remaining < 0 ? Theme.errorColor : Theme.highlightColor
+                    value: view.month ? String(view.month.vacation.remaining) : ""
+                    valueColor: view.month && view.month.vacation.remaining < 0 ? Theme.errorColor : Theme.highlightColor
                 }
 
                 TaskTotals {

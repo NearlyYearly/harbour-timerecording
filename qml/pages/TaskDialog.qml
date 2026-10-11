@@ -65,7 +65,7 @@ Dialog {
             }
 
             ComboBox {
-                label: qsTr("Uses holiday")
+                label: qsTr("Uses vacation")
                 description: qsTr("For each day with a line of this task")
                 currentIndex: Math.max(0, dialog.holidayValues.indexOf(dialog.holiday))
                 menu: ContextMenu {
