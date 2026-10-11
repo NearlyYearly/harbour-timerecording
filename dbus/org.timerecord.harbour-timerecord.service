@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.timerecord.harbour-timerecord
+Exec=/usr/bin/invoker --type=silica-qt5 --desktop-file=harbour-timerecord.desktop --id=harbour-timerecord -s /usr/bin/sailfish-qml harbour-timerecord

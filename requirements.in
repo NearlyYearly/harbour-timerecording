@@ -1,0 +1,2 @@
+# Test dependencies (runtime has none: stdlib only, matches SFOS Python 3.8).
+pytest

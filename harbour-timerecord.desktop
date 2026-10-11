@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=harbour-timerecord
+Exec=/usr/bin/sailfish-qml harbour-timerecord
+Name=Time Recording
+Name[de]=Zeiterfassung
+
+[X-Sailjail]
+OrganizationName=org.timerecord
+ApplicationName=harbour-timerecord
+Permissions=Documents;Notifications
