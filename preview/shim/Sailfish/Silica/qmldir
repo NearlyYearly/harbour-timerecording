@@ -1,0 +1,38 @@
+module Sailfish.Silica
+singleton Theme 1.0 Theme.qml
+singleton TruncationMode 1.0 TruncationMode.qml
+singleton DateTime 1.0 DateTime.qml
+ApplicationWindow 1.0 ApplicationWindow.qml
+PageStack 1.0 PageStack.qml
+Page 1.0 Page.qml
+Dialog 1.0 Dialog.qml
+DialogHeader 1.0 DialogHeader.qml
+PageHeader 1.0 PageHeader.qml
+SilicaListView 1.0 SilicaListView.qml
+SilicaFlickable 1.0 SilicaFlickable.qml
+PullDownMenu 1.0 PullDownMenu.qml
+MenuItem 1.0 MenuItem.qml
+ContextMenu 1.0 ContextMenu.qml
+ComboBox 1.0 ComboBox.qml
+ListItem 1.0 ListItem.qml
+BackgroundItem 1.0 BackgroundItem.qml
+Label 1.0 Label.qml
+TextField 1.0 TextField.qml
+TextArea 1.0 TextArea.qml
+TextSwitch 1.0 TextSwitch.qml
+ValueButton 1.0 ValueButton.qml
+DetailItem 1.0 DetailItem.qml
+SectionHeader 1.0 SectionHeader.qml
+ViewPlaceholder 1.0 ViewPlaceholder.qml
+VerticalScrollDecorator 1.0 VerticalScrollDecorator.qml
+RemorsePopup 1.0 RemorsePopup.qml
+FadeAnimation 1.0 FadeAnimation.qml
+CoverBackground 1.0 CoverBackground.qml
+CoverActionList 1.0 CoverActionList.qml
+CoverAction 1.0 CoverAction.qml
+DatePickerDialog 1.0 DatePickerDialog.qml
+ColorPickerDialog 1.0 ColorPickerDialog.qml
+Notice 1.0 Notice.qml
+singleton Notices 1.0 Notices.qml
+TimePickerDialog 1.0 TimePickerDialog.qml
+Smoke 1.0 Smoke.qml

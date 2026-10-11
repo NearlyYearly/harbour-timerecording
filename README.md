@@ -1,0 +1,86 @@
+# harbour-timerecord
+
+Time recording for SailfishOS (Silica UI, Python logic via PyOtherSide), modelled on
+*Time Recording* for Android: check in/out, tasks, day notes, automatic break rules,
+punch rounding, undo/redo, week/month views, flexitime and holiday balance, day
+templates and JSON backups.
+
+Automatic breaks (Settings → Break rules), three modes:
+- **Check out & in** (default): on check-out, a missing break becomes a real check-out at the
+  break start and check-in at its end. Each rule can have its own exact time
+  (e.g. > 6:00 → 30 min at 12:00, > 9:00 → 45 min at 15:00); otherwise the general placement
+  applies (after hours worked, or an exact time). While checked in the break shows as planned.
+  If a break would end exactly at the check-out, it is stored as a break line instead.
+- **Show break line**: computed break shown in the list, lines untouched.
+- **Deduct only**: subtracted from the total.
+
+A check-in/out within *n* seconds of the previous one is ignored (Settings → Backup & general).
+
+While checked in, planned breaks assume the day lasts until the target is reached, so a
+12:00 break shows (and is announced) from the morning on; totals only deduct what is due.
+
+Reminders (Settings → Reminders): still checked in after *n* hours, target reached, automatic
+break starts, not checked in by a time. They run while the app is open, also in the
+background/on the cover with the display off (Nemo.KeepAlive); closing the app stops them.
+Tapping a notification opens the app (D-Bus name `org.timerecord.harbour-timerecord`,
+started via `dbus/org.timerecord.harbour-timerecord.service` when not running).
+
+Import from Android (Settings → Import from Android): copy the *Time Recording* backup
+`timerec.db.gz` to `~/Documents`, pick it, check the preview, import. Tasks, lines, day notes,
+templates and (optionally) targets, break rules, flexitime carryover and holidays come over;
+days that already have lines here are left alone. One undo step removes the import again.
+Tasks keep Android's rules (Settings → Tasks): share that counts as work (on call = 0 %),
+no target (public holiday) and uses holiday (vacation).
+
+Cover: state and task, worked vs. target with a progress bar, day ± and flexitime, next break;
+actions check in/out and next task (switches task when checked in).
+
+Everything runs in containers:
+
+| Command | What it does |
+|---|---|
+| `docker compose run --rm test` | pytest for the Python logic (Python 3.8, like SFOS 5) |
+| `docker compose run --rm preview` | runs the app on the desktop (Wayland); data in `preview/home` |
+| `docker compose run --rm smoke` | headless run, screenshots of every page into `preview/shots` |
+| `docker compose run --rm qmltest` | QML tests for the preview stand-ins (pulley, swipe gestures) |
+| `docker compose run --rm icons` | renders `icons/*/harbour-timerecord.png` from the SVG |
+| `docker compose run --rm build` | builds `RPMS/harbour-timerecord-<version>.noarch.rpm` with the Sailfish SDK |
+
+The preview uses a small stand-in for Sailfish Silica (`preview/shim`), so it looks close
+to, not exactly like, the device. Pull the page down from the top for the pulley menu (or tap the strip at the top),
+swipe right to go back (in a dialog: cancel; swipe left accepts), or the button top-left / Escape; the cover is shown on the right.
+
+## Install on the phone
+
+Without developer mode: allow Settings → Untrusted software, copy the RPM to the phone
+(e.g. `~/Downloads`), open it in the File Browser and tap Install. Dependencies come from
+the Jolla repositories automatically; installing a newer RPM keeps the data.
+
+With developer mode (Settings → Developer tools, set a password), from the host:
+
+    scp RPMS/harbour-timerecord-0.6.0-1.noarch.rpm defaultuser@<phone-ip>:
+    ssh defaultuser@<phone-ip> devel-su pkcon install-local -y harbour-timerecord-0.6.0-1.noarch.rpm
+
+Data: `~/.local/share/org.timerecord/harbour-timerecord/timerecord.sqlite`.
+Backups (manual and automatic): `~/Documents/timerecord-*.json`.
+
+The package starts through `sailfish-qml`, so it installs fine by hand or from
+OpenRepos/Chum. Harbour (the Jolla Store) would additionally need a small C++ launcher binary.
+
+## Docs
+
+- [`AGENTS.md`](AGENTS.md) — working instructions: rules, definition of done, layout
+
+- [`docs/PLAN.md`](docs/PLAN.md) — scope, architecture, data model, phases, risks
+- [`docs/PLATFORM.md`](docs/PLATFORM.md) — Sailfish OS facts the decisions rest on
+- [`docs/DECISIONS.md`](docs/DECISIONS.md) — decision log (append-only)
+- [`docs/TODO.md`](docs/TODO.md) — task list per phase, device checklist
+- [`docs/BUILD.md`](docs/BUILD.md) — build, test, preview, install on the phone
+- [`docs/PUBLISH.md`](docs/PUBLISH.md) — OpenRepos / Storeman release runbook
+
+## Layout
+
+- `python/timerecord/` — `db` (schema/migrations), `store` (all changes + undo log),
+  `rules` (breaks, rounding), `calc` (day totals), `backup`, `settings` (all tunables), `api` (QML entry points)
+- `qml/` — `pages/`, `components/` (`Backend.qml` is the Python bridge), `cover/`
+- `rpm/`, `harbour-timerecord.desktop`, `icons/`, `docker/`, `preview/`
