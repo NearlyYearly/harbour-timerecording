@@ -51,9 +51,14 @@ def restore(conn, path):
         conn.execute("DELETE FROM undo_log")
         for table in db.TABLES:
             for row in data["tables"].get(table, []):
+                if table == "settings" and row["key"] not in settings.DEFAULTS \
+                        and not row["key"].startswith("holiday."):
+                    continue  # setting from another version that no longer exists
                 names = list(row)
                 conn.execute("INSERT INTO %s (%s) VALUES (%s)" % (
                     table, ", ".join(names), ", ".join("?" * len(names))), [row[n] for n in names])
+        # Backups before schema v4 keep vacation in settings.
+        db.holiday_settings_to_years(conn)
         conn.commit()
     except Exception:
         conn.rollback()

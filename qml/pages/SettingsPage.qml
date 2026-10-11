@@ -10,7 +10,7 @@ Page {
             { title: qsTr("Break rules"), hint: qsTr("Automatic breaks after hours worked"), page: "BreakRulesPage.qml" },
             { title: qsTr("Rounding"), hint: qsTr("Round check-in and check-out times"), page: "RoundingPage.qml" },
             { title: qsTr("Reminders"), hint: qsTr("Forgot to check out, target reached, breaks"), page: "RemindersPage.qml" },
-            { title: qsTr("Balance & holidays"), hint: qsTr("Flexitime start, opening balance, holiday entitlement"), page: "BalancePage.qml" },
+            { title: qsTr("Flexitime"), hint: qsTr("Counted from, opening balance"), page: "BalancePage.qml" },
             { title: qsTr("Tasks"), hint: qsTr("Add, rename, archive"), page: "TasksPage.qml" },
             { title: qsTr("Day types"), hint: qsTr("Vacation, sick, … and how they count"), page: "NoteTypesPage.qml" },
             { title: qsTr("Backup & general"), hint: qsTr("Export, restore, double-tap guard, undo"), page: "BackupPage.qml" },

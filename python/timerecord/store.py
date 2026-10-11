@@ -9,13 +9,14 @@ import json
 from . import rules, settings
 from .db import row_dict
 
-PK = {"day_notes": "date"}
+PK = {"day_notes": "date", "vacation_years": "year"}
 EDITABLE = {
     "stamps": ["check_in", "check_out", "task_id", "comment", "kind", "raw_check_in", "raw_check_out"],
     "tasks": ["name", "color", "archived", "sort", "work_factor", "target_off", "holiday_days"],
     "day_notes": ["date", "note_type_id", "text"],
     "note_types": ["name", "credit_factor", "holiday_days", "color", "sort", "archived"],
     "templates": ["name", "lines"],
+    "vacation_years": ["year", "days", "carryover"],
 }
 
 
@@ -331,6 +332,25 @@ class Store:
 
     def update_note_type(self, type_id, data):
         return self._run("Edit day type", lambda: [self._update("note_types", type_id, self._note_type_row(data))])
+
+    # --- vacation years ----------------------------------------------------------
+
+    def set_vacation_year(self, year, days, carryover):
+        year, days, carryover = int(year), float(days), float(carryover)
+        if not 1900 <= year <= 2200:
+            raise ValueError("year out of range")
+        if not 0 <= days <= 366 or not -366 <= carryover <= 366:
+            raise ValueError("days out of range")
+        row = {"year": year, "days": days, "carryover": carryover}
+
+        def change():
+            if self._get("vacation_years", year):
+                return [self._update("vacation_years", year, row)]
+            return [self._insert("vacation_years", row)]
+        return self._run("Vacation %d" % year, change)
+
+    def delete_vacation_year(self, year):
+        return self._run("Delete vacation %d" % int(year), lambda: [self._delete("vacation_years", int(year))])
 
     # --- templates ---------------------------------------------------------------
 

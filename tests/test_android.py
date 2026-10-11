@@ -41,7 +41,9 @@ def test_read_settings(backup_file):
     assert s["break.rules"] == [{"after_min": 360, "break_min": 30, "at": "11:30"},
                                 {"after_min": 540, "break_min": 45, "at": "11:30"}]
     assert s["balance.start"] == "2026-01-01" and s["balance.opening_min"] == 600
-    assert s["holiday.entitlement"] == 30 and s["holiday.carryover"] == {"2026": 4.5}
+    assert not any(k.startswith("holiday.") for k in s)
+    assert data["vacation_years"] == [{"year": 2025, "days": 30, "carryover": 0},
+                                      {"year": 2026, "days": 30, "carryover": 4.5}]
     assert s["break.since"] == "2026-01-14"
     assert {"what": "week_targets", "value": 1} in data["not_imported"]
     assert {"what": "rounding", "value": "30"} in data["not_imported"]
@@ -79,8 +81,8 @@ def test_import_balances_match_android_rules(conn, store, clock, backup_file):
     assert store.running()["check_in"] == "2026-01-13T06:30"
     # opening on Jan 1; Jan 1 and 2 have no lines (-2 x 462); then Mon +18, Wed -462, Fri +138
     assert calc.balance(conn, "2026-01-12", clock()) == 600 - 2 * 462 + 18 - 462 + 138
-    hol = calc.holidays(conn, 2026, clock())
-    assert hol["taken"] == 1 and hol["carryover"] == 4.5
+    vac = calc.vacation(conn, 2026, clock())
+    assert vac["taken"] == 1 and vac["carryover"] == 4.5 and vac["remaining"] == 33.5
 
 
 def test_breaks_apply_again_after_the_import(conn, store, clock, backup_file):
@@ -108,8 +110,10 @@ def test_import_is_one_undo_step_and_skips_busy_days(conn, store, clock, backup_
     assert conn.execute("SELECT COUNT(*) FROM stamps").fetchone()[0] == before + 8
     assert settings.get(conn, "target.mon") == 480  # settings left alone
     assert conn.execute("SELECT text FROM day_notes WHERE date = '2026-01-09'").fetchone()[0] == "mine"
+    assert conn.execute("SELECT COUNT(*) FROM vacation_years").fetchone()[0] == 2  # data, not settings
     assert store.undo() == "Import from Android"
     assert conn.execute("SELECT COUNT(*) FROM stamps").fetchone()[0] == before
+    assert conn.execute("SELECT COUNT(*) FROM vacation_years").fetchone()[0] == 0
     assert conn.execute("SELECT COUNT(*) FROM tasks").fetchone()[0] == 1
 
 
@@ -148,3 +152,11 @@ def test_partial_work_factor(conn, store, clock):
     tid = conn.execute("SELECT id FROM tasks WHERE name = 'Travel'").fetchone()[0]
     store.add_stamp({"check_in": "2026-10-05T08:00", "check_out": "2026-10-05T12:00", "task_id": tid})
     assert calc.day_summary(conn, "2026-10-05", clock())["net_min"] == 120
+
+
+def test_existing_vacation_year_is_kept(conn, store, clock, backup_file):
+    store.set_vacation_year(2026, 28, 0)
+    data = android.read(backup_file)
+    assert android.preview(conn, data)["skipped_years"] == [2026]
+    android.apply(store, data, False)
+    assert calc.vacation(conn, 2026, clock())["days"] == 28

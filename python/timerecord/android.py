@@ -4,13 +4,13 @@ The backup is the app's own SQLite database. What is used:
 
 - `T_CATEGORY_1` tasks. TIME_ACCUMULATION (percent) and TIME_SUM_OFF give the share that
   counts as work, TARGET_OFF a day without target, balance trackers named like "Urlaub"
-  the holiday days (D-025).
+  the vacation days (D-025).
 - `T_STAMP_3` single check-in (10, with task) and check-out (20) events per day (ASOFDATE);
   they are paired into lines.
 - `T_NOTE_1` day notes (free text).
 - `T_DAY_TEMPLATE_1` template names; a template's lines are the lines of its ASOFDATE.
-- Settings: daily/weekday targets, auto breaks, the flexitime carryover and the holiday
-  corrections per year.
+- Settings: daily/weekday targets, auto breaks, the flexitime carryover.
+- Vacation per year from the corrections of the vacation tracker (D-026).
 
 `read()` parses without touching our database, `preview()` compares with it, `apply()`
 writes everything as one undo step.
@@ -30,7 +30,7 @@ from . import settings
 from .store import fmt
 
 CHECK_IN, CHECK_OUT = 10, 20
-HOLIDAY_NAME = re.compile(r"urlaub|vacation|holiday|ferien|cong", re.I)
+VACATION_NAME = re.compile(r"urlaub|vacation|holiday|ferien|cong", re.I)
 # Task colours are user data; Time Recording keeps none in this table, so give each a
 # distinct one the user can change later.
 PALETTE = ["#4caf50", "#2196f3", "#ff9800", "#9c27b0", "#f44336", "#009688", "#795548",
@@ -98,11 +98,11 @@ def _domain(conn, names):
     return rows
 
 
-def _holiday_tasks(domain):
-    """Task ids counted by a balance tracker whose label reads like "holiday"."""
+def _vacation_tasks(domain):
+    """Task ids counted by a balance tracker whose label reads like "vacation"."""
     ids = set()
     trackers = {key for key, label, _, _ in domain.get("BalanceTracker.Label", [])
-                if label and HOLIDAY_NAME.search(label)}
+                if label and VACATION_NAME.search(label)}
     for tracker in trackers:
         for _, rule, _, _ in domain.get("BalanceTracker.Filter.%s" % tracker, []):
             # "a:0_<task id>"
@@ -157,7 +157,7 @@ def read(path):
 def _read(conn, names):
     domain = _domain(conn, names)
     prefs = _settings(conn, names)
-    holiday_ids, holiday_trackers = _holiday_tasks(domain)
+    vacation_ids, vacation_trackers = _vacation_tasks(domain)
 
     tasks = []
     for i, (tid, name, sort, inactive, accumulation, target_off, sum_off) in enumerate(conn.execute(
@@ -175,7 +175,7 @@ def _read(conn, names):
             "archived": int(bool(inactive)),
             "work_factor": min(1.0, max(0.0, factor)),
             "target_off": int(bool(target_off)),
-            "holiday_days": 1.0 if tid in holiday_ids else 0.0,
+            "holiday_days": 1.0 if tid in vacation_ids else 0.0,
         })
 
     by_day = collections.defaultdict(list)
@@ -222,7 +222,7 @@ def _read(conn, names):
                     "android_task": l["android_task"], "kind": "work", "comment": l["comment"],
                 } for l in source]})
 
-    mapped = _map_settings(conn, names, prefs, domain, holiday_trackers)
+    mapped = _map_settings(conn, names, prefs, domain, vacation_trackers)
     last = max([l["check_in"] for l in lines] + ([running["check_in"]] if running else []), default=None)
     if last is not None:
         # Time Recording only adds breaks while punching, so its history has none added
@@ -236,11 +236,12 @@ def _read(conn, names):
         "templates": templates,
         "problems": problems,
         "settings": mapped,
+        "vacation_years": _vacation_years(domain, vacation_trackers),
         "not_imported": _not_imported(conn, names, prefs, domain),
     }
 
 
-def _map_settings(conn, names, prefs, domain, holiday_trackers):
+def _map_settings(conn, names, prefs, domain, vacation_trackers):
     out = {}
     daily = prefs.get("DailyTargetTime")
     if daily:
@@ -279,25 +280,27 @@ def _map_settings(conn, names, prefs, domain, holiday_trackers):
             out["balance.start"] = row[0][:10]
             out["balance.opening_min"] = int(round((row[1] or 0) / 60.0))
 
-    per_year = collections.defaultdict(float)
-    entries = []
+    return out
+
+
+def _vacation_years(domain, vacation_trackers):
+    """Vacation per year from the corrections of the vacation tracker: the largest entry of
+    a year is its days (the yearly entitlement), the rest is carryover (left over, expired)."""
+    entries = collections.defaultdict(list)
     for domain_name, rows in domain.items():
         m = re.match(r"BalanceTracker\.Correction\.(\d+)\.(\d{4})$", domain_name)
-        if not m or m.group(1) not in holiday_trackers:
+        if not m or m.group(1) not in vacation_trackers:
             continue
         for _, _, amount, _ in rows:
             try:
-                per_year[m.group(2)] += float(amount)
-                entries.append((m.group(2), float(amount)))
+                entries[int(m.group(2))].append(float(amount))
             except (TypeError, ValueError):
                 pass
-    if per_year:
-        latest = max(per_year)
-        entitlement = max(a for y, a in entries if y == latest)
-        out["holiday.entitlement"] = entitlement
-        out["holiday.carryover"] = {y: round(v - entitlement, 2) for y, v in sorted(per_year.items())
-                                    if round(v - entitlement, 2) != 0}
-    return out
+    years = []
+    for year, amounts in sorted(entries.items()):
+        days = max(amounts)
+        years.append({"year": year, "days": days, "carryover": round(sum(amounts) - days, 2)})
+    return years
 
 
 def _not_imported(conn, names, prefs, domain):
@@ -342,8 +345,11 @@ def _plan(conn, data):
     names = {t["name"].lower() for t in data["tasks"]}
     templates = [t for t in data["templates"]
                  if t["name"].lower() not in {r[0].lower() for r in conn.execute("SELECT name FROM templates")}]
+    have = {r[0] for r in conn.execute("SELECT year FROM vacation_years")}
+    years = [y for y in data["vacation_years"] if y["year"] not in have]
     return {
         "lines": lines, "running": running, "notes": notes, "templates": templates,
+        "vacation_years": years, "skipped_years": sorted(y["year"] for y in data["vacation_years"] if y["year"] in have),
         "skipped_days": skipped_days,
         "skipped_notes": len(data["notes"]) - len(notes),
         "matched_tasks": sorted(n for n in names if n in existing),
@@ -369,6 +375,8 @@ def preview(conn, data):
         "running": fmt(running["check_in"]) if running else "",
         "notes": len(plan["notes"]),
         "templates": len(plan["templates"]),
+        "vacation_years": len(plan["vacation_years"]),
+        "skipped_years": plan["skipped_years"],
         "skipped_days": plan["skipped_days"],
         "skipped_notes": plan["skipped_notes"],
         "problems": data["problems"],
@@ -414,6 +422,8 @@ def apply(store, data, with_settings):
                       "kind": l["kind"], "comment": l["comment"]} for l in template["lines"]]
             changes.append(store._insert("templates", {"name": template["name"],
                                                        "lines": json.dumps(lines)}))
+        for year in plan["vacation_years"]:
+            changes.append(store._insert("vacation_years", dict(year)))
         return changes
 
     changes = store._run("Import from Android", change)
@@ -428,6 +438,7 @@ def apply(store, data, with_settings):
         "lines": sum(1 for c in changes if c["table"] == "stamps"),
         "notes": sum(1 for c in changes if c["table"] == "day_notes"),
         "templates": sum(1 for c in changes if c["table"] == "templates"),
+        "vacation_years": sum(1 for c in changes if c["table"] == "vacation_years"),
         "settings": len(data["settings"]) if with_settings else 0,
     }
 

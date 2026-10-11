@@ -39,6 +39,10 @@ SilicaListView {
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/SettingsPage.qml"))
         }
         MenuItem {
+            text: qsTr("Vacation")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/VacationPage.qml"))
+        }
+        MenuItem {
             text: qsTr("Templates")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/TemplatesPage.qml"),
                                       { date: view.date, canSave: !!view.day && view.day.lines.filter(function(l) { return l.kind !== "auto_break" && !l.running }).length > 0 })

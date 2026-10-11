@@ -2,7 +2,7 @@
 
 Time recording for SailfishOS (Silica UI, Python logic via PyOtherSide), modelled on
 *Time Recording* for Android: check in/out, tasks, day notes, automatic break rules,
-punch rounding, undo/redo, week/month views, flexitime and holiday balance, day
+punch rounding, undo/redo, week/month views, flexitime and vacation per year, day
 templates and JSON backups.
 
 Automatic breaks (Settings → Break rules), three modes:
@@ -27,10 +27,15 @@ started via `dbus/org.timerecord.harbour-timerecord.service` when not running).
 
 Import from Android (Settings → Import from Android): copy the *Time Recording* backup
 `timerec.db.gz` to `~/Documents`, pick it, check the preview, import. Tasks, lines, day notes,
-templates and (optionally) targets, break rules, flexitime carryover and holidays come over;
+templates, vacation per year and (optionally) targets, break rules and the flexitime
+carryover come over;
 days that already have lines here are left alone. One undo step removes the import again.
 Tasks keep Android's rules (Settings → Tasks): share that counts as work (on call = 0 %),
-no target (public holiday) and uses holiday (vacation).
+no target (public holiday) and uses vacation.
+
+Vacation (day page pulley → Vacation): one entry per year with its own days and carryover;
+add past years, see the days taken and planned per year. A year without an entry gets the
+days of the latest earlier year. Days come from day types and tasks that use vacation.
 
 Cover: state and task, worked vs. target with a progress bar, day ± and flexitime, next break;
 actions check in/out and next task (switches task when checked in).
@@ -58,8 +63,8 @@ the Jolla repositories automatically; installing a newer RPM keeps the data.
 
 With developer mode (Settings → Developer tools, set a password), from the host:
 
-    scp RPMS/harbour-timerecord-0.6.0-1.noarch.rpm defaultuser@<phone-ip>:
-    ssh defaultuser@<phone-ip> devel-su pkcon install-local -y harbour-timerecord-0.6.0-1.noarch.rpm
+    scp RPMS/harbour-timerecord-0.7.0-1.noarch.rpm defaultuser@<phone-ip>:
+    ssh defaultuser@<phone-ip> devel-su pkcon install-local -y harbour-timerecord-0.7.0-1.noarch.rpm
 
 Data: `~/.local/share/org.timerecord/harbour-timerecord/timerecord.sqlite`.
 Backups (manual and automatic): `~/Documents/timerecord-*.json`.

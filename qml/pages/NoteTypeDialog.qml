@@ -44,7 +44,7 @@ Dialog {
         }
 
         ComboBox {
-            label: qsTr("Uses holiday")
+            label: qsTr("Uses vacation")
             currentIndex: Math.max(0, dialog.factors.indexOf(dialog.holiday))
             menu: ContextMenu {
                 MenuItem { text: qsTr("1 day"); onClicked: dialog.holiday = 1 }
