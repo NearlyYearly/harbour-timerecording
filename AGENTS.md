@@ -105,6 +105,9 @@ sailjail -p harbour-timerecord.desktop -- /usr/bin/sailfish-qml harbour-timereco
 - Logic in `python/timerecord/`, UI in `qml/`, tests in `tests/`.
 - QML calls Python only through `Backend.run()` (reads) and `Backend.mutate()` (writes,
   refreshes status and emits `dataChanged()`).
+- An accepted or cancelled dialog is destroyed right away, before an async callback returns.
+  A callback started from `onAccepted` must not use the dialog's ids or properties: copy
+  `backend` and any text into local variables first (see `ImportDialog.qml`).
 - Python stays stdlib-only and Python 3.8 compatible.
 - Times are local ISO strings at minute resolution; a line belongs to its check-in day.
 - Versioning: `MAJOR.MINOR.PATCH`, RPM release `-1`; bump the spec and the README together.

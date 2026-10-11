@@ -15,8 +15,9 @@ ComboBox {
     readonly property var entries: allowNone ? [{ id: null, name: qsTr("No task"), color: "" }].concat(tasks || [])
                                              : (tasks || [])
 
+    // Only select once the menu items exist; Silica rejects an index it has no item for.
     function sync() {
-        if (!entries) return
+        if (!entries || items.count < entries.length) return
         for (var i = 0; i < entries.length; i++) {
             if (entries[i].id === taskId) { currentIndex = i; return }
         }
@@ -24,12 +25,13 @@ ComboBox {
     }
 
     label: qsTr("Task")
-    onEntriesChanged: sync()
     onTaskIdChanged: sync()
 
     menu: ContextMenu {
         Repeater {
+            id: items
             model: combo.entries
+            onItemAdded: combo.sync()
             MenuItem {
                 text: modelData.name
                 onClicked: {

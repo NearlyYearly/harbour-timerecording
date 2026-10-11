@@ -45,6 +45,8 @@ Dialog {
                 label: qsTr("Day type")
                 readonly property var entries: [{ id: null, name: qsTr("None"), credit_factor: 0, holiday_days: 0 }].concat(dialog.types)
                 currentIndex: {
+                    // -1 until the menu items exist; Silica rejects an index it has no item for.
+                    if (typeItems.count < entries.length) return -1
                     for (var i = 0; i < entries.length; i++)
                         if (entries[i].id === dialog.typeId) return i
                     return 0
@@ -59,6 +61,7 @@ Dialog {
                 }
                 menu: ContextMenu {
                     Repeater {
+                        id: typeItems
                         model: typeBox.entries
                         MenuItem {
                             text: modelData.name
