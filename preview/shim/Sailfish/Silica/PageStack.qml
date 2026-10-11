@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import QtQuick 2.15
 
 // Page stack with Silica's gestures: swipe right goes back (a dialog is cancelled),

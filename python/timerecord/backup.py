@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Full JSON backup and restore."""
 import datetime as dt
 import glob

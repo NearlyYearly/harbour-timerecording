@@ -9,7 +9,8 @@ unless a decision in `docs/DECISIONS.md` says otherwise.
 - Stack: Qt 5.6 QML + Sailfish Silica UI + Python 3.8 logic via PyOtherSide (D-002)
 - Target: Sailfish OS 5.x (aarch64), built against the 5.0.0.43 target, `noarch` RPM (D-001)
 - Data: SQLite in `~/.local/share/org.timerecord/harbour-timerecord/`. Local only.
-- Distribution: direct RPM install / OpenRepos (D-005)
+- Distribution: direct RPM install / OpenRepos (D-005); source on GitHub
+- License: GPL-3.0-or-later (D-023)
 
 ## Golden rules
 
@@ -107,7 +108,9 @@ sailjail -p harbour-timerecord.desktop -- /usr/bin/sailfish-qml harbour-timereco
 - Python stays stdlib-only and Python 3.8 compatible.
 - Times are local ISO strings at minute resolution; a line belongs to its check-in day.
 - Versioning: `MAJOR.MINOR.PATCH`, RPM release `-1`; bump the spec and the README together.
-- Commit messages (once under git): `area: short summary`
+- License GPL-3.0-or-later (D-023): new source files start with
+  `SPDX-License-Identifier: GPL-3.0-or-later` (after a shebang or `.pragma library`).
+- Commit messages: `area: short summary`
   (e.g. `breaks: merge touching parts`).
 
 ## Where things go

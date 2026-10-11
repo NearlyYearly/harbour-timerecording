@@ -1,4 +1,5 @@
 .pragma library
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 // Minutes -> "h:mm" (negative values get a leading minus).
 function duration(min) {

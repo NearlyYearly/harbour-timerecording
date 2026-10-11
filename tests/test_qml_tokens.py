@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """UI rule (AGENTS.md, D-016): Silica components and Theme.* values only - no hardcoded
 colors, sizes or fonts.
 

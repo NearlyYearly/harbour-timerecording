@@ -84,7 +84,7 @@ RPM directly (Settings > Untrusted software, then open it in the File Browser).
 
 - [ ] version bumped (spec, README) and changelog updated
 - [ ] `test`, `qmltest`, `smoke` green; `build` succeeds
-- [ ] license decided, `LICENSE` added (D-023)
+- [x] license decided, `LICENSE` added (D-023)
 - [ ] installed and run through the device checklist (`TODO.md`, P5)
 - [ ] (optional) RPM signed and key published
 - [ ] OpenRepos project created, RPM + description + screenshots uploaded

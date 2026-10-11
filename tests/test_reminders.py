@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 import datetime as dt
 
 from timerecord import api, calc, reminders, settings

@@ -89,3 +89,7 @@ OpenRepos/Chum. Harbour (the Jolla Store) would additionally need a small C++ la
   `rules` (breaks, rounding), `calc` (day totals), `backup`, `settings` (all tunables), `api` (QML entry points)
 - `qml/` — `pages/`, `components/` (`Backend.qml` is the Python bridge), `cover/`
 - `rpm/`, `harbour-timerecord.desktop`, `icons/`, `docker/`, `preview/`
+
+## License
+
+GPL-3.0-or-later, see [`LICENSE`](LICENSE).

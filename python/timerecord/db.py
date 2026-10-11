@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """SQLite storage and schema migrations."""
 import json
 import sqlite3

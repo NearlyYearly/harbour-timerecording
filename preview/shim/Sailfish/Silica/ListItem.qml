@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import QtQuick 2.6
 
 // Tap = clicked, press and hold = context menu (inline, below the item) like Silica.

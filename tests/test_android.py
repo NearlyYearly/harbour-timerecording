@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Import from Time Recording for Android. The fixture is a made-up database in its format."""
 import sqlite3
 

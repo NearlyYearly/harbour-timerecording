@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """A made-up Time Recording (Android) backup, for the tests and the preview smoke run."""
 import gzip
 import shutil

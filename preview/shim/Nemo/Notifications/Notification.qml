@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import QtQuick 2.6
 
 // Preview stand-in: logs the notification and shows it as a toast in the preview window.

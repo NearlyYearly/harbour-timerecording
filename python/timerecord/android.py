@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Import from *Time Recording* for Android (dynamicg): its database backup `timerec.db(.gz)`.
 
 The backup is the app's own SQLite database. What is used:

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Vacation per year (D-026)."""
 import json
 import sqlite3

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import QtQuick 2.10
 
 // Preview stand-in: a plain timer (no wake-ups from suspend on the desktop).
