@@ -106,7 +106,7 @@ New tasks go in the phase they belong to.
 
 See [`PUBLISH.md`](PUBLISH.md).
 
-- [ ] Decide the license (D-023), add `LICENSE`
+- [x] Decide the license (D-023, GPL-3.0-or-later), add `LICENSE`
 - [ ] OpenRepos project, RPM, description, screenshots
 - [ ] (optional) sign the RPM
 

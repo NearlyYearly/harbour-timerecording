@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """All data changes go through Store so every user action can be undone and redone.
 
 An undo entry is a list of row changes {table, pk, before, after}; undo writes the

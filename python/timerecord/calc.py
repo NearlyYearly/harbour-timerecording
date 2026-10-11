@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Day, week and month totals, flexitime and vacation balance.
 
 A line belongs to the day it was checked in. Ranges are loaded with one query each for

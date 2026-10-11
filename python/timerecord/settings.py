@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Operator-editable settings. DEFAULTS are seed values only; the Settings UI edits them."""
 import datetime
 import json

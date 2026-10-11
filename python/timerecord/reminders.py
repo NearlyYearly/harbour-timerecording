@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Which reminders are due right now. Pure function; the API remembers what was sent."""
 import datetime as dt
 

@@ -214,10 +214,14 @@ Template:
 - **Consequences:** Changing them later moves the data directory and breaks updates.
 
 ### D-023 — License
-- **Date:** 2026-10-09 · **Status:** Proposed
-- **Context:** The spec needs a license field; no license was asked for.
-- **Decision:** `MIT` in the spec as a placeholder.
-- **Consequences:** Confirm or change before the first public release; add a `LICENSE` file.
+- **Date:** 2026-10-11 · **Status:** Accepted (was: MIT placeholder, 2026-10-09)
+- **Context:** The app replaces a closed, paid Android app and is published on GitHub.
+- **Decision:** **GPL-3.0-or-later.** Changed versions that are shipped must stay open;
+  common for Sailfish community apps. Silica is a system library under GPLv3's definition,
+  PyOtherSide (ISC) and the Nemo plugins are compatible.
+- **Consequences:** `LICENSE` holds the GPLv3 text and is packaged (`%license`); the spec
+  says `GPL-3.0-or-later`; every source file starts with an
+  `SPDX-License-Identifier: GPL-3.0-or-later` line.
 
 ### D-024 — Working instructions in AGENTS.md
 - **Date:** 2026-10-11 · **Status:** Accepted
@@ -275,6 +279,6 @@ Template:
 | # | Question | When |
 |---|----------|------|
 | Q1 | ~~A sample *Time Recording* backup for the importer~~ — received, see D-025 | P4 |
-| Q2 | License (D-023) | P7 |
+| Q2 | ~~License~~ — GPL-3.0-or-later (D-023) | P7 |
 | Q3 | Reminders with the app closed: accept the limit or use `Nemo.Alarms` (Clock app entries)? | after P5 |
 | Q4 | German translation for v1? | P6 |

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Entry points called from QML through PyOtherSide. Everything returns JSON-friendly values."""
 import datetime as dt
 import json

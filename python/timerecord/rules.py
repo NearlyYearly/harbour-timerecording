@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Punch rounding and automatic break rules. Pure functions, no database access."""
 import datetime as dt
 

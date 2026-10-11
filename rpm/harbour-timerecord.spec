@@ -2,7 +2,7 @@ Name:       harbour-timerecord
 Summary:    Time recording with tasks, day notes and automatic breaks
 Version:    0.7.0
 Release:    1
-License:    MIT
+License:    GPL-3.0-or-later
 BuildArch:  noarch
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 1.0
@@ -37,6 +37,7 @@ done
 
 %files
 %defattr(-,root,root,-)
+%license LICENSE
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/dbus-1/services/org.timerecord.%{name}.service

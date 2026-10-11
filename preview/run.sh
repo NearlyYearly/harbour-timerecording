@@ -1,4 +1,5 @@
 #!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Copy the app, drop Sailfish-only attached properties the shim cannot provide, run it.
 set -e
 rm -rf /tmp/app && mkdir -p /tmp/app

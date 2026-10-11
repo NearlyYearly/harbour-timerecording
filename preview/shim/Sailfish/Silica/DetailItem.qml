@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 import QtQuick 2.6
 
 // Preview stand-in for Silica's DetailItem: label in the left half, value in the right, both wrap.

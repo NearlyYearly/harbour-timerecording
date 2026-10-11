@@ -1,4 +1,5 @@
 #!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Headless run of the preview that screenshots every page (see shim Smoke.qml).
 set -e
 rm -rf /tmp/app /tmp/smokehome && mkdir -p /tmp/app /tmp/smokehome/Documents /shots
