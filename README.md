@@ -5,6 +5,9 @@ Time recording for SailfishOS (Silica UI, Python logic via PyOtherSide), modelle
 punch rounding, undo/redo, week/month views, flexitime and vacation per year, day
 templates and JSON backups.
 
+> **Note:** This app was coded and created entirely with AI. Its functionality has been
+> tested. Feedback, issues and pull requests are greatly appreciated.
+
 Automatic breaks (Settings → Break rules), three modes:
 - **Check out & in** (default): on check-out, a missing break becomes a real check-out at the
   break start and check-in at its end. Each rule can have its own exact time

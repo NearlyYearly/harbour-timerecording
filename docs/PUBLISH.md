@@ -65,14 +65,18 @@ What it does:
   hours worked, booked as a real check-out and check-in.
 - Punch rounding and a guard against accidental double taps.
 - Day notes for vacation, sickness, public holidays and comp time.
-- Week and month views, flexitime balance, holiday balance, totals per task.
+- Week and month views, flexitime balance, totals per task.
+- Vacation per year: own days and carryover for each year, history of past years.
+- Import from Time Recording for Android (its backup file timerec.db.gz).
 - Day templates for your usual day.
 - Reminders: still checked in, target reached, break time, not checked in yet.
 - JSON backups, also automatic.
 
 Notes:
 - Reminders work while the app runs (also on the cover); closing the app stops them.
-- Built with heavy use of AI assistance.
+- This app was coded and created entirely with AI. Its functionality has been tested.
+  Feedback, issues and pull requests are greatly appreciated:
+  https://github.com/NearlyYearly/harbour-timerecording
 ```
 
 ## Storeman
