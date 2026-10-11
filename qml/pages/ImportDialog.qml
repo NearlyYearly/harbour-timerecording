@@ -35,10 +35,11 @@ Dialog {
                              || preview.running.length > 0 || (withSettings && preview.settings.length > 0))
 
     onAccepted: {
-        var keep = withSettings
-        backend.mutate("android_import", [path, keep], function(r) {
-            backend.notice(qsTr("Imported %1 lines, %2 notes, %3 tasks. Undo removes them again.")
-                           .arg(r.lines).arg(r.notes).arg(r.tasks))
+        // The dialog is destroyed before the import returns: keep what the callback needs.
+        var bridge = backend
+        var message = qsTr("Imported %1 lines, %2 notes, %3 tasks. Undo removes them again.")
+        bridge.mutate("android_import", [path, withSettings], function(r) {
+            bridge.notice(message.arg(r.lines).arg(r.notes).arg(r.tasks))
         })
     }
 
