@@ -47,6 +47,24 @@ Item {
         }
     }
 
+    // First descendant (depth first) for which test(item) is true.
+    function find(item, test) {
+        if (test(item)) return item
+        for (var i = 0; i < item.children.length; i++) {
+            var hit = find(item.children[i], test)
+            if (hit) return hit
+        }
+        return null
+    }
+
+    function todayView() {
+        return find(pageStack.currentPage, function(o) { return o.changeTime !== undefined && o.isToday })
+    }
+
+    function row(view, id) {
+        return find(view, function(o) { return o.deleteRequested !== undefined && o.line && o.line.id === id })
+    }
+
     Timer {
         id: timer
         property var fn
@@ -80,6 +98,44 @@ Item {
                 })
             },
             function() { shot("03-day-running-ignored", run) },
+            function() {
+                // Checked in: the 30 s refresh must not close an open line menu.
+                var view = todayView()
+                smoke.line = view.day.lines[0]
+                var item = row(view, smoke.line.id)
+                item.openMenu()
+                backend.dataChanged()
+                later(function() {
+                    console.log("SMOKE line menu open after refresh=" + row(view, smoke.line.id).menuOpen)
+                    shot("03b-line-menu", function() { row(view, smoke.line.id).menuOpen = false; later(run, 500) })
+                })
+            },
+            function() {
+                // Change the check-in straight from the menu: 07:45 -> 07:30.
+                todayView().changeTime(smoke.line, "check_in")
+                later(function() {
+                    var picker = pageStack.currentPage
+                    picker.hour = 7
+                    picker.minute = 30
+                    picker.accept()
+                    later(function() {
+                        console.log("SMOKE changed check-in=" + todayView().day.lines[0].check_in)
+                        run()
+                    })
+                })
+            },
+            function() {
+                // Delete with the page countdown; a refresh in between must not cancel it.
+                var view = todayView()
+                smoke.count = view.day.lines.length
+                view.deleteLine(view.day.lines[1])
+                backend.dataChanged()
+                later(function() { shot("03c-delete-remorse", function() { later(run, 5500) }) }, 500)
+            },
+            function() {
+                console.log("SMOKE lines before delete=" + smoke.count + " after=" + todayView().day.lines.length)
+                backend.mutate("undo", [], function() { backend.mutate("undo", [], function() { later(run, 800) }) })
+            },
             function() {
                 backend.run("day", [d()], function(day) {
                     smoke.line = day.lines[0]
@@ -163,6 +219,7 @@ Item {
     }
 
     property var line
+    property int count: 0
     property var years: []
     property var tasks: []
 }

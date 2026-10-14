@@ -13,15 +13,48 @@ SilicaListView {
     property var day: null
     readonly property bool isToday: date === backend.status.today
     readonly property var undoState: backend.status.undo || ({ undo: "", redo: "" })
+    // A reload rebuilds the rows and would close an open context menu: wait until it closes.
+    property int menusOpen: 0
+    property bool stale: false
+
+    onMenusOpenChanged: if (menusOpen === 0 && stale) reload()
 
     function reload() {
         if (!backend.ready || !date) return
+        if (menusOpen > 0) { stale = true; return }
+        stale = false
         var requested = date
         backend.run("day", [requested], function(d) { if (requested === view.date) view.day = d })
     }
 
     function editLine(line) {
         pageStack.push(Qt.resolvedUrl("../pages/EditStampDialog.qml"), { line: line, date: date, tasks: tasks })
+    }
+
+    // Change one time of a line straight from the context menu; the check-out may pass midnight.
+    function changeTime(line, which) {
+        var checkIn = Format.parseDateTime(line.check_in)
+        var current = Format.parseDateTime(line[which])
+        var id = line.id
+        var picker = pageStack.push("Sailfish.Silica.TimePickerDialog",
+                                    { hour: current.getHours(), minute: current.getMinutes(),
+                                      hourMode: DateTime.TwentyFourHours })
+        picker.accepted.connect(function() {
+            var d = new Date(which === "check_in" ? current : checkIn)
+            d.setHours(picker.hour, picker.minute, 0, 0)
+            if (which === "check_out" && d < checkIn) d.setDate(d.getDate() + 1)
+            var data = {}
+            data[which] = Format.isoDateTime(d)
+            backend.mutate("update_stamp", [id, data])
+        })
+    }
+
+    // The popup belongs to the page, so a reload of the rows does not cancel the delete.
+    function deleteLine(line) {
+        var id = line.id
+        page.remorse.execute(qsTr("Deleting %1 – %2").arg(Format.time(line.check_in))
+                             .arg(line.running ? qsTr("now") : Format.time(line.check_out)),
+                             function() { backend.mutate("delete_stamp", [id]) })
     }
 
     Component.onCompleted: reload()
@@ -174,6 +207,10 @@ SilicaListView {
     delegate: StampItem {
         line: modelData
         onEditRequested: view.editLine(modelData)
+        onTimeRequested: view.changeTime(modelData, which)
+        onDeleteRequested: view.deleteLine(modelData)
+        onMenuOpenChanged: view.menusOpen += menuOpen ? 1 : -1
+        Component.onDestruction: if (menuOpen) view.menusOpen -= 1
         onAutoBreakTapped: pageStack.push(Qt.resolvedUrl("../pages/BreakRulesPage.qml"))
     }
 

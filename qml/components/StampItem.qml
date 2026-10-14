@@ -12,6 +12,8 @@ ListItem {
     readonly property bool isBreak: line.kind !== "work"
 
     signal editRequested()
+    signal timeRequested(string which)
+    signal deleteRequested()
     signal autoBreakTapped()
 
     contentHeight: Theme.itemSizeMedium
@@ -69,15 +71,21 @@ ListItem {
         id: contextMenu
         ContextMenu {
             MenuItem {
+                text: qsTr("Change check-in (%1)").arg(Format.time(line.check_in))
+                onClicked: item.timeRequested("check_in")
+            }
+            MenuItem {
+                visible: !line.running
+                text: qsTr("Change check-out (%1)").arg(Format.time(line.check_out))
+                onClicked: item.timeRequested("check_out")
+            }
+            MenuItem {
                 text: qsTr("Edit")
                 onClicked: item.editRequested()
             }
             MenuItem {
                 text: qsTr("Delete")
-                onClicked: {
-                    var id = line.id
-                    item.remorseAction(qsTr("Deleting"), function() { backend.mutate("delete_stamp", [id]) })
-                }
+                onClicked: item.deleteRequested()
             }
         }
     }
