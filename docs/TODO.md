@@ -5,7 +5,7 @@ New tasks go in the phase they belong to.
 
 ## Now
 
-- [ ] P5 — install 0.7.0 on the phone, import the Android backup there, run the device checklist
+- [ ] P5 — install 0.7.2 on the phone, import the Android backup there, run the device checklist
 
 ## P1 — Core
 
@@ -85,6 +85,7 @@ New tasks go in the phase they belong to.
 - [ ] App starts from the launcher; data dir created under `org.timerecord/`
 - [ ] Check in/out from page and cover; double tap is ignored
 - [ ] Edit/delete a line, remorse, undo/redo
+- [ ] While checked in: hold a line, menu stays open; delete and change check-in/out from it
 - [ ] Long day: check-out splits at the break; undo restores one line
 - [ ] Swipe days; week/month navigation; swipe back from a line
 - [ ] Change a break rule and see totals update

@@ -12,6 +12,7 @@ Page {
     property string anchorDate: Format.isoDate(new Date())
     property string currentDate: anchorDate
     property var tasks: []
+    property alias remorse: remorse
 
     function goTo(date) {
         pager.currentIndex = centerIndex + Format.daysBetween(anchorDate, date)
@@ -27,6 +28,8 @@ Page {
         onReadyChanged: if (backend.ready) { dayPage.anchorDate = backend.status.today; dayPage.goTo(dayPage.anchorDate); dayPage.loadTasks() }
         onDataChanged: dayPage.loadTasks()
     }
+
+    RemorsePopup { id: remorse }
 
     ListView {
         id: pager
