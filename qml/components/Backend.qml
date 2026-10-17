@@ -36,8 +36,11 @@ Python {
         })
     }
 
-    function refreshStatus() {
-        if (ready) run("status", [], function(st) { status = st })
+    function refreshStatus(done) {
+        if (ready) run("status", [], function(st) {
+            status = st
+            if (done) done(st)
+        })
     }
 
     Component.onCompleted: {

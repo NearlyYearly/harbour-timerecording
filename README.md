@@ -21,6 +21,9 @@ Several days at once (day pulley → *Edit several days*): a week is preselected
 change the range and « » move it by its length. The working days are ticked; set or clear a
 day note on all of them or add a template, each as one undo step.
 
+The day page opens on today, also when the running app comes to the front. Left open past
+midnight, it moves on to the new day unless you are checked in or looking at another day.
+
 A check-in/out within *n* seconds of the previous one is ignored (Settings → Backup & general).
 
 While checked in, planned breaks assume the day lasts until the target is reached, so a

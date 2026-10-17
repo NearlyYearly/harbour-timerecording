@@ -88,6 +88,19 @@ Item {
                 later(run, 1500)
             },
             function() { shot("02-day-lines", run) },
+            function() {
+                // A new day while yesterday's today is still shown and nothing runs: follow.
+                var dayPage = pageStack.currentPage
+                var y = Format.addDays(d(), -1)
+                dayPage.goTo(y)
+                dayPage.seenToday = y
+                backend.refreshStatus(function() {
+                    later(function() {
+                        console.log("SMOKE rollover moved=" + (dayPage.currentDate === d()))
+                        run()
+                    }, 500)
+                })
+            },
             function() { backend.mutate("punch", [2]); later(run, 1000) },
             function() {
                 // Second tap right away must be ignored.
