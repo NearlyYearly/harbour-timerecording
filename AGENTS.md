@@ -47,7 +47,8 @@ unless a decision in `docs/DECISIONS.md` says otherwise.
 
 - [ ] `docker compose run --rm test` green (logic, API, token rule)
 - [ ] `docker compose run --rm qmltest` green if `preview/shim` changed
-- [ ] `docker compose run --rm smoke` prints only `SMOKE …` lines (no QML warnings)
+- [ ] `docker compose run --rm smoke` prints only `SMOKE …` lines (no QML warnings;
+      `preview/check-smoke.sh` checks a saved log, as CI does)
 - [ ] `docker compose run --rm build` produces the RPM
 - [ ] New logic has a unit test in `tests/`
 - [ ] Strings wrapped for translation
@@ -65,12 +66,14 @@ qml/                         # QML: harbour-timerecord.qml, pages/, components/,
   components/Backend.qml     # the only bridge to Python
 tests/                       # pytest, incl. the QML token rule
 preview/                     # desktop preview: shim/ (Silica + Nemo stand-ins), tests/, smoke
+.github/workflows/ci.yml     # CI: tests on push/PR (D-027)
 dbus/                        # D-Bus service file (notification tap starts the app)
 docker/                      # Dockerfiles and the SDK build script
 rpm/                         # .spec
 icons/                       # launcher icons (rendered from the SVG)
 harbour-timerecord.desktop   # launcher + [X-Sailjail] permissions
 deploy.sh                    # copy + install the RPM on the phone (run by the phone's owner)
+release.sh                   # test, build, tag and upload a GitHub Release (run by the owner)
 docs/                        # plan, todo, decisions, platform notes, build, publish
 ```
 

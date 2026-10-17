@@ -44,17 +44,21 @@ docker compose run --rm smoke     # headless run over every page → preview/sho
 
 The smoke run fills sample data, opens every page, checks the double-tap guard, a reminder
 and a notification tap, and logs any QML warning. A clean run prints only `SMOKE …` lines.
+`preview/check-smoke.sh` checks a saved log (`docker compose run --rm smoke > smoke.log 2>&1`)
+and fails on anything else, or when the run did not finish.
 
-## Desktop preview
+## GitHub Actions and releases
+
+`.github/workflows/ci.yml` (D-027) runs `test`, `qmltest`, `smoke` + `check-smoke.sh` on every
+push to `main` and every pull request; the screenshots and the smoke log are kept as the run's
+`screenshots` artifact. The RPM is not built on GitHub.
+
+A release is built locally and uploaded:
 
 ```sh
-docker compose run --rm preview
+./release.sh    # main clean and pushed, tag v<spec version> new; tests, build, asks, then
+                # tags, pushes the tag and creates the GitHub Release with the RPM (gh)
 ```
-
-Opens the app on your Wayland session (`$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY` is mounted).
-Data stays in `preview/home/`. Silica is replaced by `preview/shim` (D-017): pull the page down
-from the top for the pulley menu, up past the end for the push-up menu (or tap the strip), swipe right to go back (dialogs: right
-cancels, left accepts), Escape works too; the cover is shown on the right.
 
 ## Testing on the phone
 
