@@ -1,0 +1,45 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Tests on every push and pull request, through the same docker compose services as locally
+# (D-004). Releases are built locally and uploaded with ./release.sh (D-027).
+# Actions are pinned by commit; the comment names the release.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Build the test and preview images
+        run: docker compose build test qmltest smoke
+      - name: Python tests
+        run: docker compose run --rm test
+      - name: QML tests (preview stand-ins)
+        run: env UID="$(id -u)" GID="$(id -g)" docker compose run --rm qmltest
+      - name: Smoke run (no QML warnings)
+        run: |
+          mkdir -p preview/shots
+          env UID="$(id -u)" GID="$(id -g)" docker compose run --rm smoke > smoke.log 2>&1 || { cat smoke.log; exit 1; }
+          preview/check-smoke.sh smoke.log
+      - name: Screenshots
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: screenshots
+          path: |
+            preview/shots/*.png
+            smoke.log
+          if-no-files-found: ignore
+

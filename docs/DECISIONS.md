@@ -274,6 +274,21 @@ Template:
 - **Not renamed:** the columns `tasks.holiday_days` and `note_types.holiday_days` keep their
   name; renaming needs SQLite 3.25+ on the phone and changes nothing for the user.
 
+### D-027 — Tests on GitHub Actions, releases built locally
+
+- **Context:** Tests and the RPM build only ran on one workstation; the source is on GitHub.
+  The Sailfish SDK image (~12 GB) would run on a GitHub runner only after freeing disk space,
+  and pulling it costs minutes per build.
+- **Decision:** `.github/workflows/ci.yml` runs the same `docker compose` services as locally
+  (D-004) on every push to `main` and every pull request: `test`, `qmltest` and `smoke`,
+  checked by `preview/check-smoke.sh` (fails on any QML warning or Python error, or when the
+  run did not finish). Actions are pinned by commit. The RPM is **built locally**:
+  `./release.sh` checks that `main` is clean and pushed and the tag is new, runs the tests and
+  the SDK build, asks, then tags `vX.Y.Z` (the spec version) and uploads the RPM as a GitHub
+  Release with the local `gh`.
+- **Consequences:** No SDK on GitHub, no write token in CI. A release is exactly the RPM that
+  was tested on the workstation. CI never talks to a phone; no user data enters the repository.
+
 ## Open questions
 
 | # | Question | When |

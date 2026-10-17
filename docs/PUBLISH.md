@@ -11,6 +11,9 @@ RPM release `-1`) and update the version in `README.md`. A `%changelog` is still
 
 ## Build
 
+`./release.sh` tests and builds locally, then tags `vX.Y.Z` (the spec version) and uploads
+the RPM as a GitHub Release (`BUILD.md`, D-027). By hand:
+
 ```sh
 docker compose run --rm test && docker compose run --rm qmltest && docker compose run --rm smoke
 docker compose run --rm build
