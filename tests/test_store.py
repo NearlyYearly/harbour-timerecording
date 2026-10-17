@@ -37,6 +37,31 @@ def test_checkout_never_before_checkin(conn, store, clock):
     assert lines(conn)[0]["check_out"] == "2026-10-05T08:07"
 
 
+def test_punch_at_a_chosen_time(conn, store, clock):
+    settings.set(conn, "round.in_step", 15)
+    clock.set("2026-10-05T09:10:30")
+    store.punch_at("2026-10-05T07:52", 1)  # forgot to check in: exact, not rounded
+    assert store.running()["check_in"] == "2026-10-05T07:52"
+    store.punch()  # the double-tap guard does not see the past time
+    clock.set("2026-10-05T18:00")
+    with pytest.raises(ValueError):
+        store.punch_at("2026-10-05T18:30")  # future
+    store.punch_at("2026-10-05T09:12", 1)
+    with pytest.raises(ValueError):
+        store.punch_at("2026-10-05T09:00")  # running line starts later
+    assert store.undo() == "Check in"
+
+
+def test_punch_at_check_out_splits_break(conn, store, clock):
+    clock.set("2026-10-05T18:00")
+    store.punch_at("2026-10-05T08:00", 1)
+    assert store.punch_at("2026-10-05T16:00")
+    assert store.running() is None
+    assert len(lines(conn)) == 2  # split at the automatic break
+    assert store.undo() == "Check out"
+    assert store.running()["check_in"] == "2026-10-05T08:00"
+
+
 def test_switch_task(conn, store, clock):
     store.add_task("Meeting", "#ff0000")
     store.punch(1)
