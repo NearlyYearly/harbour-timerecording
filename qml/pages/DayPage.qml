@@ -19,6 +19,20 @@ Page {
         pager.positionViewAtIndex(pager.currentIndex, ListView.Beginning)
     }
 
+    // Today as last seen from the backend. When the date moves on and the old today is still
+    // shown with nothing running (not used since the last check-out), follow to the new day.
+    property string seenToday: ""
+
+    function followToday() {
+        var today = backend.status.today
+        if (!today || today === seenToday) return
+        var previous = seenToday
+        seenToday = today
+        if (previous && currentDate === previous && !backend.status.running
+                && pageStack.currentPage === dayPage)
+            goTo(today)
+    }
+
     function loadTasks() {
         backend.run("tasks", [false], function(t) { dayPage.tasks = t })
     }
@@ -26,6 +40,7 @@ Page {
     Connections {
         target: backend
         onReadyChanged: if (backend.ready) { dayPage.anchorDate = backend.status.today; dayPage.goTo(dayPage.anchorDate); dayPage.loadTasks() }
+        onStatusChanged: dayPage.followToday()
         onDataChanged: dayPage.loadTasks()
     }
 
