@@ -15,7 +15,10 @@ SettingsBase {
             id: column
             width: parent.width
 
-            PageHeader { title: qsTr("Flexitime") }
+            PageHeader {
+                title: qsTr("Flexitime")
+                description: qsTr("Balance today %1").arg(Format.signedDuration(backend.status.balance_min))
+            }
 
             TextSwitch {
                 text: qsTr("Count from the first recorded day")

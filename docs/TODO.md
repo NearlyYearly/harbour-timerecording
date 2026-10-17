@@ -86,7 +86,7 @@ New tasks go in the phase they belong to.
 - [x] Past midnight, the day page follows to the new day when unused since the last check-out
 - [x] Push-up menu on the day page: Edit several days, Vacation (preview stand-in + QML test)
 - [x] Check in/out at a chosen time (pulley, today only; exact, no rounding)
-- [x] Quick day type page from the pulley
+- [x] Quick day type page from the pulley; Flexitime in the push-up menu, balance in its header
 
 ## P5 — Device test
 
