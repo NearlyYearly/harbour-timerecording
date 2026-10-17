@@ -5,7 +5,7 @@ New tasks go in the phase they belong to.
 
 ## Now
 
-- [ ] P5 — install 0.8.0 on the phone, import the Android backup there, run the device checklist
+- [ ] P5 — install 0.8.3 on the phone, import the Android backup there, run the device checklist
 
 ## P1 — Core
 
