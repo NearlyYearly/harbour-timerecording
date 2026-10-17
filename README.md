@@ -17,9 +17,12 @@ Automatic breaks (Settings → Break rules), three modes:
 - **Show break line**: computed break shown in the list, lines untouched.
 - **Deduct only**: subtracted from the total.
 
-Several days at once (day pulley → *Edit several days*): a week is preselected, *From*/*To*
+Several days at once (day page push-up menu at the bottom → *Edit several days*): a week is preselected, *From*/*To*
 change the range and « » move it by its length. The working days are ticked; set or clear a
 day note on all of them or add a template, each as one undo step.
+
+Day page menus: the pulley (top) holds the actions for the shown day; the push-up menu
+(bottom) opens *Edit several days* and *Vacation*.
 
 The day page opens on today, also when the running app comes to the front. Left open past
 midnight, it moves on to the new day unless you are checked in or looking at another day.
@@ -43,7 +46,7 @@ days that already have lines here are left alone. One undo step removes the impo
 Tasks keep Android's rules (Settings → Tasks): share that counts as work (on call = 0 %),
 no target (public holiday) and uses vacation.
 
-Vacation (day page pulley → Vacation): one entry per year with its own days and carryover;
+Vacation (day page push-up menu → Vacation): one entry per year with its own days and carryover;
 add past years, see the days taken and planned per year. A year without an entry gets the
 days of the latest earlier year. Days come from day types and tasks that use vacation.
 
@@ -57,12 +60,12 @@ Everything runs in containers:
 | `docker compose run --rm test` | pytest for the Python logic (Python 3.8, like SFOS 5) |
 | `docker compose run --rm preview` | runs the app on the desktop (Wayland); data in `preview/home` |
 | `docker compose run --rm smoke` | headless run, screenshots of every page into `preview/shots` |
-| `docker compose run --rm qmltest` | QML tests for the preview stand-ins (pulley, swipe gestures) |
+| `docker compose run --rm qmltest` | QML tests for the preview stand-ins (pulley, push-up menu, swipe gestures) |
 | `docker compose run --rm icons` | renders `icons/*/harbour-timerecord.png` from the SVG |
 | `docker compose run --rm build` | builds `RPMS/harbour-timerecord-<version>.noarch.rpm` with the Sailfish SDK |
 
 The preview uses a small stand-in for Sailfish Silica (`preview/shim`), so it looks close
-to, not exactly like, the device. Pull the page down from the top for the pulley menu (or tap the strip at the top),
+to, not exactly like, the device. Pull the page down from the top for the pulley menu, up past the end for the push-up menu (or tap the strip at the top / bottom),
 swipe right to go back (in a dialog: cancel; swipe left accepts), or the button top-left / Escape; the cover is shown on the right.
 
 ## Install on the phone

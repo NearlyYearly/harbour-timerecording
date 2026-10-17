@@ -3,7 +3,7 @@ import QtQuick 2.6
 import Sailfish.Silica 1.0
 import "../components"
 
-// Vacation per year: days, carryover, taken, planned, left. Opened from the day pulley.
+// Vacation per year: days, carryover, taken, planned, left. Opened from the day page push-up menu.
 Page {
     id: page
 

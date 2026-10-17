@@ -101,6 +101,11 @@ Item {
                     }, 500)
                 })
             },
+            function() {
+                var menu = find(todayView(), function(o) { return o.__pushUp === true })
+                menu.open = true
+                later(function() { shot("02b-push-up-menu", function() { menu.open = false; later(run, 300) }) }, 400)
+            },
             function() { backend.mutate("punch", [2]); later(run, 1000) },
             function() {
                 // Second tap right away must be ignored.
