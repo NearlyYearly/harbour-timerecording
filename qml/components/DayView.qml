@@ -133,6 +133,10 @@ SilicaListView {
             text: qsTr("Vacation")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/VacationPage.qml"))
         }
+        MenuItem {
+            text: qsTr("Flexitime")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/BalancePage.qml"))
+        }
     }
 
     header: Column {
