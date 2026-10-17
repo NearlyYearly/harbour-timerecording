@@ -92,6 +92,12 @@ SilicaListView {
                                       { date: view.date, canSave: !!view.day && view.day.lines.filter(function(l) { return l.kind !== "auto_break" && !l.running }).length > 0 })
         }
         MenuItem {
+            text: view.day && view.day.note && view.day.note.type_name
+                  ? qsTr("Day type: %1").arg(view.day.note.type_name) : qsTr("Set day type")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/DayTypePage.qml"),
+                                      { date: view.date, note: view.day ? view.day.note : null })
+        }
+        MenuItem {
             text: view.day && view.day.note ? qsTr("Edit day note") : qsTr("Add day note")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/DayNoteDialog.qml"),
                                       { date: view.date, note: view.day ? view.day.note : null })
