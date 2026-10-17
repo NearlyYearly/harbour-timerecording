@@ -84,6 +84,7 @@ New tasks go in the phase they belong to.
 - [x] Edit several days: range with « », tick days, set/clear day notes, apply a template (one undo step)
 - [x] Day page jumps to today when the app comes to the front
 - [x] Past midnight, the day page follows to the new day when unused since the last check-out
+- [x] Push-up menu on the day page: Edit several days, Vacation (preview stand-in + QML test)
 
 ## P5 — Device test
 

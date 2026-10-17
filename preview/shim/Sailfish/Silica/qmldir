@@ -11,6 +11,7 @@ PageHeader 1.0 PageHeader.qml
 SilicaListView 1.0 SilicaListView.qml
 SilicaFlickable 1.0 SilicaFlickable.qml
 PullDownMenu 1.0 PullDownMenu.qml
+PushUpMenu 1.0 PushUpMenu.qml
 MenuItem 1.0 MenuItem.qml
 ContextMenu 1.0 ContextMenu.qml
 ComboBox 1.0 ComboBox.qml

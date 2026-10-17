@@ -53,7 +53,7 @@ docker compose run --rm preview
 
 Opens the app on your Wayland session (`$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY` is mounted).
 Data stays in `preview/home/`. Silica is replaced by `preview/shim` (D-017): pull the page down
-from the top for the pulley menu (or tap the strip), swipe right to go back (dialogs: right
+from the top for the pulley menu, up past the end for the push-up menu (or tap the strip), swipe right to go back (dialogs: right
 cancels, left accepts), Escape works too; the cover is shown on the right.
 
 ## Testing on the phone

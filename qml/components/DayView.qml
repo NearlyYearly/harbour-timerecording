@@ -73,14 +73,6 @@ SilicaListView {
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/SettingsPage.qml"))
         }
         MenuItem {
-            text: qsTr("Vacation")
-            onClicked: pageStack.push(Qt.resolvedUrl("../pages/VacationPage.qml"))
-        }
-        MenuItem {
-            text: qsTr("Edit several days")
-            onClicked: pageStack.push(Qt.resolvedUrl("../pages/DaysPage.qml"), { date: view.date })
-        }
-        MenuItem {
             text: qsTr("Templates")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/TemplatesPage.qml"),
                                       { date: view.date, canSave: !!view.day && view.day.lines.filter(function(l) { return l.kind !== "auto_break" && !l.running }).length > 0 })
@@ -103,6 +95,18 @@ SilicaListView {
             visible: view.undoState.redo !== ""
             text: qsTr("Redo: %1").arg(view.undoState.redo)
             onClicked: backend.mutate("redo")
+        }
+    }
+
+    // Less frequent pages; the pulley keeps the actions for this day.
+    PushUpMenu {
+        MenuItem {
+            text: qsTr("Edit several days")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/DaysPage.qml"), { date: view.date })
+        }
+        MenuItem {
+            text: qsTr("Vacation")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/VacationPage.qml"))
         }
     }
 
