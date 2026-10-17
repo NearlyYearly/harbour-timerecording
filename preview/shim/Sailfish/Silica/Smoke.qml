@@ -177,6 +177,17 @@ Item {
             page("05b-day-type", "DayTypePage.qml", function() { return { date: d(), note: { note_type_id: 1, text: "Beach" } } }),
             page("06-week", "WeekPage.qml", function() { return { date: d() } }),
             page("07-month", "MonthPage.qml", function() { return { date: d() } }),
+            function() {
+                // Close pages while their data is still loading: late callbacks must not warn.
+                pageStack.push(pages + "MonthPage.qml", { date: d() })
+                pageStack.push(pages + "WeekPage.qml", { date: d() })
+                later(function() {
+                    backend.dataChanged()
+                    pageStack.pop()
+                    pageStack.pop()
+                    later(run, 1500)
+                })
+            },
             page("08-templates", "TemplatesPage.qml", function() { return { date: d(), canSave: true } }),
             function() {
                 var p = pageStack.push(pages + "DaysPage.qml", { date: d() })

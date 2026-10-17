@@ -43,7 +43,7 @@ Dialog {
         })
     }
 
-    Component.onCompleted: backend.run("android_preview", [path], function(p) { dialog.preview = p })
+    Component.onCompleted: backend.run("android_preview", [path], function(p) { if (dialog) dialog.preview = p })
 
     SilicaFlickable {
         anchors.fill: parent

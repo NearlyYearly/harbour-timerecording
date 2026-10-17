@@ -12,7 +12,7 @@ Page {
     property var types: []
     readonly property var currentId: note ? note.note_type_id : null
 
-    Component.onCompleted: backend.run("note_types", [], function(t) { page.types = t })
+    Component.onCompleted: backend.run("note_types", [], function(t) { if (page) page.types = t })
 
     SilicaListView {
         id: list

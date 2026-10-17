@@ -14,7 +14,7 @@ Page {
     property var templates: []
 
     function load() {
-        backend.run("templates", [], function(t) { page.templates = t })
+        backend.run("templates", [], function(t) { if (page) page.templates = t })
     }
 
     Component.onCompleted: load()
@@ -33,7 +33,7 @@ Page {
                     var dialog = pageStack.push(Qt.resolvedUrl("TextDialog.qml"),
                                                 { title: qsTr("New template"), label: qsTr("Name") })
                     dialog.accepted.connect(function() {
-                        backend.mutate("save_template", [dialog.text, page.date], function(t) { if (t) page.templates = t })
+                        backend.mutate("save_template", [dialog.text, page.date], function(t) { if (t && page) page.templates = t })
                     })
                 }
             }
@@ -64,7 +64,7 @@ Page {
                         var dialog = pageStack.push(Qt.resolvedUrl("TextDialog.qml"),
                                                     { title: qsTr("Rename template"), label: qsTr("Name"), text: modelData.name })
                         dialog.accepted.connect(function() {
-                            backend.mutate("rename_template", [id, dialog.text], function(t) { if (t) page.templates = t })
+                            backend.mutate("rename_template", [id, dialog.text], function(t) { if (t && page) page.templates = t })
                         })
                     }
                 }
@@ -73,7 +73,7 @@ Page {
                     onClicked: {
                         var id = modelData.id
                         item.remorseAction(qsTr("Deleting"), function() {
-                            backend.mutate("delete_template", [id], function(t) { if (t) page.templates = t })
+                            backend.mutate("delete_template", [id], function(t) { if (t && page) page.templates = t })
                         })
                     }
                 }

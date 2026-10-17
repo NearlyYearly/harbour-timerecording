@@ -12,8 +12,8 @@ Page {
     readonly property var current: years.length > 0 ? years.filter(function(y) { return y.year === new Date().getFullYear() })[0] : null
 
     function load() {
-        backend.run("vacation_years", [], function(y) { page.years = y })
-        backend.run("get_settings", [], function(v) { page.values = v })
+        backend.run("vacation_years", [], function(y) { if (page) page.years = y })
+        backend.run("get_settings", [], function(v) { if (page) page.values = v })
     }
 
     function number(n) {

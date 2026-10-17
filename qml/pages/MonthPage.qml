@@ -35,7 +35,7 @@ Page {
             property var month: null
 
             function reload() {
-                backend.run("month", [first.getFullYear(), first.getMonth() + 1], function(m) { view.month = m })
+                backend.run("month", [first.getFullYear(), first.getMonth() + 1], function(m) { if (view) view.month = m })
             }
             Component.onCompleted: reload()
             Connections {

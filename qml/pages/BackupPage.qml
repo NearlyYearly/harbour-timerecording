@@ -10,7 +10,7 @@ SettingsBase {
     property string message: ""
 
     function loadBackups() {
-        backend.run("list_backups", [], function(b) { page.backups = b })
+        backend.run("list_backups", [], function(b) { if (page) page.backups = b })
     }
 
     Component.onCompleted: loadBackups()
@@ -26,6 +26,7 @@ SettingsBase {
             MenuItem {
                 text: qsTr("Export backup now")
                 onClicked: backend.run("export_backup", [], function(path) {
+                    if (!page) return
                     page.message = qsTr("Saved %1").arg(path)
                     page.loadBackups()
                 })
@@ -94,6 +95,7 @@ SettingsBase {
                         var path = modelData.path
                         remorse.execute(qsTr("Replacing all data"), function() {
                             backend.mutate("restore_backup", [path], function(count) {
+                                if (!page) return
                                 page.message = qsTr("Restored %1 records. The previous data was saved first.").arg(count)
                                 page.loadBackups()
                             })

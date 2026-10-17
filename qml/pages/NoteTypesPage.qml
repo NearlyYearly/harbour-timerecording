@@ -9,7 +9,7 @@ Page {
     property bool showArchived: false
 
     function load() {
-        backend.run("note_types", [true], function(t) { page.types = t })
+        backend.run("note_types", [true], function(t) { if (page) page.types = t })
     }
 
     Component.onCompleted: load()

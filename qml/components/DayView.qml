@@ -24,7 +24,7 @@ SilicaListView {
         if (menusOpen > 0) { stale = true; return }
         stale = false
         var requested = date
-        backend.run("day", [requested], function(d) { if (requested === view.date) view.day = d })
+        backend.run("day", [requested], function(d) { if (view && requested === view.date) view.day = d })
     }
 
     function editLine(line) {

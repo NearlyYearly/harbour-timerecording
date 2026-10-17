@@ -14,7 +14,7 @@ Dialog {
     property var types: []
     property var typeId: note ? note.note_type_id : null
 
-    Component.onCompleted: backend.run("note_types", [], function(t) { dialog.types = t })
+    Component.onCompleted: backend.run("note_types", [], function(t) { if (dialog) dialog.types = t })
 
     onAccepted: {
         if (dates.length > 0) {
