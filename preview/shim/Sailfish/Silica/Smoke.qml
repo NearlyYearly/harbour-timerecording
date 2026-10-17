@@ -106,6 +106,17 @@ Item {
                 menu.open = true
                 later(function() { shot("02b-push-up-menu", function() { menu.open = false; later(run, 300) }) }, 400)
             },
+            function() {
+                // Forgotten punches at chosen times (yesterday, so never in the future), then undo both.
+                var y = Format.addDays(d(), -1)
+                backend.mutate("punch_at", [y + "T05:00", 1], function(st) {
+                    var inAt = st.running ? st.running.check_in : "none"
+                    backend.mutate("punch_at", [y + "T05:30", -1], function(st2) {
+                        console.log("SMOKE punch_at in=" + inAt.substr(11) + " out_running=" + !!st2.running)
+                        backend.mutate("undo", [], function() { backend.mutate("undo", [], function() { later(run, 500) }) })
+                    })
+                })
+            },
             function() { backend.mutate("punch", [2]); later(run, 1000) },
             function() {
                 // Second tap right away must be ignored.

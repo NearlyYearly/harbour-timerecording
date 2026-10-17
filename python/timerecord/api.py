@@ -147,6 +147,16 @@ def punch(task_id):
     return result
 
 
+def punch_at(at, task_id):
+    """Check in or out at a chosen time today (forgotten punch)."""
+    a = _a()
+    task_id = _opt(task_id)
+    if task_id is not None and a.store.running() is None:
+        settings.set(a.conn, "ui.last_task_id", task_id)
+    a.store.punch_at(at, task_id)
+    return status()
+
+
 def switch_task(task_id):
     a = _a()
     task_id = _opt(task_id)

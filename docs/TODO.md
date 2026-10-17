@@ -85,6 +85,7 @@ New tasks go in the phase they belong to.
 - [x] Day page jumps to today when the app comes to the front
 - [x] Past midnight, the day page follows to the new day when unused since the last check-out
 - [x] Push-up menu on the day page: Edit several days, Vacation (preview stand-in + QML test)
+- [x] Check in/out at a chosen time (pulley, today only; exact, no rounding)
 
 ## P5 — Device test
 
@@ -97,6 +98,7 @@ New tasks go in the phase they belong to.
 - [ ] Swipe days; week/month navigation; swipe back from a line
 - [ ] Edit several days: vacation on a week sets Mon–Fri only; undo removes all of them
 - [ ] Bring the app to the front from the launcher/cover: day page shows today
+- [ ] Forgot to check in: *Check in at…* 07:50, later check out normally
 - [ ] Change a break rule and see totals update
 - [ ] Reminder arrives with the display off (app on the cover)
 - [ ] Tapping a notification opens the app; with the app closed, it starts it (D-015)

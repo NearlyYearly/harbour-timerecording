@@ -49,6 +49,20 @@ SilicaListView {
         })
     }
 
+    // A forgotten punch: check in (or out) today at a chosen time.
+    function punchAt() {
+        var now = new Date()
+        var picker = pageStack.push("Sailfish.Silica.TimePickerDialog",
+                                    { hour: now.getHours(), minute: now.getMinutes(),
+                                      hourMode: DateTime.TwentyFourHours })
+        var day = date
+        picker.accepted.connect(function() {
+            var at = Format.parseDate(day)
+            at.setHours(picker.hour, picker.minute, 0, 0)
+            backend.mutate("punch_at", [Format.isoDateTime(at), backend.optId(backend.status.last_task_id)])
+        })
+    }
+
     // The popup belongs to the page, so a reload of the rows does not cancel the delete.
     function deleteLine(line) {
         var id = line.id
@@ -85,6 +99,11 @@ SilicaListView {
         MenuItem {
             text: qsTr("Add line")
             onClicked: view.editLine(null)
+        }
+        MenuItem {
+            visible: view.isToday
+            text: backend.status.running ? qsTr("Check out at…") : qsTr("Check in at…")
+            onClicked: view.punchAt()
         }
         MenuItem {
             visible: !view.isToday
