@@ -173,6 +173,7 @@ Item {
             },
             function() { page("04-edit-line", "EditStampDialog.qml", function() { return { line: smoke.line, date: d(), tasks: smoke.tasks } })() },
             page("05-day-note", "DayNoteDialog.qml", function() { return { date: d(), note: { note_type_id: 1, text: "Beach" } } }),
+            page("05b-day-type", "DayTypePage.qml", function() { return { date: d(), note: { note_type_id: 1, text: "Beach" } } }),
             page("06-week", "WeekPage.qml", function() { return { date: d() } }),
             page("07-month", "MonthPage.qml", function() { return { date: d() } }),
             page("08-templates", "TemplatesPage.qml", function() { return { date: d(), canSave: true } }),

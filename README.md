@@ -21,9 +21,10 @@ Several days at once (day page push-up menu at the bottom → *Edit several days
 change the range and « » move it by its length. The working days are ticked; set or clear a
 day note on all of them or add a template, each as one undo step.
 
-Day page menus: the pulley (top) holds the actions for the shown day: day note, add line, and
-today *Check in at… / Check out at…* for a forgotten punch (exact time, no rounding). The
-push-up menu (bottom) opens *Edit several days* and *Vacation*.
+Day page menus: the pulley (top) holds the actions for the shown day: *Set day type* (one tap
+per type, keeps the note text), day note, add line, and today *Check in at… / Check out at…*
+for a forgotten punch (exact time, no rounding). The push-up menu (bottom) opens *Edit several
+days* and *Vacation*.
 
 The day page opens on today, also when the running app comes to the front. Left open past
 midnight, it moves on to the new day unless you are checked in or looking at another day.
