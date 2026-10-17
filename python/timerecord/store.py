@@ -278,18 +278,27 @@ class Store:
 
     # --- day notes ---------------------------------------------------------------
 
+    def _note_changes(self, date, note_type_id, text):
+        existing = self._get("day_notes", date)
+        if note_type_id is None and not text:
+            return [self._delete("day_notes", date)] if existing else []
+        row = {"date": date, "note_type_id": note_type_id, "text": text}
+        if existing:
+            return [self._update("day_notes", date, row)]
+        return [self._insert("day_notes", row)]
+
     def set_day_note(self, date, note_type_id, text):
         text = (text or "").strip()
-        existing = self._get("day_notes", date)
+        return self._run("Day note", lambda: self._note_changes(date, note_type_id, text))
 
-        def change():
-            if note_type_id is None and not text:
-                return [self._delete("day_notes", date)] if existing else []
-            row = {"date": date, "note_type_id": note_type_id, "text": text}
-            if existing:
-                return [self._update("day_notes", date, row)]
-            return [self._insert("day_notes", row)]
-        return self._run("Day note", change)
+    def set_day_notes(self, dates, note_type_id, text):
+        """The same note (or none) on several days, undone as one step."""
+        text = (text or "").strip()
+        dates = sorted(set(dt.date.fromisoformat(d).isoformat() for d in dates))
+        if not dates:
+            raise ValueError("no days selected")
+        return self._run("Day notes", lambda: [c for d in dates
+                                               for c in self._note_changes(d, note_type_id, text)])
 
     # --- tasks -------------------------------------------------------------------
 
@@ -370,10 +379,7 @@ class Store:
         return self._run("Save template", lambda: [self._insert(
             "templates", {"name": name.strip(), "lines": json.dumps(lines)})])
 
-    def apply_template(self, template_id, date):
-        template = self._get("templates", template_id)
-        if template is None:
-            raise KeyError("template not found")
+    def _template_rows(self, template, date):
         day = dt.date.fromisoformat(date)
         rows = []
         for line in json.loads(template["lines"]):
@@ -388,8 +394,27 @@ class Store:
                          "comment": line.get("comment", ""), "kind": line.get("kind", "work")})
         for row in rows:
             self._validate_stamp(row)
-        return self._run("Apply template", lambda: [self._insert("stamps", r) for r in rows]
-                         + self._auto_split(date))
+        return rows
+
+    def apply_template(self, template_id, date):
+        return self.apply_template_days(template_id, [date])
+
+    def apply_template_days(self, template_id, dates):
+        """Add a template's lines to each of `dates`, undone as one step."""
+        template = self._get("templates", template_id)
+        if template is None:
+            raise KeyError("template not found")
+        dates = sorted(set(dt.date.fromisoformat(d).isoformat() for d in dates))
+        if not dates:
+            raise ValueError("no days selected")
+        per_day = [(d, self._template_rows(template, d)) for d in dates]
+
+        def change():
+            changes = []
+            for date, rows in per_day:
+                changes += [self._insert("stamps", r) for r in rows] + self._auto_split(date)
+            return changes
+        return self._run("Apply template", change)
 
     def rename_template(self, template_id, name):
         if not name.strip():

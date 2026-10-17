@@ -7,6 +7,8 @@ Item {
     property alias text: textLabel.text
     property alias description: descLabel.text
     property bool checked: false
+    // Silica: false leaves `checked` to the owner (a binding survives the tap).
+    property bool automaticCheck: true
 
     signal clicked()
 
@@ -38,6 +40,9 @@ Item {
     }
     MouseArea {
         anchors.fill: parent
-        onClicked: { sw.checked = !sw.checked; sw.clicked() }
+        onClicked: {
+            if (sw.automaticCheck) sw.checked = !sw.checked
+            sw.clicked()
+        }
     }
 }

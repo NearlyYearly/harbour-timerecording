@@ -209,6 +209,27 @@ def test_template_round_trip(conn, store, clock):
     assert conn.execute("SELECT name FROM templates").fetchone()[0] == "Normal"
 
 
+def test_template_on_several_days_is_one_undo_step(conn, store, clock):
+    store.add_stamp({"check_in": "2026-10-05T08:00", "check_out": "2026-10-05T12:00", "task_id": 1})
+    store.save_template("Morning", "2026-10-05")
+    tid = conn.execute("SELECT id FROM templates").fetchone()[0]
+    store.apply_template_days(tid, ["2026-10-07", "2026-10-06", "2026-10-07"])
+    days = [r[0] for r in conn.execute("SELECT substr(check_in, 1, 10) FROM stamps ORDER BY check_in")]
+    assert days == ["2026-10-05", "2026-10-06", "2026-10-07"]
+    assert store.undo() == "Apply template"
+    assert len(lines(conn)) == 1
+    with pytest.raises(ValueError):
+        store.apply_template_days(tid, [])
+
+
+def test_day_rows_for_a_free_range(conn, store, clock):
+    store.set_day_note("2026-10-10", 1, "")
+    rows = calc.day_rows(conn, "2026-10-08", "2026-10-11", clock())
+    assert [r["date"] for r in rows] == ["2026-10-08", "2026-10-09", "2026-10-10", "2026-10-11"]
+    assert [r["target_min"] for r in rows] == [480, 480, 0, 0]
+    assert rows[2]["note"]["note_type_id"] == 1 and "lines" not in rows[0]
+
+
 def test_template_needs_finished_lines(store):
     with pytest.raises(ValueError):
         store.save_template("Empty", "2026-10-05")

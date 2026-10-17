@@ -111,6 +111,32 @@ def test_undo_day_note_and_task(conn, store):
     assert conn.execute("SELECT archived FROM tasks WHERE id = 1").fetchone()[0] == 0
 
 
+def test_day_notes_on_several_days(conn, store):
+    store.set_day_note("2026-10-06", None, "keep me?")
+    store.set_day_notes(["2026-10-05", "2026-10-06", "2026-10-07"], 1, " Trip ")
+    rows = conn.execute("SELECT date, note_type_id, text FROM day_notes ORDER BY date").fetchall()
+    assert [tuple(r) for r in rows] == [("2026-10-05", 1, "Trip"), ("2026-10-06", 1, "Trip"),
+                                        ("2026-10-07", 1, "Trip")]
+    assert store.undo() == "Day notes"
+    assert [tuple(r) for r in conn.execute("SELECT date, text FROM day_notes")] == [("2026-10-06", "keep me?")]
+    store.redo()
+    store.set_day_notes(["2026-10-05", "2026-10-06", "2026-10-07"], None, "")  # clear
+    assert conn.execute("SELECT COUNT(*) FROM day_notes").fetchone()[0] == 0
+    store.undo()
+    assert conn.execute("SELECT COUNT(*) FROM day_notes").fetchone()[0] == 3
+    with pytest.raises(ValueError):
+        store.set_day_notes([], 1, "")
+    with pytest.raises(ValueError):
+        store.set_day_notes(["5.10.2026"], 1, "")
+
+
+def test_api_day_notes_on_several_days(tmp_path, clock):
+    api._app = api.App(str(tmp_path / "data"), str(tmp_path / "docs"), clock)
+    st = api.set_day_notes(["2026-10-05", "2026-10-06"], -1, "Trip")
+    assert st["undo"]["undo"] == "Day notes"
+    assert [r["note"]["text"] for r in api.days("2026-10-05", "2026-10-06")] == ["Trip", "Trip"]
+
+
 def test_undo_restore_keeps_task_reference(conn, store):
     # Undo writes rows with UPDATE, so restoring a task must not null its lines' task_id.
     store.add_stamp({"check_in": "2026-10-05T08:00", "check_out": "2026-10-05T09:00", "task_id": 1})

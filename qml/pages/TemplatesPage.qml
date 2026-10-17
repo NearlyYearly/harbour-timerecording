@@ -8,6 +8,8 @@ Page {
     id: page
 
     property string date
+    // Several days (DaysPage): a tap adds the template to each of them.
+    property var dates: []
     property bool canSave: false
     property var templates: []
 
@@ -23,6 +25,7 @@ Page {
         model: page.templates
 
         PullDownMenu {
+            visible: page.dates.length === 0
             MenuItem {
                 enabled: page.canSave
                 text: qsTr("Save this day as template")
@@ -38,15 +41,21 @@ Page {
 
         header: PageHeader {
             title: qsTr("Templates")
-            description: qsTr("Tap to add to %1").arg(Format.parseDate(page.date).toLocaleDateString(Qt.locale(), "ddd d MMM"))
+            description: page.dates.length > 0
+                         ? qsTr("Tap to add to %n day(s)", "", page.dates.length)
+                         : qsTr("Tap to add to %1").arg(Format.parseDate(page.date).toLocaleDateString(Qt.locale(), "ddd d MMM"))
         }
 
         delegate: ListItem {
             id: item
             contentHeight: Theme.itemSizeMedium
-            onClicked: backend.mutate("apply_template", [modelData.id, page.date], function(st) {
-                if (st) pageStack.pop()
-            })
+            onClicked: {
+                var several = page.dates.length > 0
+                backend.mutate(several ? "apply_template_days" : "apply_template",
+                               [modelData.id, several ? page.dates : page.date], function(st) {
+                    if (st) pageStack.pop()
+                })
+            }
             menu: ContextMenu {
                 MenuItem {
                     text: qsTr("Rename")
