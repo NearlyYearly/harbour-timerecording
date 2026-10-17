@@ -56,7 +56,7 @@ Dialog {
 
     SilicaFlickable {
         anchors.fill: parent
-        contentHeight: column.height
+        contentHeight: column.height + Theme.paddingLarge
 
         Column {
             id: column
@@ -66,14 +66,7 @@ Dialog {
                 title: dialog.line ? qsTr("Edit line") : qsTr("Add line")
             }
 
-            ComboBox {
-                label: qsTr("Type")
-                currentIndex: dialog.kind === "break" ? 1 : 0
-                menu: ContextMenu {
-                    MenuItem { text: qsTr("Work"); onClicked: dialog.kind = "work" }
-                    MenuItem { text: qsTr("Break"); onClicked: dialog.kind = "break" }
-                }
-            }
+            SectionHeader { text: qsTr("Time") }
 
             ValueButton {
                 label: qsTr("Date")
@@ -88,14 +81,35 @@ Dialog {
                 }
             }
 
-            ValueButton {
-                label: qsTr("Check in")
-                value: Format.pad(dialog.checkIn.getHours()) + ":" + Format.pad(dialog.checkIn.getMinutes())
-                onClicked: dialog.pickTime(dialog.checkIn, function(h, m) {
-                    var d = new Date(dialog.checkIn)
-                    d.setHours(h, m, 0, 0)
-                    dialog.checkIn = d
-                })
+            // Check-in and check-out side by side; the check-out is empty while the line runs.
+            Row {
+                width: parent.width
+                ValueButton {
+                    width: parent.width / 2
+                    label: qsTr("In")
+                    value: Format.pad(dialog.checkIn.getHours()) + ":" + Format.pad(dialog.checkIn.getMinutes())
+                    onClicked: dialog.pickTime(dialog.checkIn, function(h, m) {
+                        var d = new Date(dialog.checkIn)
+                        d.setHours(h, m, 0, 0)
+                        dialog.checkIn = d
+                    })
+                }
+                ValueButton {
+                    width: parent.width / 2
+                    enabled: !dialog.openEnded
+                    opacity: enabled ? 1 : Theme.opacityLow
+                    label: qsTr("Out")
+                    value: dialog.openEnded ? "–"
+                                            : Format.pad(dialog.effectiveOut.getHours()) + ":" + Format.pad(dialog.effectiveOut.getMinutes())
+                    description: dialog.openEnded ? ""
+                                 : qsTr("Duration %1").arg(Format.duration((dialog.effectiveOut - dialog.checkIn) / 60000))
+                                   + (dialog.effectiveOut.getDate() !== dialog.checkIn.getDate() ? " · " + qsTr("next day") : "")
+                    onClicked: dialog.pickTime(dialog.checkOut, function(h, m) {
+                        var d = new Date(dialog.checkIn)
+                        d.setHours(h, m, 0, 0)
+                        dialog.checkOut = d
+                    })
+                }
             }
 
             TextSwitch {
@@ -105,17 +119,13 @@ Dialog {
                 onCheckedChanged: dialog.openEnded = checked
             }
 
-            ValueButton {
-                visible: !dialog.openEnded
-                label: qsTr("Check out")
-                value: Format.pad(dialog.effectiveOut.getHours()) + ":" + Format.pad(dialog.effectiveOut.getMinutes())
-                       + (dialog.effectiveOut.getDate() !== dialog.checkIn.getDate() ? " " + qsTr("(next day)") : "")
-                description: qsTr("Duration %1").arg(Format.duration((dialog.effectiveOut - dialog.checkIn) / 60000))
-                onClicked: dialog.pickTime(dialog.checkOut, function(h, m) {
-                    var d = new Date(dialog.checkIn)
-                    d.setHours(h, m, 0, 0)
-                    dialog.checkOut = d
-                })
+            SectionHeader { text: qsTr("Details") }
+
+            TextSwitch {
+                text: qsTr("Break")
+                description: qsTr("Counts as break time, no task")
+                checked: dialog.kind === "break"
+                onCheckedChanged: dialog.kind = checked ? "break" : "work"
             }
 
             TaskComboBox {

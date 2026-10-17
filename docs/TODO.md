@@ -87,6 +87,7 @@ New tasks go in the phase they belong to.
 - [x] Push-up menu on the day page: Edit several days, Vacation (preview stand-in + QML test)
 - [x] Check in/out at a chosen time (pulley, today only; exact, no rounding)
 - [x] Quick day type page from the pulley; Flexitime in the push-up menu, balance in its header
+- [x] Edit line: time section (date, in | out side by side, duration), details (break, task, comment)
 
 ## P5 — Device test
 

@@ -172,6 +172,7 @@ Item {
                 })
             },
             function() { page("04-edit-line", "EditStampDialog.qml", function() { return { line: smoke.line, date: d(), tasks: smoke.tasks } })() },
+            page("04b-add-line", "EditStampDialog.qml", function() { return { line: null, date: d(), tasks: smoke.tasks } }),
             page("05-day-note", "DayNoteDialog.qml", function() { return { date: d(), note: { note_type_id: 1, text: "Beach" } } }),
             page("05b-day-type", "DayTypePage.qml", function() { return { date: d(), note: { note_type_id: 1, text: "Beach" } } }),
             page("06-week", "WeekPage.qml", function() { return { date: d() } }),
