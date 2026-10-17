@@ -192,6 +192,11 @@ def _compact(day):
     return out
 
 
+def day_rows(conn, start, end, now, values=None):
+    """Compact rows for a free range of days (editing several days at once)."""
+    return [_compact(d) for d in days(conn, start, end, now, values)]
+
+
 def task_totals(day_list):
     """Minutes per task (work lines; automatic deductions are not attributed to tasks)."""
     totals = {}

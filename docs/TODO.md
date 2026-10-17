@@ -79,6 +79,10 @@ New tasks go in the phase they belong to.
 - [x] Schema v4 (`vacation_years`), migration and old backups convert the settings
 - [x] Android import writes vacation years (one undo step)
 
+## P4c — Several days
+
+- [x] Edit several days: range with « », tick days, set/clear day notes, apply a template (one undo step)
+
 ## P5 — Device test
 
 - [ ] Install via File Browser and via `pkcon` (`BUILD.md`)
@@ -88,6 +92,7 @@ New tasks go in the phase they belong to.
 - [ ] While checked in: hold a line, menu stays open; delete and change check-in/out from it
 - [ ] Long day: check-out splits at the break; undo restores one line
 - [ ] Swipe days; week/month navigation; swipe back from a line
+- [ ] Edit several days: vacation on a week sets Mon–Fri only; undo removes all of them
 - [ ] Change a break rule and see totals update
 - [ ] Reminder arrives with the display off (app on the cover)
 - [ ] Tapping a notification opens the app; with the app closed, it starts it (D-015)

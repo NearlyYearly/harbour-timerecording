@@ -8,13 +8,24 @@ Dialog {
     id: dialog
 
     property string date
+    // Several days (DaysPage): the same note on each, one undo step.
+    property var dates: []
     property var note: null
     property var types: []
     property var typeId: note ? note.note_type_id : null
 
     Component.onCompleted: backend.run("note_types", [], function(t) { dialog.types = t })
 
-    onAccepted: backend.mutate("set_day_note", [date, backend.optId(typeId), textArea.text])
+    onAccepted: {
+        if (dates.length > 0) {
+            var n = dates.length
+            backend.mutate("set_day_notes", [dates, backend.optId(typeId), textArea.text], function() {
+                backend.notice(qsTr("Day note set on %n day(s)", "", n))
+            })
+        } else {
+            backend.mutate("set_day_note", [date, backend.optId(typeId), textArea.text])
+        }
+    }
 
     SilicaFlickable {
         anchors.fill: parent
@@ -37,7 +48,8 @@ Dialog {
             width: parent.width
 
             DialogHeader {
-                title: Format.parseDate(dialog.date).toLocaleDateString(Qt.locale(), "ddd d MMM yyyy")
+                title: dialog.dates.length > 0 ? qsTr("%n day(s)", "", dialog.dates.length)
+                                               : Format.parseDate(dialog.date).toLocaleDateString(Qt.locale(), "ddd d MMM yyyy")
             }
 
             ComboBox {

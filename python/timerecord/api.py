@@ -96,6 +96,12 @@ def day(date):
     return result
 
 
+def days(start, end):
+    """Day rows (without lines) from start to end, for editing several days."""
+    a = _a()
+    return calc.day_rows(a.conn, start, end, a.now())
+
+
 def week(date):
     a = _a()
     return calc.week_summary(a.conn, date, a.now())
@@ -180,6 +186,11 @@ def set_day_note(date, note_type_id, text):
     return status()
 
 
+def set_day_notes(dates, note_type_id, text):
+    _a().store.set_day_notes(list(dates), _opt(note_type_id), text)
+    return status()
+
+
 def tasks(include_archived=False):
     sql = "SELECT * FROM tasks %s ORDER BY archived, sort, name" % (
         "" if include_archived else "WHERE archived = 0")
@@ -233,6 +244,11 @@ def save_template(name, date):
 
 def apply_template(template_id, date):
     _a().store.apply_template(_clean(template_id), date)
+    return status()
+
+
+def apply_template_days(template_id, dates):
+    _a().store.apply_template_days(_clean(template_id), list(dates))
     return status()
 
 

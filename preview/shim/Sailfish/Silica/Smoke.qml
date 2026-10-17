@@ -147,6 +147,28 @@ Item {
             page("06-week", "WeekPage.qml", function() { return { date: d() } }),
             page("07-month", "MonthPage.qml", function() { return { date: d() } }),
             page("08-templates", "TemplatesPage.qml", function() { return { date: d(), canSave: true } }),
+            function() {
+                var p = pageStack.push(pages + "DaysPage.qml", { date: d() })
+                later(function() {
+                    var from = p.from
+                    p.shift(1)
+                    var shifted = p.from
+                    p.shift(-1)
+                    console.log("SMOKE days length=" + p.length + " selected=" + p.dates.length
+                                + " shift=" + Format.daysBetween(from, shifted) + " back=" + (p.from === from))
+                    backend.mutate("set_day_notes", [p.dates, 1, "Trip"], function() {
+                        later(function() {
+                            var noted = p.days.filter(function(x) { return x.note && x.note.text === "Trip" }).length
+                            console.log("SMOKE days noted=" + noted)
+                            shot("08b-edit-days", function() {
+                                backend.mutate("undo", [], function() { pageStack.pop(); later(run, 300) })
+                            })
+                        })
+                    })
+                })
+            },
+            page("08c-day-note-several", "DayNoteDialog.qml", function() {
+                return { date: d(), dates: [d(), Format.addDays(d(), 1), Format.addDays(d(), 2)] } }),
             page("09-settings", "SettingsPage.qml"),
             page("10-break-rules", "BreakRulesPage.qml"),
             page("11-break-rule-time", "BreakRuleDialog.qml", { afterMin: 360, breakMin: 30, at: "12:00" }),
