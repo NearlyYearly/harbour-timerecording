@@ -73,6 +73,7 @@ the Jolla repositories automatically; installing a newer RPM keeps the data.
 
 With developer mode (Settings → Developer tools, set a password), from the host:
 
+    ./deploy.sh <phone-ip>      # or by hand:
     scp RPMS/harbour-timerecord-0.8.0-1.noarch.rpm defaultuser@<phone-ip>:
     ssh defaultuser@<phone-ip> devel-su pkcon install-local -y harbour-timerecord-0.8.0-1.noarch.rpm
 

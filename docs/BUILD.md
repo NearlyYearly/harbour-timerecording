@@ -79,6 +79,14 @@ The user is `defaultuser` on Sailfish OS 5.x.
 ### Copy, install
 
 ```sh
+./deploy.sh                  # copies RPMS/<this version>.rpm and installs it over USB
+./deploy.sh 192.168.1.40     # another IP (WLAN); user@host works too
+./deploy.sh --build [ip]     # build the RPM first
+```
+
+It asks for the SSH password once and then the `devel-su` password. By hand:
+
+```sh
 scp RPMS/harbour-timerecord-<version>-1.noarch.rpm defaultuser@192.168.2.15:
 ssh defaultuser@192.168.2.15 devel-su pkcon install-local -y harbour-timerecord-<version>-1.noarch.rpm
 ```

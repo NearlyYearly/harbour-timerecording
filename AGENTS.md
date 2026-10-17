@@ -70,6 +70,7 @@ docker/                      # Dockerfiles and the SDK build script
 rpm/                         # .spec
 icons/                       # launcher icons (rendered from the SVG)
 harbour-timerecord.desktop   # launcher + [X-Sailjail] permissions
+deploy.sh                    # copy + install the RPM on the phone (run by the phone's owner)
 docs/                        # plan, todo, decisions, platform notes, build, publish
 ```
 
@@ -90,6 +91,7 @@ docker compose run --rm build     # -> RPMS/harbour-timerecord-<ver>-1.noarch.rp
 Install on the phone (hand these to the phone's owner; do not run against a device yourself):
 
 ```sh
+./deploy.sh [--build] [ip]  # copy + install the spec's version (default IP: USB)
 scp RPMS/harbour-timerecord-<ver>-1.noarch.rpm defaultuser@192.168.2.15:
 ssh defaultuser@192.168.2.15 devel-su pkcon install-local -y harbour-timerecord-<ver>-1.noarch.rpm
 ```
