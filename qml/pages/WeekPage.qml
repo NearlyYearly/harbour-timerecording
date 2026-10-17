@@ -34,7 +34,7 @@ Page {
             property var week: null
 
             function reload() {
-                backend.run("week", [anyDay], function(w) { view.week = w })
+                backend.run("week", [anyDay], function(w) { if (view) view.week = w })
             }
             Component.onCompleted: reload()
             Connections {

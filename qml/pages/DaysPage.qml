@@ -36,7 +36,7 @@ Page {
     function reload(resetSelection) {
         var start = from, end = to
         backend.run("days", [start, end], function(list) {
-            if (start !== page.from || end !== page.to) return
+            if (!page || start !== page.from || end !== page.to) return
             if (resetSelection) {
                 var map = {}
                 for (var i = 0; i < list.length; i++)

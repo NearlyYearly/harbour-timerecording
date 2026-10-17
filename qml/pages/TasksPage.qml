@@ -9,7 +9,7 @@ Page {
     property bool showArchived: false
 
     function load() {
-        backend.run("tasks", [true], function(t) { page.tasks = t })
+        backend.run("tasks", [true], function(t) { if (page) page.tasks = t })
     }
 
     Component.onCompleted: load()

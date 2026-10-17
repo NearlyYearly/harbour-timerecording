@@ -107,6 +107,9 @@ sailjail -p harbour-timerecord.desktop -- /usr/bin/sailfish-qml harbour-timereco
 - Logic in `python/timerecord/`, UI in `qml/`, tests in `tests/`.
 - QML calls Python only through `Backend.run()` (reads) and `Backend.mutate()` (writes,
   refreshes status and emits `dataChanged()`).
+- A page can be closed while a `Backend.run()` / `mutate()` call is still running; its ids are
+  then `null`. Callbacks that write to a page, dialog or delegate check the id first
+  (`function(m) { if (view) view.month = m }`).
 - An accepted or cancelled dialog is destroyed right away, before an async callback returns.
   A callback started from `onAccepted` must not use the dialog's ids or properties: copy
   `backend` and any text into local variables first (see `ImportDialog.qml`).

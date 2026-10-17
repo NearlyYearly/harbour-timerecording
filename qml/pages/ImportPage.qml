@@ -10,7 +10,7 @@ Page {
     property bool loaded: false
 
     function load() {
-        backend.run("android_backups", [], function(f) { page.files = f; page.loaded = true })
+        backend.run("android_backups", [], function(f) { if (!page) return; page.files = f; page.loaded = true })
     }
 
     Component.onCompleted: load()

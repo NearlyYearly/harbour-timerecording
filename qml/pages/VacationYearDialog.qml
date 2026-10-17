@@ -31,14 +31,14 @@ Dialog {
     }
 
     function loadDays() {
-        if (year > 0) backend.run("vacation_days", [year], function(d) { dialog.days = d })
+        if (year > 0) backend.run("vacation_days", [year], function(d) { if (dialog) dialog.days = d })
         else dialog.days = []
     }
 
     // A new year starts with the days it would get anyway and what the year before left.
     function prefill() {
         if (year <= 0 || (entry && entry.own_entry)) return
-        backend.run("vacation", [year], function(v) { daysField.text = String(v.days) })
+        backend.run("vacation", [year], function(v) { if (daysField) daysField.text = String(v.days) })
         var previous = find(year - 1)
         carryField.text = String(previous ? Math.round(previous.remaining * 10) / 10 : 0)
     }
