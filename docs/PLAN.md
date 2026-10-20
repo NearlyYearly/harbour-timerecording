@@ -52,7 +52,7 @@ Sailfish OS. They need to:
 
 - German translation (UI strings are already wrapped in `qsTr()`).
 - Reminders with the app closed via `Nemo.Alarms` / `timed` (D-014).
-- Timesheet export (CSV/HTML) per week/month.
+- Timesheet export (CSV/HTML) per week/month (the SPX CSV per month exists, D-028).
 - Harbour submission (needs a C++ launcher binary, D-005).
 - Signed releases on OpenRepos, then Chum.
 

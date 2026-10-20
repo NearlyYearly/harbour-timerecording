@@ -89,6 +89,12 @@ New tasks go in the phase they belong to.
 - [x] Quick day type page from the pulley; Flexitime in the push-up menu, balance in its header
 - [x] Edit line: time section (date, in | out side by side, duration), details (break, task, comment)
 
+## P4d — SPX export
+
+- [x] SPX CSV (`datum;typ;von;bis`) per month or several months, push-up menu (D-028)
+- [x] SPX type for work, breaks and per task in the export page settings
+- [x] Day notes: business trip with fixed times, on-call standby up to the next day (D-029)
+
 ## P5 — Device test
 
 - [ ] Install via File Browser and via `pkcon` (`BUILD.md`)

@@ -229,6 +229,21 @@ Item {
                 })
             },
             function() { page("12d-vacation-add-year", "VacationYearDialog.qml", { entry: null, years: smoke.years })() },
+            page("12e-spx-export", "SpxExportPage.qml", function() { return { date: d() } }),
+            function() {
+                var p = pageStack.push(pages + "SpxExportPage.qml", { date: d() })
+                later(function() {
+                    var f = find(p, function(o) { return o.contentHeight !== undefined && o.contentY !== undefined })
+                    f.contentY = Math.max(0, f.contentHeight - f.height)
+                    later(function() { shot("12f-spx-export-day-notes", function() { pageStack.pop(); later(run, 300) }) }, 300)
+                })
+            },
+            function() {
+                backend.run("export_spx", [d().substr(0, 7), d().substr(0, 7)], function(r) {
+                    console.log("SMOKE spx-export rows=" + r.rows)
+                    later(run, 300)
+                })
+            },
             page("13-day-types", "NoteTypesPage.qml"),
             page("14-day-type", "NoteTypeDialog.qml"),
             page("15-backup", "BackupPage.qml"),

@@ -137,6 +137,10 @@ SilicaListView {
             text: qsTr("Flexitime")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/BalancePage.qml"))
         }
+        MenuItem {
+            text: qsTr("SPX export")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/SpxExportPage.qml"), { date: view.date })
+        }
     }
 
     header: Column {
