@@ -57,11 +57,28 @@ DEFAULTS = {
     "undo.depth": 50,
     "backup.auto_days": 7,
     "backup.keep": 10,
+    # SPX CSV export (D-028): type of work lines, of breaks, and per task {"<task id>": type}.
+    "export.spx_work_type": "Normalarbeitszeit",
+    "export.spx_break_type": "Pause",
+    "export.spx_task_types": {},
+    # Day note (day type or text) of a business trip and its fixed times (D-029).
+    "export.spx_trip_note": "Dienstreise",
+    "export.spx_trip_start": "06:30",
+    "export.spx_trip_break_start": "11:30",
+    "export.spx_trip_break_end": "12:00",
+    "export.spx_trip_end": "14:42",
+    # Day note of on-call standby, its type, and the handover time on weekends (D-029).
+    "export.spx_oncall_note": "Rufbereitschaft",
+    "export.spx_oncall_type": "Rufbereitschaft TVL",
+    "export.spx_oncall_handover": "07:00",
     # UI.
     "ui.last_task_id": 1,
     # Reminders already sent today: {"date": "YYYY-MM-DD", "keys": [...]}.
     "ui.reminders_sent": {},
 }
+
+SPX_TIMES = ("export.spx_trip_start", "export.spx_trip_break_start", "export.spx_trip_break_end",
+             "export.spx_trip_end", "export.spx_oncall_handover")
 
 
 def get(conn, key):
@@ -90,10 +107,19 @@ def set(conn, key, value):
         raise ValueError("setting %r expects %s" % (key, expected.__name__))
     if key == "break.rules":
         value = [_rule(r) for r in value]
-    if key in ("remind.checkin_time", "break.fixed_time") and value:
+    if key in ("remind.checkin_time", "break.fixed_time") and value \
+            or key in SPX_TIMES:
         value = _hhmm(value)
     if key in ("break.since", "balance.start") and value:
         value = _date(value)
+    if key in ("export.spx_work_type", "export.spx_break_type", "export.spx_oncall_type"):
+        value = _csv_cell(value)
+        if not value:
+            raise ValueError("type must not be empty")
+    if key in ("export.spx_trip_note", "export.spx_oncall_note"):
+        value = value.strip()
+    if key == "export.spx_task_types":
+        value = {str(k): _csv_cell(v) for k, v in value.items() if isinstance(v, str) and _csv_cell(v)}
     conn.execute("INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)",
                  (key, json.dumps(value)))
 
@@ -115,6 +141,11 @@ def _hhmm(value):
             or not (0 <= int(parts[0]) < 24 and 0 <= int(parts[1]) < 60):
         raise ValueError("time must be HH:MM")
     return "%02d:%02d" % (int(parts[0]), int(parts[1]))
+
+
+def _csv_cell(value):
+    # One cell of a ;-separated CSV line.
+    return " ".join(value.replace(";", " ").split())
 
 
 def _date(value):

@@ -48,6 +48,24 @@ days that already have lines here are left alone. One undo step removes the impo
 Tasks keep Android's rules (Settings → Tasks): share that counts as work (on call = 0 %),
 no target (public holiday) and uses vacation.
 
+SPX export (push-up menu → SPX export): one month, or several, as a CSV for the ESS
+Monatsjournal filler, `~/Documents/timerecord-spx-<YYYY-MM>.csv`:
+
+    datum;typ;von;bis
+    2026-10-15;Normalarbeitszeit;07:30;11:30
+    2026-10-15;Pause;11:30;12:15
+    2026-10-15;Normalarbeitszeit;12:15;16:00
+    2026-10-15;Rufbereitschaftseinsatz;18:00;18:30
+
+Work lines are cut around breaks (break lines, automatic breaks, gaps when they count as
+breaks). The type of work, of breaks and of each task is set on the same page; days still
+checked in are left out. Day notes (day type or note text, names and times on the same page):
+
+- *Dienstreise*: 06:30–11:30 work, 11:30–12:00 break, 12:00–14:42 work, instead of the
+  day's own work and breaks (lines of a task with its own type stay).
+- *Rufbereitschaft*: a `Rufbereitschaft TVL` row, Mon–Fri from the day's last work to the
+  next day's first work, Sat/Sun 07:00 to 07:00.
+
 Vacation (day page push-up menu → Vacation): one entry per year with its own days and carryover;
 add past years, see the days taken and planned per year. A year without an entry gets the
 days of the latest earlier year. Days come from day types and tasks that use vacation.
@@ -102,7 +120,7 @@ OpenRepos/Chum. Harbour (the Jolla Store) would additionally need a small C++ la
 ## Layout
 
 - `python/timerecord/` — `db` (schema/migrations), `store` (all changes + undo log),
-  `rules` (breaks, rounding), `calc` (day totals), `backup`, `settings` (all tunables), `api` (QML entry points)
+  `rules` (breaks, rounding), `calc` (day totals), `backup`, `export` (SPX CSV), `settings` (all tunables), `api` (QML entry points)
 - `qml/` — `pages/`, `components/` (`Backend.qml` is the Python bridge), `cover/`
 - `rpm/`, `harbour-timerecord.desktop`, `icons/`, `docker/`, `preview/`
 

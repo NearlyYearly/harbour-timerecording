@@ -289,6 +289,40 @@ Template:
 - **Consequences:** No SDK on GitHub, no write token in CI. A release is exactly the RPM that
   was tested on the workstation. CI never talks to a phone; no user data enters the repository.
 
+### D-028 — SPX CSV export
+
+- **Context:** The working time has to go into the ESS Monatsjournal; the SPX userscript
+  fills it from a CSV `datum;typ;von;bis` with one row per interval, monthly.
+- **Decision:** `export.py` writes `~/Documents/timerecord-spx-<YYYY-MM>[-<YYYY-MM>].csv`
+  for one month or a range of months, from the push-up menu. Breaks are break lines,
+  automatic breaks and, when gaps count as breaks, gaps between lines that count as work;
+  work lines are cut around them, so no rows overlap. A line past midnight keeps its clock
+  times (SPX reads `bis <= von` as the next day). Days still checked in are left out; day
+  types are not exported. The types are settings (D-021): `export.spx_work_type`
+  (`Normalarbeitszeit`), `export.spx_break_type` (`Pause`) and `export.spx_task_types`
+  (task id → type, empty = work type), edited on the export page; `;` and line breaks are
+  removed from them.
+- **Consequences:** Read-only on the data, no schema change, no new permission (Documents
+  is already used for backups).
+
+### D-029 — Business trip and on-call standby in the SPX export
+
+- **Context:** Business trip days count with fixed times, and on-call standby has to be in
+  the Monatsjournal as one interval reaching into the next day. Neither is recorded as lines.
+- **Decision:** A day whose day type *or* note text is `export.spx_trip_note`
+  (`Dienstreise`) exports `spx_trip_start`–`spx_trip_break_start` work,
+  break until `spx_trip_break_end`, work until `spx_trip_end` (06:30, 11:30, 12:00, 14:42)
+  instead of its work and breaks; lines of a task with its own SPX type stay. A day matching
+  `export.spx_oncall_note` (`Rufbereitschaft`) gets an `export.spx_oncall_type`
+  (`Rufbereitschaft TVL`, the type the SPX script aligns) row: Mon–Fri from the day's last
+  work-type row to the next day's first one (the day after the range is read for that),
+  Sat/Sun from `export.spx_oncall_handover` (07:00) to the same time next day; a weekday
+  without work starts or ends at the handover. Matching the note text too lets one day be
+  both (one note per day). An empty name turns the rule off. All are settings (D-021) on
+  the export page.
+- **Consequences:** Export only; the app's own totals and balance do not change. Public
+  holidays on weekdays follow the weekday rule.
+
 ## Open questions
 
 | # | Question | When |

@@ -4,7 +4,7 @@ import datetime as dt
 import json
 import os
 
-from . import android, backup, calc, db, reminders, settings
+from . import android, backup, calc, db, export, reminders, settings
 from .store import Store
 
 _app = None
@@ -313,6 +313,12 @@ def set_setting(key, value):
 def export_backup():
     a = _a()
     return backup.export(a.conn, a.docs_dir, a.now())
+
+
+def export_spx(first_month, last_month):
+    """SPX CSV of the months first..last ("YYYY-MM") in Documents."""
+    a = _a()
+    return export.export_spx(a.conn, a.docs_dir, first_month, last_month, a.now())
 
 
 def list_backups():
