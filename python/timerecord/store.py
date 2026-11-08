@@ -191,15 +191,18 @@ class Store:
         return self._run("Check out", change)
 
     def punch_at(self, at, task_id=None):
-        """Check in or out at a chosen time (a forgotten punch): no rounding, no double-tap guard."""
+        """Check in or out at a chosen time (a forgotten punch): no rounding, no double-tap guard.
+
+        A check-in may lie in the future (planned start); a check-out may not.
+        """
         when = parse(at).replace(second=0, microsecond=0)
-        if when > self.now():
-            raise ValueError("the time is in the future")
         current = self.running()
         if current is None:
             row = {"check_in": fmt(when), "check_out": None, "task_id": task_id,
                    "comment": "", "kind": "work", "raw_check_in": fmt_raw(when)}
             return self._run("Check in", lambda: [self._insert("stamps", row)])
+        if when > self.now():
+            raise ValueError("the time is in the future")
         if when < parse(current["check_in"]):
             raise ValueError("check-out is before check-in")
 
