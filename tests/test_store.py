@@ -44,12 +44,21 @@ def test_punch_at_a_chosen_time(conn, store, clock):
     assert store.running()["check_in"] == "2026-10-05T07:52"
     store.punch()  # the double-tap guard does not see the past time
     clock.set("2026-10-05T18:00")
-    with pytest.raises(ValueError):
-        store.punch_at("2026-10-05T18:30")  # future
     store.punch_at("2026-10-05T09:12", 1)
+    with pytest.raises(ValueError):
+        store.punch_at("2026-10-05T18:30")  # check-out in the future
     with pytest.raises(ValueError):
         store.punch_at("2026-10-05T09:00")  # running line starts later
     assert store.undo() == "Check in"
+
+
+def test_punch_at_check_in_in_the_future(conn, store, clock):
+    clock.set("2026-10-05T07:30")
+    store.punch_at("2026-10-05T08:00", 1)  # planned start
+    assert store.running()["check_in"] == "2026-10-05T08:00"
+    assert calc.day_summary(conn, "2026-10-05", clock())["net_min"] == 0  # nothing counts yet
+    with pytest.raises(ValueError):
+        store.punch_at("2026-10-05T07:45")  # check-out before the check-in
 
 
 def test_punch_at_check_out_splits_break(conn, store, clock):
