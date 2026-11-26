@@ -55,6 +55,26 @@ Item {
         return obj
     }
 
+    // replace() swaps the top page for a new one, so the stack does not grow.
+    function replace(page, properties) {
+        var component = _component(page)
+        var obj = component ? component.createObject(stack, properties || {}) : null
+        if (!obj) {
+            console.warn("pageStack.replace: cannot load", page)
+            return null
+        }
+        var list = pages.slice()
+        var old = list.pop()
+        if (old) {
+            old.visible = false
+            old.destroy(500)
+        }
+        list.push(obj)
+        pages = list
+        currentScrollsSideways = _scrollsSideways(obj)
+        return obj
+    }
+
     // pop() removes the top page, pop(page) everything above `page`.
     function pop(page) {
         if (pages.length <= 1) return

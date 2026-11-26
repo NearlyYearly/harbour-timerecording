@@ -108,6 +108,17 @@ Item {
             compare(stack.depth, 2)
         }
 
+        function test_replace_keeps_the_depth() {
+            stack.push(plainPage)
+            var d = stack.replace(dialogPage)
+            compare(stack.depth, 2)
+            compare(stack.currentPage, d)
+            swipe(400, -250)
+            compare(root.result, "accepted")
+            compare(stack.depth, 1)
+            verify(stack.currentPage.visible)
+        }
+
         function test_taps_reach_the_page() {
             stack.push(plainPage)
             mouseClick(root, 270, 480)
