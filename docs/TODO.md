@@ -138,5 +138,6 @@ See [`PUBLISH.md`](PUBLISH.md).
 
 - [ ] Reminders with the app closed via `Nemo.Alarms` / `timed` (Q3)
 - [ ] Timesheet export (CSV/HTML) per week/month
-- [ ] C++ launcher for Harbour (D-005)
+- [ ] Harbour: `Exec=sailfish-qml harbour-timerecord` without the path, and a way around the
+      `Notifications` permission, the D-Bus service file and the license path (`PLATFORM.md`, D-005)
 - [ ] SailfishOS:Chum build

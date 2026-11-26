@@ -1,7 +1,8 @@
 # Publishing — OpenRepos / Storeman
 
 The first public target is **OpenRepos**, installed through **Storeman** or as a plain RPM.
-No Harbour/Jolla Store submission: the validator needs a C++ launcher (D-005).
+No Harbour/Jolla Store submission: the validator refuses the `Notifications` permission, the
+D-Bus service file and the license location (`PLATFORM.md`, D-005).
 
 ## Versioning
 

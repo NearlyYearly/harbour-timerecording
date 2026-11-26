@@ -108,7 +108,9 @@ Data: `~/.local/share/org.timerecord/harbour-timerecord/timerecord.sqlite`.
 Backups (manual and automatic): `~/Documents/timerecord-*.json`.
 
 The package starts through `sailfish-qml`, so it installs fine by hand or from
-OpenRepos/Chum. Harbour (the Jolla Store) would additionally need a small C++ launcher binary.
+OpenRepos/Chum. Harbour (the Jolla Store) refuses it as it is: its validator does not allow the
+`Notifications` permission, the D-Bus service file or the license location
+([`docs/PLATFORM.md`](docs/PLATFORM.md)). A C++ launcher is not needed.
 
 ## Docs
 

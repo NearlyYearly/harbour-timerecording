@@ -71,6 +71,10 @@ Template:
   OpenRepos, not Harbour.
 - **Consequences:** `rpmvalidation` (Harbour) fails on the missing binary and on the
   `libsailfishapp-launcher` requirement. Harbour later needs a small C++ launcher.
+- **Update 2026-11-26:** Wrong about the launcher. With `Exec=sailfish-qml harbour-timerecord`
+  (no path) the 5.0.0.43 validator accepts a QML-only app; it still refuses the
+  `Notifications` permission, the D-Bus service file and the license location
+  (`PLATFORM.md`, Packaging & Harbour).
 
 ### D-006 — Undo and redo
 - **Date:** 2026-10-09 · **Status:** Accepted
