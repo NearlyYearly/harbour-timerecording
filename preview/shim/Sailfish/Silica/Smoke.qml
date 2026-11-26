@@ -107,6 +107,11 @@ Item {
                 later(function() { shot("02b-push-up-menu", function() { menu.open = false; later(run, 300) }) }, 400)
             },
             function() {
+                var menu = find(todayView(), function(o) { return o.__pushUp === false })
+                menu.open = true
+                later(function() { shot("02c-pull-down-menu", function() { menu.open = false; later(run, 300) }) }, 400)
+            },
+            function() {
                 // Forgotten punches at chosen times (yesterday, so never in the future), then undo both.
                 var y = Format.addDays(d(), -1)
                 backend.mutate("punch_at", [y + "T05:00", 1], function(st) {
@@ -179,6 +184,15 @@ Item {
             page("05b-day-type", "DayTypePage.qml", function() { return { date: d(), note: { note_type_id: 1, text: "Beach" } } }),
             page("06-week", "WeekPage.qml", function() { return { date: d() } }),
             page("07-month", "MonthPage.qml", function() { return { date: d() } }),
+            function() {
+                var p = pageStack.push(pages + "MonthPage.qml", { date: d() })
+                later(function() {
+                    var pager = find(p, function(o) { return o.orientation === ListView.Horizontal && o.currentItem !== undefined })
+                    var menu = find(pager.currentItem, function(o) { return o.__pushUp === false })
+                    menu.open = true
+                    later(function() { shot("07b-month-menu", function() { menu.open = false; pageStack.pop(); later(run, 300) }) }, 400)
+                })
+            },
             function() {
                 // Close pages while their data is still loading: late callbacks must not warn.
                 pageStack.push(pages + "MonthPage.qml", { date: d() })

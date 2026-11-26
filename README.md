@@ -21,10 +21,13 @@ Several days at once (day page push-up menu at the bottom → *Edit several days
 change the range and « » move it by its length. The working days are ticked; set or clear a
 day note on all of them or add a template, each as one undo step.
 
-Day page menus: the pulley (top) holds the actions for the shown day: *Set day type* (one tap
-per type, keeps the note text), day note, add line, and today *Check in at… / Check out at…*
-for a forgotten punch (exact time, no rounding). The push-up menu (bottom) opens *Edit several
-days*, *Vacation* and *Flexitime*.
+Day page menus: the pulley (top) holds *Settings* and the actions for the shown day: *Day type
+& note* (one tap per type, keeps the note text; its pulley opens the note), add line, and today
+*Check in at… / Check out at…* for a forgotten punch (exact time, no rounding), on other days
+*Go to today*. The push-up menu (bottom) opens *Week*, *Month*, *Templates* and *Edit several
+days*. *Undo* sits above the day's lines whenever there is a step to undo, with the step's
+name; right after an undo, *Redo* appears beside it. The month page's pulley opens
+*Flexitime*, *Vacation* and *SPX export*.
 
 The day page opens on today, also when the running app comes to the front. Left open past
 midnight, it moves on to the new day unless you are checked in or looking at another day.
@@ -48,7 +51,7 @@ days that already have lines here are left alone. One undo step removes the impo
 Tasks keep Android's rules (Settings → Tasks): share that counts as work (on call = 0 %),
 no target (public holiday) and uses vacation.
 
-SPX export (push-up menu → SPX export): one month, or several, as a CSV for the ESS
+SPX export (month page pulley → SPX export): one month, or several, as a CSV for the ESS
 Monatsjournal filler, `~/Documents/timerecord-spx-<YYYY-MM>.csv`:
 
     datum;typ;von;bis
@@ -66,7 +69,7 @@ checked in are left out. Day notes (day type or note text, names and times on th
 - *Rufbereitschaft*: a `Rufbereitschaft TVL` row, Mon–Fri from the day's last work to the
   next day's first work, Sat/Sun 07:00 to 07:00.
 
-Vacation (day page push-up menu → Vacation): one entry per year with its own days and carryover;
+Vacation (month page pulley → Vacation): one entry per year with its own days and carryover;
 add past years, see the days taken and planned per year. A year without an entry gets the
 days of the latest earlier year. Days come from day types and tasks that use vacation.
 

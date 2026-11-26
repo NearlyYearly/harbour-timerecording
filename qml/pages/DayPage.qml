@@ -48,7 +48,7 @@ Page {
 
     ListView {
         id: pager
-        anchors { top: parent.top; left: parent.left; right: parent.right; bottom: toolbar.top }
+        anchors.fill: parent
         orientation: ListView.Horizontal
         snapMode: ListView.SnapOneItem
         highlightRangeMode: ListView.StrictlyEnforceRange
@@ -66,39 +66,6 @@ Page {
             page: dayPage
             tasks: dayPage.tasks
             date: Format.addDays(dayPage.anchorDate, index - dayPage.centerIndex)
-        }
-    }
-
-    // Bottom bar: overviews for the shown day, and undo of the last change.
-    Row {
-        id: toolbar
-        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
-        height: Theme.itemSizeMedium
-        readonly property var undoState: backend.status.undo || ({ undo: "", redo: "" })
-
-        ToolbarButton {
-            width: parent.width / 3
-            //% "Week"
-            text: qsTrId("timerecord-day-week")
-            onClicked: pageStack.push(Qt.resolvedUrl("WeekPage.qml"), { date: dayPage.currentDate, dayPage: dayPage })
-        }
-        ToolbarButton {
-            width: parent.width / 3
-            //% "Month"
-            text: qsTrId("timerecord-day-month")
-            onClicked: pageStack.push(Qt.resolvedUrl("MonthPage.qml"), { date: dayPage.currentDate, dayPage: dayPage })
-        }
-        ToolbarButton {
-            width: parent.width / 3
-            //% "Undo"
-            text: qsTrId("timerecord-day-undo")
-            hint: backend.undoName(toolbar.undoState.undo)
-            enabled: toolbar.undoState.undo !== ""
-            onClicked: {
-                var label = backend.undoName(toolbar.undoState.undo)
-                //% "Undone: %1"
-                backend.mutate("undo", [], function() { backend.notice(qsTrId("timerecord-day-undone").arg(label)) })
-            }
         }
     }
 }

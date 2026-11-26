@@ -43,6 +43,24 @@ Page {
                 onDataChanged: view.reload()
             }
 
+            PullDownMenu {
+                MenuItem {
+                    //% "Flexitime"
+                    text: qsTrId("timerecord-month-flexitime-page")
+                    onClicked: pageStack.push(Qt.resolvedUrl("BalancePage.qml"))
+                }
+                MenuItem {
+                    //% "Vacation"
+                    text: qsTrId("timerecord-month-vacation-page")
+                    onClicked: pageStack.push(Qt.resolvedUrl("VacationPage.qml"))
+                }
+                MenuItem {
+                    //% "SPX export"
+                    text: qsTrId("timerecord-month-spx-export")
+                    onClicked: pageStack.push(Qt.resolvedUrl("SpxExportPage.qml"), { date: Format.isoDate(view.first) })
+                }
+            }
+
             Column {
                 id: column
                 width: parent.width

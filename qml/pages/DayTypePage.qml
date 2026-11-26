@@ -3,7 +3,8 @@ import QtQuick 2.6
 import Sailfish.Silica 1.0
 import "../components/Format.js" as Format
 
-// Quick day type: one tap sets the type of `date` and keeps the note text.
+// Quick day type: one tap sets the type of `date` and keeps the note text; the pulley
+// opens the note in place of this page, so accepting it returns to the day.
 Page {
     id: page
 
@@ -19,6 +20,13 @@ Page {
         anchors.fill: parent
         //% "None"
         model: [{ id: null, name: qsTrId("timerecord-day-type-none"), color: "", credit_factor: 0, holiday_days: 0 }].concat(page.types)
+
+        PullDownMenu {
+            MenuItem {
+                text: page.note && page.note.text ? /*% "Edit note" */ qsTrId("timerecord-day-type-edit-note") : /*% "Write a note" */ qsTrId("timerecord-day-type-write-a-note")
+                onClicked: pageStack.replace(Qt.resolvedUrl("DayNoteDialog.qml"), { date: page.date, note: page.note })
+            }
+        }
 
         header: PageHeader {
             //% "Day type"

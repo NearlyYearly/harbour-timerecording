@@ -26,7 +26,7 @@ Sailfish OS. They need to:
   the line and starts a new one), lines with tap-to-edit and hold-to-delete with remorse,
   swipe between days, date picker, day note banner, summary (worked / breaks / target / day ±,
   flexitime).
-- **Undo/redo** of every change, persisted (D-006); undo button in the bottom bar.
+- **Undo/redo** of every change, persisted (D-006); Undo/Redo above the day's lines (D-032).
 - **Automatic breaks** by rule, three modes, *check out & in* by default (D-007…D-011).
 - **Punch rounding** and a **double-tap guard** (D-012).
 - **Day notes** with day types that credit the target and use vacation days; editable types.
@@ -46,7 +46,7 @@ Sailfish OS. They need to:
 
 ### v0.7 — Vacation per year — done (needs a device test)
 
-- Vacation page in the day pulley, a history of years, own days and carryover per year (D-026).
+- Vacation page (month page pulley), a history of years, own days and carryover per year (D-026).
 
 ### Backlog (not now)
 

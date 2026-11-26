@@ -357,6 +357,21 @@ Template:
   (`Reminders.qml`), undo names and error messages stay English keys that `Backend.qml`
   translates; tests keep both sides complete.
 
+### D-032 — Day page without a bottom bar; menus of at most four
+- **Date:** 2026-11-26 · **Status:** Accepted
+- **Context:** The day pulley had seven or eight items and the page a Week / Month / Undo bar.
+  Jolla allows at most four items per pulley and replaces toolbars with pulleys (sailfish-rag
+  design guide). The owner wanted Undo in the page itself, easy to reach, rather than in a menu.
+- **Decision:** Day pulley: Settings, Day type & note (the quick day type page, whose pulley
+  opens the note by replacing itself, so accepting returns to the day), Add line, Check in at…
+  (today) / Go to today. Push-up: Week, Month, Templates, Edit several days. Month page
+  pulley: Flexitime, Vacation, SPX export. Undo (with the step's name) sits at the left of the
+  "Times" row whenever there is a step; Redo beside it while one is available. The bar and its
+  `ToolbarButton` go; the button lives on as `HintButton`. The preview page stack gains
+  `replace()`.
+- **Consequences:** Vacation, Flexitime and SPX export take two steps (month page first). Undo
+  scrolls with the list, like the rest of the day header. Long step names fade in the button.
+
 ## Open questions
 
 | # | Question | When |

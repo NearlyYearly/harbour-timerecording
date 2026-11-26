@@ -2,14 +2,14 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
 
-// Text button for the bottom bar, with an optional second line (e.g. what undo will revert).
+// Text button with an optional second line (e.g. what undo will revert).
 BackgroundItem {
     id: button
 
     property alias text: label.text
     property alias hint: hintLabel.text
 
-    height: parent.height
+    height: Theme.itemSizeMedium
     opacity: enabled ? 1 : Theme.opacityLow
 
     Rectangle {

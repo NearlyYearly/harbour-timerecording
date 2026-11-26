@@ -27,18 +27,6 @@
         <source>Day type: %1</source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="timerecord-day-view-set-day-type">
-        <source>Set day type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="timerecord-day-view-edit-day-note">
-        <source>Edit day note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="timerecord-day-view-add-day-note">
-        <source>Add day note</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="timerecord-day-view-add-line">
         <source>Add line</source>
         <translation type="unfinished"></translation>
@@ -56,23 +44,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="timerecord-day-view-redo">
-        <source>Redo: %1</source>
+        <source>Redo</source>
+        <oldsource>Redo: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message id="timerecord-day-view-edit-several-days">
         <source>Edit several days</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="timerecord-day-view-vacation">
-        <source>Vacation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="timerecord-day-view-flexitime">
-        <source>Flexitime</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="timerecord-day-view-spx-export">
-        <source>SPX export</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="timerecord-day-view-today">
@@ -489,22 +466,6 @@
     </message>
     <message id="timerecord-day-note-dialog-note">
         <source>Note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="timerecord-day-week">
-        <source>Week</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="timerecord-day-month">
-        <source>Month</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="timerecord-day-undo">
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="timerecord-day-undone">
-        <source>Undone: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="timerecord-days-select-all">
@@ -1683,6 +1644,46 @@
     </message>
     <message id="timerecord-reminder-break-deduct">
         <source>Break %1–%2. It is deducted automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-day-view-day-type-note">
+        <source>Day type &amp; note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-day-view-week">
+        <source>Week</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-day-view-month">
+        <source>Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-day-view-undo">
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-day-view-undone">
+        <source>Undone: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-day-type-edit-note">
+        <source>Edit note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-day-type-write-a-note">
+        <source>Write a note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-month-flexitime-page">
+        <source>Flexitime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-month-vacation-page">
+        <source>Vacation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-month-spx-export">
+        <source>SPX export</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

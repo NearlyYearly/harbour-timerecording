@@ -90,20 +90,9 @@ SilicaListView {
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/SettingsPage.qml"))
         }
         MenuItem {
-            //% "Templates"
-            text: qsTrId("timerecord-day-view-templates")
-            onClicked: pageStack.push(Qt.resolvedUrl("../pages/TemplatesPage.qml"),
-                                      { date: view.date, canSave: !!view.day && view.day.lines.filter(function(l) { return l.kind !== "auto_break" && !l.running }).length > 0 })
-        }
-        MenuItem {
             text: view.day && view.day.note && view.day.note.type_name
-                  ? /*% "Day type: %1" */ qsTrId("timerecord-day-view-day-type").arg(view.day.note.type_name) : /*% "Set day type" */ qsTrId("timerecord-day-view-set-day-type")
+                  ? /*% "Day type: %1" */ qsTrId("timerecord-day-view-day-type").arg(view.day.note.type_name) : /*% "Day type & note" */ qsTrId("timerecord-day-view-day-type-note")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/DayTypePage.qml"),
-                                      { date: view.date, note: view.day ? view.day.note : null })
-        }
-        MenuItem {
-            text: view.day && view.day.note ? /*% "Edit day note" */ qsTrId("timerecord-day-view-edit-day-note") : /*% "Add day note" */ qsTrId("timerecord-day-view-add-day-note")
-            onClicked: pageStack.push(Qt.resolvedUrl("../pages/DayNoteDialog.qml"),
                                       { date: view.date, note: view.day ? view.day.note : null })
         }
         MenuItem {
@@ -122,35 +111,30 @@ SilicaListView {
             text: qsTrId("timerecord-day-view-go-to-today")
             onClicked: view.page.goTo(backend.status.today)
         }
-        MenuItem {
-            visible: view.undoState.redo !== ""
-            //% "Redo: %1"
-            text: qsTrId("timerecord-day-view-redo").arg(backend.undoName(view.undoState.redo))
-            onClicked: backend.mutate("redo")
-        }
     }
 
-    // Less frequent pages; the pulley keeps the actions for this day.
+    // Overviews and less frequent pages; the pulley keeps the actions for this day.
     PushUpMenu {
+        MenuItem {
+            //% "Week"
+            text: qsTrId("timerecord-day-view-week")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/WeekPage.qml"), { date: view.date, dayPage: view.page })
+        }
+        MenuItem {
+            //% "Month"
+            text: qsTrId("timerecord-day-view-month")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/MonthPage.qml"), { date: view.date, dayPage: view.page })
+        }
+        MenuItem {
+            //% "Templates"
+            text: qsTrId("timerecord-day-view-templates")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/TemplatesPage.qml"),
+                                      { date: view.date, canSave: !!view.day && view.day.lines.filter(function(l) { return l.kind !== "auto_break" && !l.running }).length > 0 })
+        }
         MenuItem {
             //% "Edit several days"
             text: qsTrId("timerecord-day-view-edit-several-days")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/DaysPage.qml"), { date: view.date })
-        }
-        MenuItem {
-            //% "Vacation"
-            text: qsTrId("timerecord-day-view-vacation")
-            onClicked: pageStack.push(Qt.resolvedUrl("../pages/VacationPage.qml"))
-        }
-        MenuItem {
-            //% "Flexitime"
-            text: qsTrId("timerecord-day-view-flexitime")
-            onClicked: pageStack.push(Qt.resolvedUrl("../pages/BalancePage.qml"))
-        }
-        MenuItem {
-            //% "SPX export"
-            text: qsTrId("timerecord-day-view-spx-export")
-            onClicked: pageStack.push(Qt.resolvedUrl("../pages/SpxExportPage.qml"), { date: view.date })
         }
     }
 
@@ -256,10 +240,48 @@ SilicaListView {
             text: view.day ? qsTrId("timerecord-day-view-flexitime-balance").arg(Format.signedDuration(view.day.balance_min)) : ""
         }
 
-        SectionHeader {
-            //% "Times"
-            text: qsTrId("timerecord-day-view-times")
-            visible: view.count > 0
+        // Undo (and redo right after an undo) of the last change, beside the lines' title.
+        Item {
+            id: undoRow
+            readonly property bool canUndo: view.undoState.undo !== ""
+            readonly property bool canRedo: view.undoState.redo !== ""
+            width: parent.width
+            height: canUndo || canRedo ? Theme.itemSizeMedium : timesHeader.height
+            visible: canUndo || canRedo || view.count > 0
+
+            Row {
+                x: Theme.horizontalPageMargin - Theme.paddingSmall
+                height: parent.height
+                HintButton {
+                    visible: undoRow.canUndo
+                    width: (undoRow.width - 2 * Theme.horizontalPageMargin) / 3
+                    height: parent.height
+                    //% "Undo"
+                    text: qsTrId("timerecord-day-view-undo")
+                    hint: backend.undoName(view.undoState.undo)
+                    onClicked: {
+                        var label = backend.undoName(view.undoState.undo)
+                        //% "Undone: %1"
+                        backend.mutate("undo", [], function() { backend.notice(qsTrId("timerecord-day-view-undone").arg(label)) })
+                    }
+                }
+                HintButton {
+                    visible: undoRow.canRedo
+                    width: (undoRow.width - 2 * Theme.horizontalPageMargin) / 3
+                    height: parent.height
+                    //% "Redo"
+                    text: qsTrId("timerecord-day-view-redo")
+                    hint: backend.undoName(view.undoState.redo)
+                    onClicked: backend.mutate("redo")
+                }
+            }
+            SectionHeader {
+                id: timesHeader
+                anchors.verticalCenter: parent.verticalCenter
+                visible: view.count > 0
+                //% "Times"
+                text: qsTrId("timerecord-day-view-times")
+            }
         }
     }
 
