@@ -13,6 +13,7 @@ TextField {
     signal committed(int minutes)
 
     text: Format.duration(minutes)
+    placeholderText: label
     inputMethodHints: Qt.ImhPreferNumbers | Qt.ImhNoPredictiveText
     validator: RegExpValidator { regExp: field.signed ? /^-?\d{1,3}(:\d{0,2})?$/ : /^\d{1,2}(:\d{0,2})?$/ }
     description: qsTr("h:mm")

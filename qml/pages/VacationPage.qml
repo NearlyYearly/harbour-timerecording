@@ -139,10 +139,13 @@ Page {
             TextField {
                 width: parent.width
                 label: qsTr("Days for a year without an entry")
+                placeholderText: label
                 description: qsTr("Used when no earlier year has an entry to copy")
                 text: page.values ? String(page.values["vacation.default_days"]) : ""
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: DoubleValidator { bottom: 0; top: 366; decimals: 1; notation: DoubleValidator.StandardNotation }
+                EnterKey.iconSource: "image://theme/icon-m-enter-close"
+                EnterKey.onClicked: focus = false
                 onActiveFocusChanged: if (!activeFocus && acceptableInput)
                     backend.mutate("set_setting", ["vacation.default_days", Number(text.replace(",", "."))])
             }

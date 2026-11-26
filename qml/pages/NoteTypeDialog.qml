@@ -31,6 +31,8 @@ Dialog {
             label: qsTr("Name")
             placeholderText: label
             text: dialog.type ? dialog.type.name : ""
+            EnterKey.iconSource: "image://theme/icon-m-enter-close"
+            EnterKey.onClicked: focus = false
         }
 
         ComboBox {

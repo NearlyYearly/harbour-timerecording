@@ -73,28 +73,38 @@ Dialog {
                 width: parent.width
                 readOnly: !!dialog.entry
                 label: qsTr("Year")
+                placeholderText: label
                 inputMethodHints: Qt.ImhDigitsOnly
                 validator: IntValidator { bottom: 1900; top: 2200 }
+                EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                EnterKey.onClicked: daysField.focus = true
             }
 
             TextField {
                 id: daysField
                 width: parent.width
                 label: qsTr("Vacation days")
+                placeholderText: label
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: DoubleValidator { bottom: 0; top: 366; decimals: 1; notation: DoubleValidator.StandardNotation }
+                EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                EnterKey.onClicked: carryField.focus = true
             }
 
             TextField {
                 id: carryField
                 width: parent.width
                 label: qsTr("Carried over (may be negative)")
+                placeholderText: label
                 description: {
                     var previous = dialog.find(dialog.year - 1)
                     return previous ? qsTr("%1 days were left at the end of %2").arg(Math.round(previous.remaining * 10) / 10).arg(previous.year) : ""
                 }
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: DoubleValidator { bottom: -366; top: 366; decimals: 1; notation: DoubleValidator.StandardNotation }
+                EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+                EnterKey.enabled: dialog.canAccept
+                EnterKey.onClicked: dialog.accept()
             }
 
             SectionHeader {

@@ -13,6 +13,7 @@ TextField {
     signal committed(int value)
 
     text: String(value)
+    placeholderText: label
     inputMethodHints: Qt.ImhDigitsOnly
     validator: IntValidator { bottom: field.minimum; top: field.maximum }
     EnterKey.iconSource: "image://theme/icon-m-enter-close"

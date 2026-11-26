@@ -21,8 +21,11 @@ Dialog {
         TextField {
             width: parent.width
             label: qsTr("When more than (worked, h:mm)")
+            placeholderText: label
             text: Format.duration(dialog.afterMin)
             inputMethodHints: Qt.ImhPreferNumbers | Qt.ImhNoPredictiveText
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: breakField.focus = true
             onTextChanged: {
                 var m = Format.parseDuration(text)
                 dialog.afterMin = isNaN(m) || m < 0 ? 0 : m
@@ -30,10 +33,14 @@ Dialog {
         }
 
         TextField {
+            id: breakField
             width: parent.width
             label: qsTr("Break of at least (minutes, in total)")
+            placeholderText: label
             text: String(dialog.breakMin)
             inputMethodHints: Qt.ImhDigitsOnly
+            EnterKey.iconSource: "image://theme/icon-m-enter-close"
+            EnterKey.onClicked: focus = false
             validator: IntValidator { bottom: 1; top: 600 }
             onTextChanged: dialog.breakMin = acceptableInput ? Number(text) : 0
         }

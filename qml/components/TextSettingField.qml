@@ -14,6 +14,7 @@ TextField {
 
     width: parent ? parent.width : 0
     text: value
+    placeholderText: label
     EnterKey.iconSource: "image://theme/icon-m-enter-close"
     EnterKey.onClicked: focus = false
 
