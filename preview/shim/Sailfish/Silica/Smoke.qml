@@ -157,7 +157,9 @@ Item {
                 // Delete with the page countdown; a refresh in between must not cancel it.
                 var view = todayView()
                 smoke.count = view.day.lines.length
-                view.deleteLine(view.day.lines[1])
+                // The second stored line: depending on the time of day a planned break (no id)
+                // can sit between the lines.
+                view.deleteLine(view.day.lines.filter(function(l) { return l.kind !== "auto_break" })[1])
                 backend.dataChanged()
                 later(function() { shot("03c-delete-remorse", function() { later(run, 5500) }) }, 500)
             },
