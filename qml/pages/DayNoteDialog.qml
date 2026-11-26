@@ -91,5 +91,6 @@ Dialog {
                 text: dialog.note ? dialog.note.text : ""
             }
         }
+        VerticalScrollDecorator { }
     }
 }

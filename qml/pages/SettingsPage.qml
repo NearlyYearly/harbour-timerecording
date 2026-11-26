@@ -35,5 +35,6 @@ Page {
                 }
             }
         }
+        VerticalScrollDecorator { }
     }
 }
