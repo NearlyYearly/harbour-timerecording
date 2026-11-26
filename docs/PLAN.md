@@ -20,7 +20,7 @@ Sailfish OS. They need to:
 
 ## Scope
 
-### v0.1–v0.5 — done (needs a device test)
+### v0.1–v0.5 — done, in daily use on the phone
 
 - **Day page**: big check-in/out button, task picker (switching task while checked in closes
   the line and starts a new one), lines with tap-to-edit and hold-to-delete with remorse,
@@ -38,22 +38,36 @@ Sailfish OS. They need to:
 - **Backup**: JSON export/restore, automatic backups with retention, in `~/Documents`.
 - Every tunable is a setting in the UI (D-021).
 
-### v0.6 — Android import — done (needs a device test)
+### v0.6 — Android import — done, used on the phone
 
 - Import a *Time Recording* (dynamicg) backup (`timerec.db.gz`): tasks, lines, day notes,
   templates and optionally settings, with a preview first (D-025).
 - Tasks get rules like on Android: share that counts as work, no target, uses vacation.
 
-### v0.7 — Vacation per year — done (needs a device test)
+### v0.7 — Vacation per year — done, in daily use on the phone
 
 - Vacation page (month page pulley), a history of years, own days and carryover per year (D-026).
+
+### v0.8 — SPX export — done, used on the phone
+
+- One or several months as a CSV for the ESS Monatsjournal filler, with business trips and
+  on-call standby (D-028, D-029).
+
+### v0.9 — Platform alignment — done, test build used on the phone
+
+- Checked against sailfish-rag (Jolla's design guide and app notes): menus of at most four
+  items and Undo above the day's lines instead of a bottom bar (D-032), id-based translations
+  with a shipped catalogue (D-031), placeholders, scroll indicators, Enter keys, the colour
+  signal; *Check in at…* takes a later time. What was checked on the phone is in the README
+  and the device checklist (`TODO.md`, P5).
 
 ### Backlog (not now)
 
 - German translation (UI strings use `qsTrId`; `translations/` is wired up, D-031).
 - Reminders with the app closed via `Nemo.Alarms` / `timed` (D-014).
 - Timesheet export (CSV/HTML) per week/month (the SPX CSV per month exists, D-028).
-- Harbour submission (needs a C++ launcher binary, D-005).
+- Harbour submission (the validator refuses the `Notifications` permission, the D-Bus service
+  file and the license location; no C++ launcher needed, D-005).
 - Signed releases on OpenRepos, then Chum.
 
 ### Non-goals
@@ -125,15 +139,16 @@ follows the definition of done in `../AGENTS.md`.
 | R1 | Reminders do not fire with the app closed | Documented limit; `Nemo.Alarms`/`timed` in the backlog (D-014) |
 | R2 | Sandbox blocks the notification tap (bus name) | Name follows the sandbox rule `<Org>.<App>` (D-015); verify on the device |
 | R3 | Preview stand-in hides a Silica difference | Stand-in only for the desktop; device test before release (D-017) |
-| R4 | Qt 5.6 limits QML features | Old `Connections` syntax, no ES6; checked in review |
+| R4 | Qt 5.6 limits QML features | Old `Connections` syntax, no ES6; checked by `tests/test_qml_qt56.py` |
 | R5 | Android backup format undocumented | Built against a real backup, balances compared to the minute; preview first (D-025) |
 | R6 | Break rules differ per employer/country | Everything editable; defaults only seed ArbZG values (D-007) |
 
 ## Release & publishing
 
-1. Bump `Version:` in `rpm/harbour-timerecord.spec`.
-2. `docker compose run --rm build` → `RPMS/harbour-timerecord-<ver>-1.noarch.rpm`.
-3. Install and test on the phone (`BUILD.md`), then publish (`PUBLISH.md`).
+1. Bump `Version:` in `rpm/harbour-timerecord.spec` and the file names in `README.md`.
+2. Install and test a build on the phone (`BUILD.md`).
+3. Write `docs/releases/<ver>.md`: who tested on what, known quirks, changes (`PUBLISH.md`).
+4. `./release.sh`: tests, build, then tag and GitHub release after asking (D-027, D-033).
 
 ## Quality bar
 
