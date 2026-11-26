@@ -7,9 +7,10 @@ Page {
 
     property var tasks: []
     property bool showArchived: false
+    property bool loaded: false
 
     function load() {
-        backend.run("tasks", [true], function(t) { if (page) page.tasks = t })
+        backend.run("tasks", [true], function(t) { if (page) { page.tasks = t; page.loaded = true } })
     }
 
     Component.onCompleted: load()
@@ -67,6 +68,12 @@ Page {
                 color: item.highlighted ? Theme.highlightColor : Theme.primaryColor
                 truncationMode: TruncationMode.Fade
             }
+        }
+
+        ViewPlaceholder {
+            enabled: page.loaded && list.count === 0
+            text: page.tasks.length > 0 ? qsTr("All tasks are archived") : qsTr("No tasks")
+            hintText: page.tasks.length > 0 ? qsTr("Pull down to show them") : qsTr("Pull down to add one")
         }
 
         VerticalScrollDecorator { }

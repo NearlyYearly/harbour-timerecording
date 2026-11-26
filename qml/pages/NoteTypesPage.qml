@@ -7,9 +7,10 @@ Page {
 
     property var types: []
     property bool showArchived: false
+    property bool loaded: false
 
     function load() {
-        backend.run("note_types", [true], function(t) { if (page) page.types = t })
+        backend.run("note_types", [true], function(t) { if (page) { page.types = t; page.loaded = true } })
     }
 
     Component.onCompleted: load()
@@ -19,6 +20,7 @@ Page {
     }
 
     SilicaListView {
+        id: list
         anchors.fill: parent
         model: page.types.filter(function(t) { return page.showArchived || !t.archived })
 
@@ -74,6 +76,11 @@ Page {
                     text: qsTr("target credit %1% · vacation days %2").arg(Math.round(modelData.credit_factor * 100)).arg(modelData.holiday_days)
                 }
             }
+        }
+        ViewPlaceholder {
+            enabled: page.loaded && list.count === 0
+            text: page.types.length > 0 ? qsTr("All day types are archived") : qsTr("No day types")
+            hintText: page.types.length > 0 ? qsTr("Pull down to show them") : qsTr("Pull down to add one")
         }
         VerticalScrollDecorator { }
     }
