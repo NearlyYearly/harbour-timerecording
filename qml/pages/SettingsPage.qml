@@ -5,17 +5,18 @@ import Sailfish.Silica 1.0
 Page {
     SilicaListView {
         anchors.fill: parent
-        header: PageHeader { title: qsTr("Settings") }
+        //% "Settings"
+        header: PageHeader { title: qsTrId("timerecord-settings-settings") }
         model: [
-            { title: qsTr("Work time targets"), hint: qsTr("Hours per weekday"), page: "TargetsPage.qml" },
-            { title: qsTr("Break rules"), hint: qsTr("Automatic breaks after hours worked"), page: "BreakRulesPage.qml" },
-            { title: qsTr("Rounding"), hint: qsTr("Round check-in and check-out times"), page: "RoundingPage.qml" },
-            { title: qsTr("Reminders"), hint: qsTr("Forgot to check out, target reached, breaks"), page: "RemindersPage.qml" },
-            { title: qsTr("Flexitime"), hint: qsTr("Counted from, opening balance"), page: "BalancePage.qml" },
-            { title: qsTr("Tasks"), hint: qsTr("Add, rename, archive"), page: "TasksPage.qml" },
-            { title: qsTr("Day types"), hint: qsTr("Vacation, sick, … and how they count"), page: "NoteTypesPage.qml" },
-            { title: qsTr("Backup & general"), hint: qsTr("Export, restore, double-tap guard, undo"), page: "BackupPage.qml" },
-            { title: qsTr("Import from Android"), hint: qsTr("Time Recording backup (timerec.db.gz)"), page: "ImportPage.qml" }
+            { title: /*% "Work time targets" */ qsTrId("timerecord-settings-work-time-targets"), hint: /*% "Hours per weekday" */ qsTrId("timerecord-settings-hours-per-weekday"), page: "TargetsPage.qml" },
+            { title: /*% "Break rules" */ qsTrId("timerecord-settings-break-rules"), hint: /*% "Automatic breaks after hours worked" */ qsTrId("timerecord-settings-automatic-breaks-after-hours-worked"), page: "BreakRulesPage.qml" },
+            { title: /*% "Rounding" */ qsTrId("timerecord-settings-rounding"), hint: /*% "Round check-in and check-out times" */ qsTrId("timerecord-settings-round-check-in-and-check-out"), page: "RoundingPage.qml" },
+            { title: /*% "Reminders" */ qsTrId("timerecord-settings-reminders"), hint: /*% "Forgot to check out, target reached, breaks" */ qsTrId("timerecord-settings-forgot-to-check-out-target-reached"), page: "RemindersPage.qml" },
+            { title: /*% "Flexitime" */ qsTrId("timerecord-settings-flexitime"), hint: /*% "Counted from, opening balance" */ qsTrId("timerecord-settings-counted-from-opening-balance"), page: "BalancePage.qml" },
+            { title: /*% "Tasks" */ qsTrId("timerecord-settings-tasks"), hint: /*% "Add, rename, archive" */ qsTrId("timerecord-settings-add-rename-archive"), page: "TasksPage.qml" },
+            { title: /*% "Day types" */ qsTrId("timerecord-settings-day-types"), hint: /*% "Vacation, sick, … and how they count" */ qsTrId("timerecord-settings-vacation-sick-and-how-they-count"), page: "NoteTypesPage.qml" },
+            { title: /*% "Backup & general" */ qsTrId("timerecord-settings-backup-general"), hint: /*% "Export, restore, double-tap guard, undo" */ qsTrId("timerecord-settings-export-restore-double-tap-guard-undo"), page: "BackupPage.qml" },
+            { title: /*% "Import from Android" */ qsTrId("timerecord-settings-import-from-android"), hint: /*% "Time Recording backup (timerec.db.gz)" */ qsTrId("timerecord-settings-time-recording-backup-timerec-db-gz"), page: "ImportPage.qml" }
         ]
         delegate: BackgroundItem {
             height: Theme.itemSizeMedium

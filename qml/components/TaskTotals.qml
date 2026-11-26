@@ -12,7 +12,8 @@ Column {
 
     SectionHeader {
         visible: totals.tasks.length > 0
-        text: qsTr("Tasks")
+        //% "Tasks"
+        text: qsTrId("timerecord-task-totals-tasks")
     }
 
     Repeater {
@@ -31,7 +32,8 @@ Column {
             Label {
                 x: Theme.horizontalPageMargin + Theme.paddingMedium
                 anchors.verticalCenter: parent.verticalCenter
-                text: modelData.name || qsTr("No task")
+                //% "No task"
+                text: modelData.name || qsTrId("timerecord-task-totals-no-task")
             }
             Label {
                 anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin + Theme.paddingMedium; verticalCenter: parent.verticalCenter }

@@ -28,10 +28,11 @@ Page {
             visible: page.dates.length === 0
             MenuItem {
                 enabled: page.canSave
-                text: qsTr("Save this day as template")
+                //% "Save this day as template"
+                text: qsTrId("timerecord-templates-save-this-day-as-template")
                 onClicked: {
                     var dialog = pageStack.push(Qt.resolvedUrl("TextDialog.qml"),
-                                                { title: qsTr("New template"), label: qsTr("Name") })
+                                                { title: /*% "New template" */ qsTrId("timerecord-templates-new-template"), label: /*% "Name" */ qsTrId("timerecord-templates-name") })
                     dialog.accepted.connect(function() {
                         backend.mutate("save_template", [dialog.text, page.date], function(t) { if (t && page) page.templates = t })
                     })
@@ -40,10 +41,13 @@ Page {
         }
 
         header: PageHeader {
-            title: qsTr("Templates")
+            //% "Templates"
+            title: qsTrId("timerecord-templates-templates")
             description: page.dates.length > 0
-                         ? qsTr("Tap to add to %n day(s)", "", page.dates.length)
-                         : qsTr("Tap to add to %1").arg(Format.parseDate(page.date).toLocaleDateString(Qt.locale(), "ddd d MMM"))
+                         //% "Tap to add to %n day(s)"
+                         ? qsTrId("timerecord-templates-tap-to-add-to-day-s", page.dates.length)
+                         //% "Tap to add to %1"
+                         : qsTrId("timerecord-templates-tap-to-add-to").arg(Format.parseDate(page.date).toLocaleDateString(Qt.locale(), "ddd d MMM"))
         }
 
         delegate: ListItem {
@@ -58,21 +62,24 @@ Page {
             }
             menu: ContextMenu {
                 MenuItem {
-                    text: qsTr("Rename")
+                    //% "Rename"
+                    text: qsTrId("timerecord-templates-rename")
                     onClicked: {
                         var id = modelData.id
                         var dialog = pageStack.push(Qt.resolvedUrl("TextDialog.qml"),
-                                                    { title: qsTr("Rename template"), label: qsTr("Name"), text: modelData.name })
+                                                    { title: /*% "Rename template" */ qsTrId("timerecord-templates-rename-template"), label: /*% "Name" */ qsTrId("timerecord-templates-name"), text: modelData.name })
                         dialog.accepted.connect(function() {
                             backend.mutate("rename_template", [id, dialog.text], function(t) { if (t && page) page.templates = t })
                         })
                     }
                 }
                 MenuItem {
-                    text: qsTr("Delete")
+                    //% "Delete"
+                    text: qsTrId("timerecord-templates-delete")
                     onClicked: {
                         var id = modelData.id
-                        item.remorseAction(qsTr("Deleting"), function() {
+                        //% "Deleting"
+                        item.remorseAction(qsTrId("timerecord-templates-deleting"), function() {
                             backend.mutate("delete_template", [id], function(t) { if (t && page) page.templates = t })
                         })
                     }
@@ -94,7 +101,8 @@ Page {
                     color: item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     truncationMode: TruncationMode.Fade
                     text: modelData.lines.map(function(l) {
-                        return (l.kind === "break" ? qsTr("break") + " " : "") + l.start + "–" + l.end
+                        //% "break"
+                        return (l.kind === "break" ? qsTrId("timerecord-templates-break") + " " : "") + l.start + "–" + l.end
                     }).join(", ")
                 }
             }
@@ -102,9 +110,12 @@ Page {
 
         ViewPlaceholder {
             enabled: list.count === 0
-            text: qsTr("No templates")
-            hintText: page.canSave ? qsTr("Pull down to save this day as a template")
-                                   : qsTr("Open a day with finished lines and save it as a template")
+            //% "No templates"
+            text: qsTrId("timerecord-templates-no-templates")
+            //% "Pull down to save this day as a template"
+            hintText: page.canSave ? qsTrId("timerecord-templates-pull-down-to-save-this-day")
+                                   //% "Open a day with finished lines and save it as a template"
+                                   : qsTrId("timerecord-templates-open-a-day-with-finished-lines")
         }
         VerticalScrollDecorator { }
     }

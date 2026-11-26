@@ -63,13 +63,15 @@ Dialog {
             width: parent.width
 
             DialogHeader {
-                title: dialog.line ? qsTr("Edit line") : qsTr("Add line")
+                title: dialog.line ? /*% "Edit line" */ qsTrId("timerecord-edit-stamp-dialog-edit-line") : /*% "Add line" */ qsTrId("timerecord-edit-stamp-dialog-add-line")
             }
 
-            SectionHeader { text: qsTr("Time") }
+            //% "Time"
+            SectionHeader { text: qsTrId("timerecord-edit-stamp-dialog-time") }
 
             ValueButton {
-                label: qsTr("Date")
+                //% "Date"
+                label: qsTrId("timerecord-edit-stamp-dialog-date")
                 value: dialog.checkIn.toLocaleDateString(Qt.locale(), "ddd d MMM yyyy")
                 onClicked: {
                     var picker = pageStack.push("Sailfish.Silica.DatePickerDialog", { date: dialog.checkIn })
@@ -86,7 +88,8 @@ Dialog {
                 width: parent.width
                 ValueButton {
                     width: parent.width / 2
-                    label: qsTr("In")
+                    //% "In"
+                    label: qsTrId("timerecord-edit-stamp-dialog-in")
                     value: Format.pad(dialog.checkIn.getHours()) + ":" + Format.pad(dialog.checkIn.getMinutes())
                     onClicked: dialog.pickTime(dialog.checkIn, function(h, m) {
                         var d = new Date(dialog.checkIn)
@@ -98,12 +101,15 @@ Dialog {
                     width: parent.width / 2
                     enabled: !dialog.openEnded
                     opacity: enabled ? 1 : Theme.opacityLow
-                    label: qsTr("Out")
+                    //% "Out"
+                    label: qsTrId("timerecord-edit-stamp-dialog-out")
                     value: dialog.openEnded ? "–"
                                             : Format.pad(dialog.effectiveOut.getHours()) + ":" + Format.pad(dialog.effectiveOut.getMinutes())
                     description: dialog.openEnded ? ""
-                                 : qsTr("Duration %1").arg(Format.duration((dialog.effectiveOut - dialog.checkIn) / 60000))
-                                   + (dialog.effectiveOut.getDate() !== dialog.checkIn.getDate() ? " · " + qsTr("next day") : "")
+                                 //% "Duration %1"
+                                 : qsTrId("timerecord-edit-stamp-dialog-duration").arg(Format.duration((dialog.effectiveOut - dialog.checkIn) / 60000))
+                                   //% "next day"
+                                   + (dialog.effectiveOut.getDate() !== dialog.checkIn.getDate() ? " · " + qsTrId("timerecord-edit-stamp-dialog-next-day") : "")
                     onClicked: dialog.pickTime(dialog.checkOut, function(h, m) {
                         var d = new Date(dialog.checkIn)
                         d.setHours(h, m, 0, 0)
@@ -113,17 +119,22 @@ Dialog {
             }
 
             TextSwitch {
-                text: qsTr("Still running")
-                description: qsTr("No check-out yet")
+                //% "Still running"
+                text: qsTrId("timerecord-edit-stamp-dialog-still-running")
+                //% "No check-out yet"
+                description: qsTrId("timerecord-edit-stamp-dialog-no-check-out-yet")
                 checked: dialog.openEnded
                 onCheckedChanged: dialog.openEnded = checked
             }
 
-            SectionHeader { text: qsTr("Details") }
+            //% "Details"
+            SectionHeader { text: qsTrId("timerecord-edit-stamp-dialog-details") }
 
             TextSwitch {
-                text: qsTr("Break")
-                description: qsTr("Counts as break time, no task")
+                //% "Break"
+                text: qsTrId("timerecord-edit-stamp-dialog-break")
+                //% "Counts as break time, no task"
+                description: qsTrId("timerecord-edit-stamp-dialog-counts-as-break-time-no-task")
                 checked: dialog.kind === "break"
                 onCheckedChanged: dialog.kind = checked ? "break" : "work"
             }
@@ -139,7 +150,8 @@ Dialog {
             TextField {
                 id: commentField
                 width: parent.width
-                label: qsTr("Comment")
+                //% "Comment"
+                label: qsTrId("timerecord-edit-stamp-dialog-comment")
                 placeholderText: label
                 text: dialog.line ? dialog.line.comment : ""
                 EnterKey.iconSource: "image://theme/icon-m-enter-close"

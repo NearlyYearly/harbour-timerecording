@@ -39,7 +39,8 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Add year")
+                //% "Add year"
+                text: qsTrId("timerecord-vacation-add-year")
                 onClicked: page.editYear(null)
             }
         }
@@ -47,7 +48,8 @@ Page {
         header: Column {
             width: list.width
 
-            PageHeader { title: qsTr("Vacation") }
+            //% "Vacation"
+            PageHeader { title: qsTrId("timerecord-vacation-vacation") }
 
             Label {
                 x: Theme.horizontalPageMargin
@@ -62,10 +64,12 @@ Page {
                 width: parent.width - 2 * x
                 horizontalAlignment: Text.AlignRight
                 color: Theme.secondaryHighlightColor
-                text: page.current ? qsTr("days left in %1").arg(page.current.year) : ""
+                //% "days left in %1"
+                text: page.current ? qsTrId("timerecord-vacation-days-left-in").arg(page.current.year) : ""
             }
 
-            SectionHeader { text: qsTr("Years") }
+            //% "Years"
+            SectionHeader { text: qsTrId("timerecord-vacation-years") }
         }
 
         delegate: ListItem {
@@ -78,10 +82,12 @@ Page {
                 id: deleteMenu
                 ContextMenu {
                     MenuItem {
-                        text: qsTr("Delete entry")
+                        //% "Delete entry"
+                        text: qsTrId("timerecord-vacation-delete-entry")
                         onClicked: {
                             var year = modelData.year
-                            item.remorseAction(qsTr("Deleting"), function() {
+                            //% "Deleting"
+                            item.remorseAction(qsTrId("timerecord-vacation-deleting"), function() {
                                 backend.mutate("delete_vacation_year", [year])
                             })
                         }
@@ -110,8 +116,10 @@ Page {
                     color: modelData.own_entry ? (item.highlighted ? Theme.highlightColor : Theme.primaryColor)
                                                 : (item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor)
                     text: modelData.carryover !== 0
-                          ? qsTr("%1 + %2 days").arg(page.number(modelData.days)).arg(page.number(modelData.carryover))
-                          : qsTr("%1 days").arg(page.number(modelData.days))
+                          //% "%1 + %2 days"
+                          ? qsTrId("timerecord-vacation-days").arg(page.number(modelData.days)).arg(page.number(modelData.carryover))
+                          //% "%1 days"
+                          : qsTrId("timerecord-vacation-days-2").arg(page.number(modelData.days))
                 }
                 Label {
                     width: parent.width
@@ -119,9 +127,12 @@ Page {
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     text: (modelData.planned > 0
-                           ? qsTr("%1 taken · %2 planned").arg(page.number(modelData.taken)).arg(page.number(modelData.planned))
-                           : qsTr("%1 taken").arg(page.number(modelData.taken)))
-                          + (modelData.own_entry ? "" : " · " + qsTr("no entry"))
+                           //% "%1 taken · %2 planned"
+                           ? qsTrId("timerecord-vacation-taken-planned").arg(page.number(modelData.taken)).arg(page.number(modelData.planned))
+                           //% "%1 taken"
+                           : qsTrId("timerecord-vacation-taken").arg(page.number(modelData.taken)))
+                          //% "no entry"
+                          + (modelData.own_entry ? "" : " · " + qsTrId("timerecord-vacation-no-entry"))
                 }
             }
             Label {
@@ -139,9 +150,11 @@ Page {
 
             TextField {
                 width: parent.width
-                label: qsTr("Days for a year without an entry")
+                //% "Days for a year without an entry"
+                label: qsTrId("timerecord-vacation-days-for-a-year-without-an")
                 placeholderText: label
-                description: qsTr("Used when no earlier year has an entry to copy")
+                //% "Used when no earlier year has an entry to copy"
+                description: qsTrId("timerecord-vacation-used-when-no-earlier-year-has")
                 text: page.values ? String(page.values["vacation.default_days"]) : ""
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: DoubleValidator { bottom: 0; top: 366; decimals: 1; notation: DoubleValidator.StandardNotation }
@@ -157,7 +170,8 @@ Page {
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryHighlightColor
-                text: qsTr("Days + carried over. Vacation is counted from day types and tasks that use vacation days (Settings → Day types, Tasks). A year without an entry gets the days of the latest earlier year and no carryover.")
+                //% "Days + carried over. Vacation is counted from day types and tasks that use vacation days (Settings → Day types, Tasks). A year without an entry gets the days of the latest earlier year and no carryover."
+                text: qsTrId("timerecord-vacation-days-carried-over-vacation-is-counted")
             }
 
             Item { width: 1; height: Theme.paddingLarge }

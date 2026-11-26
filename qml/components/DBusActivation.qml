@@ -18,7 +18,8 @@ DBusAdaptor {
     function notificationAction() {
         return {
             "name": "default",
-            "displayName": qsTr("Open"),
+            //% "Open"
+            "displayName": qsTrId("timerecord-d-bus-activation-open"),
             "icon": "harbour-timerecord",
             "service": serviceName,
             "path": objectPath,

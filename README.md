@@ -82,6 +82,7 @@ Everything runs in containers:
 | `docker compose run --rm smoke` | headless run, screenshots of every page into `preview/shots` |
 | `docker compose run --rm qmltest` | QML tests for the preview stand-ins (pulley, push-up menu, swipe gestures) |
 | `docker compose run --rm icons` | renders `icons/*/harbour-timerecord.png` from the SVG |
+| `docker compose run --rm i18n` | updates `translations/*.ts` after UI texts changed |
 | `docker compose run --rm build` | builds `RPMS/harbour-timerecord-<version>.noarch.rpm` with the Sailfish SDK |
 
 The preview uses a small stand-in for Sailfish Silica (`preview/shim`), so it looks close

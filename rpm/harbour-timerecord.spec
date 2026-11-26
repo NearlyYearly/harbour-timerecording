@@ -12,6 +12,7 @@ Requires:   python3-sqlite
 Requires:   nemo-qml-plugin-notifications-qt5
 Requires:   libkeepalive
 Requires:   nemo-qml-plugin-dbus-qt5
+BuildRequires: qt5-qttools-linguist
 
 %description
 Check in and out, tasks, day notes, automatic break rules, punch rounding,
@@ -21,12 +22,16 @@ undo/redo and JSON backups.
 %setup -q -n %{name}-%{version}
 
 %build
+# Id-based catalogues; unfinished entries keep their //% English text (no -nounfinished).
+lrelease -idbased translations/*.ts
 
 %install
 rm -rf %{buildroot}
 install -d %{buildroot}%{_datadir}/%{name}
 cp -r qml python %{buildroot}%{_datadir}/%{name}/
 find %{buildroot}%{_datadir}/%{name} -name '__pycache__' -prune -exec rm -rf {} +
+install -d %{buildroot}%{_datadir}/%{name}/translations
+install -m 644 translations/*.qm %{buildroot}%{_datadir}/%{name}/translations/
 install -D -m 644 %{name}.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
 install -D -m 644 dbus/org.timerecord.%{name}.service \
     %{buildroot}%{_datadir}/dbus-1/services/org.timerecord.%{name}.service

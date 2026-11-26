@@ -37,6 +37,19 @@ From `usr/lib64/qt5/qml/Sailfish/Silica/plugins.qmltypes`:
   `DatePickerDialog`, `TimePickerDialog`, `RemorsePopup`, `ListItem.remorseAction`,
   `DetailItem` (`label`, `value`), …
 
+## Translations
+
+- `libsailfishapp` (used by `sailfish-qml`) installs a `QTranslator` that loads
+  `/usr/share/<app>/translations/<app>-<locale>.qm` and falls back to `<app>.qm`; read from
+  the library's strings in the 5.0.0.43 target, and sailfish-rag confirms `sailfishapp_i18n`
+  catalogues working with `sailfish-qml` on devices.
+- `lupdate` / `lrelease` are in the target (`qt5-qttools-linguist`, Qt 5.6.3). `lupdate`
+  reads `//% "text"` before a `qsTrId` call and `/*% "text" */` inline, also with a `%n`
+  plural (`qsTrId(id, n)`). `lrelease -idbased` without `-nounfinished` puts the `//%`
+  text into the `.qm` for untranslated entries; with `-nounfinished` the app shows raw ids.
+  A `//%` line before `Item { a: x; text: qsTrId(…) }` is discarded (the comment belongs to
+  the first binding), so such lines use the inline form.
+
 ## Sandboxing (Sailjail)
 
 - Declared in the desktop file:

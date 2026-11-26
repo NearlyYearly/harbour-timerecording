@@ -38,7 +38,8 @@ ListItem {
         }
         Label {
             width: parent.width
-            text: Format.time(line.check_in) + " – " + (line.running ? qsTr("now") : Format.time(line.check_out))
+            //% "now"
+            text: Format.time(line.check_in) + " – " + (line.running ? qsTrId("timerecord-stamp-item-now") : Format.time(line.check_out))
                   + (line.check_out && line.check_out.substr(0, 10) !== line.check_in.substr(0, 10) ? " +1" : "")
             color: item.highlighted ? Theme.highlightColor : (item.auto ? Theme.secondaryColor : Theme.primaryColor)
             font.italic: item.auto
@@ -46,8 +47,9 @@ ListItem {
         }
         Label {
             width: parent.width
-            text: item.auto ? (line.planned ? qsTr("Planned break") : qsTr("Automatic break"))
-                            : [line.kind === "break" ? qsTr("Break") : line.task_name, line.comment]
+            text: item.auto ? (line.planned ? /*% "Planned break" */ qsTrId("timerecord-stamp-item-planned-break") : /*% "Automatic break" */ qsTrId("timerecord-stamp-item-automatic-break"))
+                            //% "Break"
+                            : [line.kind === "break" ? qsTrId("timerecord-stamp-item-break") : line.task_name, line.comment]
                                 .filter(function(s) { return !!s }).join(" · ")
             visible: text.length > 0
             font.pixelSize: Theme.fontSizeExtraSmall
@@ -73,20 +75,24 @@ ListItem {
         id: contextMenu
         ContextMenu {
             MenuItem {
-                text: qsTr("Change check-in (%1)").arg(Format.time(line.check_in))
+                //% "Change check-in (%1)"
+                text: qsTrId("timerecord-stamp-item-change-check-in").arg(Format.time(line.check_in))
                 onClicked: item.timeRequested("check_in")
             }
             MenuItem {
                 visible: !line.running
-                text: qsTr("Change check-out (%1)").arg(Format.time(line.check_out))
+                //% "Change check-out (%1)"
+                text: qsTrId("timerecord-stamp-item-change-check-out").arg(Format.time(line.check_out))
                 onClicked: item.timeRequested("check_out")
             }
             MenuItem {
-                text: qsTr("Edit")
+                //% "Edit"
+                text: qsTrId("timerecord-stamp-item-edit")
                 onClicked: item.editRequested()
             }
             MenuItem {
-                text: qsTr("Delete")
+                //% "Delete"
+                text: qsTrId("timerecord-stamp-item-delete")
                 onClicked: item.deleteRequested()
             }
         }

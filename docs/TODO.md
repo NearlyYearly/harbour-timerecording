@@ -117,7 +117,7 @@ New tasks go in the phase they belong to.
 
 ## P6 — Polish
 
-- [ ] German translation (`qsTr` already in place; `lupdate`/`lrelease` wiring)
+- [ ] German translation (id-based catalogues in place, D-031: add `translations/harbour-timerecord-de.ts`)
 - [ ] UI Definition of Done pass
 - [ ] Screenshots from the phone
 - [ ] Changelog (`%changelog` in the spec)

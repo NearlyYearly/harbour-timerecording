@@ -47,7 +47,8 @@ Page {
             header: Column {
                 width: view.width
                 PageHeader {
-                    title: view.week ? qsTr("Week %1").arg(view.week.week) : ""
+                    //% "Week %1"
+                    title: view.week ? qsTrId("timerecord-week-week").arg(view.week.week) : ""
                     description: view.week
                                  ? Format.parseDate(view.week.start).toLocaleDateString(Qt.locale(), "d MMM") + " – "
                                    + Format.parseDate(view.week.end).toLocaleDateString(Qt.locale(), "d MMM yyyy")
@@ -60,23 +61,27 @@ Page {
                     readonly property real cell: width / 3
                     SummaryCell {
                         width: parent.cell
-                        label: qsTr("worked")
+                        //% "worked"
+                        label: qsTrId("timerecord-week-worked")
                         value: view.week ? Format.duration(view.week.totals.net_min) : ""
                     }
                     SummaryCell {
                         width: parent.cell
-                        label: qsTr("target %1").arg(view.week ? Format.duration(view.week.plan_target_min) : "")
+                        //% "target %1"
+                        label: qsTrId("timerecord-week-target").arg(view.week ? Format.duration(view.week.plan_target_min) : "")
                         value: view.week ? Format.signedDuration(view.week.totals.delta_min) : ""
                         valueColor: !view.week || view.week.totals.delta_min >= 0 ? Theme.highlightColor : Theme.errorColor
                     }
                     SummaryCell {
                         width: parent.cell
-                        label: qsTr("flexitime")
+                        //% "flexitime"
+                        label: qsTrId("timerecord-week-flexitime")
                         value: view.week ? Format.signedDuration(view.week.balance_min) : ""
                         valueColor: Theme.secondaryHighlightColor
                     }
                 }
-                SectionHeader { text: qsTr("Days") }
+                //% "Days"
+                SectionHeader { text: qsTrId("timerecord-week-days") }
             }
 
             delegate: BackgroundItem {

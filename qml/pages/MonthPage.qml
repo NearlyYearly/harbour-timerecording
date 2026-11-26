@@ -128,30 +128,36 @@ Page {
                     readonly property real cell: width / 3
                     SummaryCell {
                         width: parent.cell
-                        label: qsTr("worked")
+                        //% "worked"
+                        label: qsTrId("timerecord-month-worked")
                         value: view.month ? Format.duration(view.month.totals.net_min) : ""
                     }
                     SummaryCell {
                         width: parent.cell
-                        label: qsTr("target %1").arg(view.month ? Format.duration(view.month.plan_target_min) : "")
+                        //% "target %1"
+                        label: qsTrId("timerecord-month-target").arg(view.month ? Format.duration(view.month.plan_target_min) : "")
                         value: view.month ? Format.signedDuration(view.month.totals.delta_min) : ""
                         valueColor: !view.month || view.month.totals.delta_min >= 0 ? Theme.highlightColor : Theme.errorColor
                     }
                     SummaryCell {
                         width: parent.cell
-                        label: qsTr("flexitime")
+                        //% "flexitime"
+                        label: qsTrId("timerecord-month-flexitime")
                         value: view.month ? Format.signedDuration(view.month.balance_min) : ""
                         valueColor: Theme.secondaryHighlightColor
                     }
                 }
 
-                SectionHeader { text: qsTr("Vacation %1").arg(view.first.getFullYear()) }
+                //% "Vacation %1"
+                SectionHeader { text: qsTrId("timerecord-month-vacation").arg(view.first.getFullYear()) }
                 DetailRow {
-                    label: qsTr("Taken / planned")
+                    //% "Taken / planned"
+                    label: qsTrId("timerecord-month-taken-planned")
                     value: view.month ? view.month.vacation.taken + " / " + view.month.vacation.planned : ""
                 }
                 DetailRow {
-                    label: qsTr("Remaining")
+                    //% "Remaining"
+                    label: qsTrId("timerecord-month-remaining")
                     value: view.month ? String(view.month.vacation.remaining) : ""
                     valueColor: view.month && view.month.vacation.remaining < 0 ? Theme.errorColor : Theme.highlightColor
                 }

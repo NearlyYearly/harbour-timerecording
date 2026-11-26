@@ -20,7 +20,8 @@ Dialog {
         if (dates.length > 0) {
             var n = dates.length
             backend.mutate("set_day_notes", [dates, backend.optId(typeId), textArea.text], function() {
-                backend.notice(qsTr("Day note set on %n day(s)", "", n))
+                //% "Day note set on %n day(s)"
+                backend.notice(qsTrId("timerecord-day-note-dialog-day-note-set-on-day-s", n))
             })
         } else {
             backend.mutate("set_day_note", [date, backend.optId(typeId), textArea.text])
@@ -34,7 +35,8 @@ Dialog {
         PullDownMenu {
             visible: !!dialog.note
             MenuItem {
-                text: qsTr("Clear note")
+                //% "Clear note"
+                text: qsTrId("timerecord-day-note-dialog-clear-note")
                 onClicked: {
                     dialog.typeId = null
                     textArea.text = ""
@@ -48,14 +50,17 @@ Dialog {
             width: parent.width
 
             DialogHeader {
-                title: dialog.dates.length > 0 ? qsTr("%n day(s)", "", dialog.dates.length)
+                //% "%n day(s)"
+                title: dialog.dates.length > 0 ? qsTrId("timerecord-day-note-dialog-day-s", dialog.dates.length)
                                                : Format.parseDate(dialog.date).toLocaleDateString(Qt.locale(), "ddd d MMM yyyy")
             }
 
             ComboBox {
                 id: typeBox
-                label: qsTr("Day type")
-                readonly property var entries: [{ id: null, name: qsTr("None"), credit_factor: 0, holiday_days: 0 }].concat(dialog.types)
+                //% "Day type"
+                label: qsTrId("timerecord-day-note-dialog-day-type")
+                //% "None"
+                readonly property var entries: [{ id: null, name: qsTrId("timerecord-day-note-dialog-none"), credit_factor: 0, holiday_days: 0 }].concat(dialog.types)
                 currentIndex: {
                     // -1 until the menu items exist; Silica rejects an index it has no item for.
                     if (typeItems.count < entries.length) return -1
@@ -67,8 +72,10 @@ Dialog {
                     var e = entries[currentIndex]
                     if (!e || e.id === null) return ""
                     var parts = []
-                    if (e.credit_factor > 0) parts.push(qsTr("credits %1% of the target").arg(Math.round(e.credit_factor * 100)))
-                    if (e.holiday_days > 0) parts.push(qsTr("uses %1 vacation days").arg(e.holiday_days))
+                    //% "credits %1% of the target"
+                    if (e.credit_factor > 0) parts.push(qsTrId("timerecord-day-note-dialog-credits-of-the-target").arg(Math.round(e.credit_factor * 100)))
+                    //% "uses %1 vacation days"
+                    if (e.holiday_days > 0) parts.push(qsTrId("timerecord-day-note-dialog-uses-vacation-days").arg(e.holiday_days))
                     return parts.join(" · ")
                 }
                 menu: ContextMenu {
@@ -86,7 +93,8 @@ Dialog {
             TextArea {
                 id: textArea
                 width: parent.width
-                label: qsTr("Note")
+                //% "Note"
+                label: qsTrId("timerecord-day-note-dialog-note")
                 placeholderText: label
                 text: dialog.note ? dialog.note.text : ""
             }

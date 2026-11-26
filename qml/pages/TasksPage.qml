@@ -26,16 +26,18 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: page.showArchived ? qsTr("Hide archived") : qsTr("Show archived")
+                text: page.showArchived ? /*% "Hide archived" */ qsTrId("timerecord-tasks-hide-archived") : /*% "Show archived" */ qsTrId("timerecord-tasks-show-archived")
                 onClicked: page.showArchived = !page.showArchived
             }
             MenuItem {
-                text: qsTr("Add task")
+                //% "Add task"
+                text: qsTrId("timerecord-tasks-add-task")
                 onClicked: pageStack.push(Qt.resolvedUrl("TaskDialog.qml"))
             }
         }
 
-        header: PageHeader { title: qsTr("Tasks") }
+        //% "Tasks"
+        header: PageHeader { title: qsTrId("timerecord-tasks-tasks") }
 
         delegate: ListItem {
             id: item
@@ -44,7 +46,7 @@ Page {
             onClicked: pageStack.push(Qt.resolvedUrl("TaskDialog.qml"), { task: modelData })
             menu: ContextMenu {
                 MenuItem {
-                    text: modelData.archived ? qsTr("Restore") : qsTr("Archive")
+                    text: modelData.archived ? /*% "Restore" */ qsTrId("timerecord-tasks-restore") : /*% "Archive" */ qsTrId("timerecord-tasks-archive")
                     onClicked: backend.mutate("archive_task", [modelData.id, !modelData.archived])
                 }
             }
@@ -64,7 +66,8 @@ Page {
                     right: parent.right; rightMargin: Theme.horizontalPageMargin
                     verticalCenter: parent.verticalCenter
                 }
-                text: modelData.name + (modelData.archived ? " " + qsTr("(archived)") : "")
+                //% "(archived)"
+                text: modelData.name + (modelData.archived ? " " + qsTrId("timerecord-tasks-archived") : "")
                 color: item.highlighted ? Theme.highlightColor : Theme.primaryColor
                 truncationMode: TruncationMode.Fade
             }
@@ -72,8 +75,8 @@ Page {
 
         ViewPlaceholder {
             enabled: page.loaded && list.count === 0
-            text: page.tasks.length > 0 ? qsTr("All tasks are archived") : qsTr("No tasks")
-            hintText: page.tasks.length > 0 ? qsTr("Pull down to show them") : qsTr("Pull down to add one")
+            text: page.tasks.length > 0 ? /*% "All tasks are archived" */ qsTrId("timerecord-tasks-all-tasks-are-archived") : /*% "No tasks" */ qsTrId("timerecord-tasks-no-tasks")
+            hintText: page.tasks.length > 0 ? /*% "Pull down to show them" */ qsTrId("timerecord-tasks-pull-down-to-show-them") : /*% "Pull down to add one" */ qsTrId("timerecord-tasks-pull-down-to-add-one")
         }
 
         VerticalScrollDecorator { }

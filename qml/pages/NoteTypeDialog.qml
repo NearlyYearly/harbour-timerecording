@@ -23,12 +23,13 @@ Dialog {
         width: parent.width
         spacing: Theme.paddingMedium
 
-        DialogHeader { title: dialog.type ? qsTr("Edit day type") : qsTr("Add day type") }
+        DialogHeader { title: dialog.type ? /*% "Edit day type" */ qsTrId("timerecord-note-type-dialog-edit-day-type") : /*% "Add day type" */ qsTrId("timerecord-note-type-dialog-add-day-type") }
 
         TextField {
             id: nameField
             width: parent.width
-            label: qsTr("Name")
+            //% "Name"
+            label: qsTrId("timerecord-note-type-dialog-name")
             placeholderText: label
             text: dialog.type ? dialog.type.name : ""
             EnterKey.iconSource: "image://theme/icon-m-enter-close"
@@ -36,23 +37,32 @@ Dialog {
         }
 
         ComboBox {
-            label: qsTr("Counts towards target")
+            //% "Counts towards target"
+            label: qsTrId("timerecord-note-type-dialog-counts-towards-target")
             currentIndex: Math.max(0, dialog.factors.indexOf(dialog.credit))
-            description: qsTr("A vacation day usually counts as a full day of work, comp time not at all")
+            //% "A vacation day usually counts as a full day of work, comp time not at all"
+            description: qsTrId("timerecord-note-type-dialog-a-vacation-day-usually-counts-as")
             menu: ContextMenu {
-                MenuItem { text: qsTr("Full day"); onClicked: dialog.credit = 1 }
-                MenuItem { text: qsTr("Half day"); onClicked: dialog.credit = 0.5 }
-                MenuItem { text: qsTr("No"); onClicked: dialog.credit = 0 }
+                //% "Full day"
+                MenuItem { text: qsTrId("timerecord-note-type-dialog-full-day"); onClicked: dialog.credit = 1 }
+                //% "Half day"
+                MenuItem { text: qsTrId("timerecord-note-type-dialog-half-day"); onClicked: dialog.credit = 0.5 }
+                //% "No"
+                MenuItem { text: qsTrId("timerecord-note-type-dialog-no"); onClicked: dialog.credit = 0 }
             }
         }
 
         ComboBox {
-            label: qsTr("Uses vacation")
+            //% "Uses vacation"
+            label: qsTrId("timerecord-note-type-dialog-uses-vacation")
             currentIndex: Math.max(0, dialog.factors.indexOf(dialog.holiday))
             menu: ContextMenu {
-                MenuItem { text: qsTr("1 day"); onClicked: dialog.holiday = 1 }
-                MenuItem { text: qsTr("½ day"); onClicked: dialog.holiday = 0.5 }
-                MenuItem { text: qsTr("No"); onClicked: dialog.holiday = 0 }
+                //% "1 day"
+                MenuItem { text: qsTrId("timerecord-note-type-dialog-1-day"); onClicked: dialog.holiday = 1 }
+                //% "½ day"
+                MenuItem { text: qsTrId("timerecord-note-type-dialog-day"); onClicked: dialog.holiday = 0.5 }
+                //% "No"
+                MenuItem { text: qsTrId("timerecord-note-type-dialog-no"); onClicked: dialog.holiday = 0 }
             }
         }
 

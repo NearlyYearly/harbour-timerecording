@@ -50,7 +50,7 @@ Sailfish OS. They need to:
 
 ### Backlog (not now)
 
-- German translation (UI strings are already wrapped in `qsTr()`).
+- German translation (UI strings use `qsTrId`; `translations/` is wired up, D-031).
 - Reminders with the app closed via `Nemo.Alarms` / `timed` (D-014).
 - Timesheet export (CSV/HTML) per week/month (the SPX CSV per month exists, D-028).
 - Harbour submission (needs a C++ launcher binary, D-005).

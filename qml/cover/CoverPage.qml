@@ -48,14 +48,15 @@ CoverBackground {
                 color: cover.running ? Theme.highlightColor : Theme.secondaryColor
             }
             Label {
-                text: cover.running ? qsTr("in since %1").arg(Format.time(cover.running.check_in)) : qsTr("checked out")
+                text: cover.running ? /*% "in since %1" */ qsTrId("timerecord-cover-in-since").arg(Format.time(cover.running.check_in)) : /*% "checked out" */ qsTrId("timerecord-cover-checked-out")
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.highlightColor
             }
         }
         Label {
             width: parent.width
-            text: cover.running ? cover.st.running_task_name : qsTr("next: %1").arg(cover.st.last_task_name || "–")
+            //% "next: %1"
+            text: cover.running ? cover.st.running_task_name : qsTrId("timerecord-cover-next").arg(cover.st.last_task_name || "–")
             font.pixelSize: Theme.fontSizeExtraSmall
             color: Theme.secondaryColor
             truncationMode: TruncationMode.Fade
@@ -84,7 +85,8 @@ CoverBackground {
         Label {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("of %1 · %2").arg(Format.duration(cover.st.today_target_min || 0))
+            //% "of %1 · %2"
+            text: qsTrId("timerecord-cover-of").arg(Format.duration(cover.st.today_target_min || 0))
                                      .arg(Format.signedDuration(cover.st.today_delta_min || 0))
             font.pixelSize: Theme.fontSizeExtraSmall
             color: Theme.secondaryColor
@@ -92,7 +94,8 @@ CoverBackground {
         Label {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("flexitime %1").arg(Format.signedDuration(cover.st.balance_min || 0))
+            //% "flexitime %1"
+            text: qsTrId("timerecord-cover-flexitime").arg(Format.signedDuration(cover.st.balance_min || 0))
             font.pixelSize: Theme.fontSizeExtraSmall
             color: Theme.secondaryColor
         }
@@ -100,7 +103,8 @@ CoverBackground {
             visible: !!cover.st.next_break && !!cover.running
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("break %1").arg(cover.st.next_break)
+            //% "break %1"
+            text: qsTrId("timerecord-cover-break").arg(cover.st.next_break)
             font.pixelSize: Theme.fontSizeExtraSmall
             color: Theme.highlightColor
             truncationMode: TruncationMode.Fade
@@ -112,7 +116,8 @@ CoverBackground {
         CoverAction {
             iconSource: cover.running ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
             onTriggered: backend.mutate("punch", [backend.optId(cover.st.last_task_id)], function(r) {
-                if (r && r.ignored) backend.notice(qsTr("Ignored: you just pressed it."))
+                //% "Ignored: you just pressed it."
+                if (r && r.ignored) backend.notice(qsTrId("timerecord-cover-ignored-you-just-pressed-it"))
             })
         }
         CoverAction {

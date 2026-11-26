@@ -6,7 +6,8 @@ import Sailfish.Silica 1.0
 BackgroundItem {
     id: button
 
-    property string label: qsTr("Color")
+    //% "Color"
+    property string label: qsTrId("timerecord-color-button-color")
     property string value
 
     width: parent ? parent.width : 0

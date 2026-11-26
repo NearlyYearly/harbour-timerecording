@@ -16,12 +16,15 @@ SettingsBase {
             id: column
             width: parent.width
 
-            PageHeader { title: qsTr("Rounding") }
+            //% "Rounding"
+            PageHeader { title: qsTrId("timerecord-rounding-rounding") }
 
             Repeater {
                 model: page.values ? [
-                    { prefix: "round.in", title: qsTr("Check in") },
-                    { prefix: "round.out", title: qsTr("Check out") }
+                    //% "Check in"
+                    { prefix: "round.in", title: qsTrId("timerecord-rounding-check-in") },
+                    //% "Check out"
+                    { prefix: "round.out", title: qsTrId("timerecord-rounding-check-out") }
                 ] : []
 
                 Column {
@@ -31,13 +34,14 @@ SettingsBase {
                     SectionHeader { text: modelData.title }
 
                     ComboBox {
-                        label: qsTr("Round to")
+                        //% "Round to"
+                        label: qsTrId("timerecord-rounding-round-to")
                         currentIndex: Math.max(0, page.steps.indexOf(page.values[prefix + "_step"]))
                         menu: ContextMenu {
                             Repeater {
                                 model: page.steps
                                 MenuItem {
-                                    text: modelData === 0 ? qsTr("Off") : qsTr("%1 minutes").arg(modelData)
+                                    text: modelData === 0 ? /*% "Off" */ qsTrId("timerecord-rounding-off") : /*% "%1 minutes" */ qsTrId("timerecord-rounding-minutes").arg(modelData)
                                     onClicked: page.save(prefix + "_step", modelData)
                                 }
                             }
@@ -46,12 +50,16 @@ SettingsBase {
 
                     ComboBox {
                         visible: page.values[prefix + "_step"] > 1
-                        label: qsTr("Direction")
+                        //% "Direction"
+                        label: qsTrId("timerecord-rounding-direction")
                         currentIndex: Math.max(0, page.directions.indexOf(page.values[prefix + "_dir"]))
                         menu: ContextMenu {
-                            MenuItem { text: qsTr("Nearest"); onClicked: page.save(prefix + "_dir", "nearest") }
-                            MenuItem { text: qsTr("Up"); onClicked: page.save(prefix + "_dir", "up") }
-                            MenuItem { text: qsTr("Down"); onClicked: page.save(prefix + "_dir", "down") }
+                            //% "Nearest"
+                            MenuItem { text: qsTrId("timerecord-rounding-nearest"); onClicked: page.save(prefix + "_dir", "nearest") }
+                            //% "Up"
+                            MenuItem { text: qsTrId("timerecord-rounding-up"); onClicked: page.save(prefix + "_dir", "up") }
+                            //% "Down"
+                            MenuItem { text: qsTrId("timerecord-rounding-down"); onClicked: page.save(prefix + "_dir", "down") }
                         }
                     }
                 }
@@ -63,7 +71,8 @@ SettingsBase {
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryHighlightColor
-                text: qsTr("Applies to the check-in/out button. The exact time is kept with each line.")
+                //% "Applies to the check-in/out button. The exact time is kept with each line."
+                text: qsTrId("timerecord-rounding-applies-to-the-check-in-out")
             }
         }
         VerticalScrollDecorator { }

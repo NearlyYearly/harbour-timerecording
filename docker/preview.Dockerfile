@@ -6,7 +6,7 @@ RUN rm -f /etc/apt/sources.list.d/debian.sources \
  && echo "deb [check-valid-until=no] http://snapshot.debian.org/archive/debian/${SNAPSHOT} bookworm main" > /etc/apt/sources.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
-      qmlscene qml-module-qtquick2 qml-module-qtquick-window2 qml-module-io-thp-pyotherside qml-module-qttest qtdeclarative5-dev-tools \
+      qmlscene qml-module-qtquick2 qml-module-qtquick-window2 qml-module-io-thp-pyotherside qml-module-qttest qtdeclarative5-dev-tools qttools5-dev-tools \
       qtwayland5 libqt5svg5 python3 fonts-dejavu-core librsvg2-bin \
  && rm -rf /var/lib/apt/lists/*
 COPY preview/run.sh /usr/local/bin/preview-run

@@ -37,7 +37,7 @@ dependency names (D-001).
 ## Tests
 
 ```sh
-docker compose run --rm test      # pytest: logic, API, token rule (Python 3.8)
+docker compose run --rm test      # pytest: logic, API, token/Qt 5.6/translation rules (Python 3.8)
 docker compose run --rm qmltest   # QML tests for the preview stand-ins (gestures)
 docker compose run --rm smoke     # headless run over every page → preview/shots/*.png
 ```
@@ -46,6 +46,11 @@ The smoke run fills sample data, opens every page, checks the double-tap guard, 
 and a notification tap, and logs any QML warning. A clean run prints only `SMOKE …` lines.
 `preview/check-smoke.sh` checks a saved log (`docker compose run --rm smoke > smoke.log 2>&1`)
 and fails on anything else, or when the run did not finish.
+
+Texts are id-based (`qsTrId` + `//%`, D-031). `docker compose run --rm i18n` runs `lupdate`
+over `qml/` into `translations/*.ts`; the test suite fails while the committed catalogue is
+out of date. The preview and the RPM compile it with `lrelease -idbased` (without
+`-nounfinished`, so untranslated entries keep their English text).
 
 ## GitHub Actions and releases
 

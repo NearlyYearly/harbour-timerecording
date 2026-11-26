@@ -24,10 +24,12 @@ SettingsBase {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Export backup now")
+                //% "Export backup now"
+                text: qsTrId("timerecord-backup-export-backup-now")
                 onClicked: backend.run("export_backup", [], function(path) {
                     if (!page) return
-                    page.message = qsTr("Saved %1").arg(path)
+                    //% "Saved %1"
+                    page.message = qsTrId("timerecord-backup-saved").arg(path)
                     page.loadBackups()
                 })
             }
@@ -36,7 +38,8 @@ SettingsBase {
         header: Column {
             width: list.width
 
-            PageHeader { title: qsTr("Backup & general") }
+            //% "Backup & general"
+            PageHeader { title: qsTrId("timerecord-backup-backup-general") }
 
             Label {
                 visible: page.message.length > 0
@@ -50,7 +53,8 @@ SettingsBase {
 
             NumberField {
                 width: parent.width
-                label: qsTr("Automatic backup every (days, 0 = off)")
+                //% "Automatic backup every (days, 0 = off)"
+                label: qsTrId("timerecord-backup-automatic-backup-every-days-0-off")
                 value: page.values ? page.values["backup.auto_days"] : 0
                 maximum: 365
                 onCommitted: page.save("backup.auto_days", value)
@@ -58,7 +62,8 @@ SettingsBase {
 
             NumberField {
                 width: parent.width
-                label: qsTr("Automatic backups to keep")
+                //% "Automatic backups to keep"
+                label: qsTrId("timerecord-backup-automatic-backups-to-keep")
                 value: page.values ? page.values["backup.keep"] : 1
                 minimum: 1
                 maximum: 1000
@@ -67,7 +72,8 @@ SettingsBase {
 
             NumberField {
                 width: parent.width
-                label: qsTr("Ignore repeated check-in/out within (seconds)")
+                //% "Ignore repeated check-in/out within (seconds)"
+                label: qsTrId("timerecord-backup-ignore-repeated-check-in-out-within")
                 value: page.values ? page.values["punch.debounce_sec"] : 0
                 maximum: 600
                 onCommitted: page.save("punch.debounce_sec", value)
@@ -75,14 +81,16 @@ SettingsBase {
 
             NumberField {
                 width: parent.width
-                label: qsTr("Undo steps")
+                //% "Undo steps"
+                label: qsTrId("timerecord-backup-undo-steps")
                 value: page.values ? page.values["undo.depth"] : 1
                 minimum: 1
                 maximum: 1000
                 onCommitted: page.save("undo.depth", value)
             }
 
-            SectionHeader { text: qsTr("Backups in Documents") }
+            //% "Backups in Documents"
+            SectionHeader { text: qsTrId("timerecord-backup-backups-in-documents") }
         }
 
         delegate: ListItem {
@@ -90,13 +98,16 @@ SettingsBase {
             contentHeight: Theme.itemSizeSmall
             menu: ContextMenu {
                 MenuItem {
-                    text: qsTr("Restore")
+                    //% "Restore"
+                    text: qsTrId("timerecord-backup-restore")
                     onClicked: {
                         var path = modelData.path
-                        remorse.execute(qsTr("Replacing all data"), function() {
+                        //% "Replacing all data"
+                        remorse.execute(qsTrId("timerecord-backup-replacing-all-data"), function() {
                             backend.mutate("restore_backup", [path], function(count) {
                                 if (!page) return
-                                page.message = qsTr("Restored %1 records. The previous data was saved first.").arg(count)
+                                //% "Restored %1 records. The previous data was saved first."
+                                page.message = qsTrId("timerecord-backup-restored-records-the-previous-data-was").arg(count)
                                 page.loadBackups()
                             })
                         })
@@ -124,8 +135,10 @@ SettingsBase {
 
         ViewPlaceholder {
             enabled: list.count === 0
-            text: qsTr("No backups yet")
-            hintText: qsTr("Pull down to export one")
+            //% "No backups yet"
+            text: qsTrId("timerecord-backup-no-backups-yet")
+            //% "Pull down to export one"
+            hintText: qsTrId("timerecord-backup-pull-down-to-export-one")
         }
 
         VerticalScrollDecorator { }

@@ -33,7 +33,8 @@ Item {
     Component {
         id: notification
         Notification {
-            appName: qsTr("Time Recording")
+            //% "Time Recording"
+            appName: qsTrId("timerecord-reminders-time-recording")
             appIcon: "harbour-timerecord"
         }
     }

@@ -16,11 +16,13 @@ Dialog {
     Column {
         width: parent.width
 
-        DialogHeader { title: qsTr("Break rule") }
+        //% "Break rule"
+        DialogHeader { title: qsTrId("timerecord-break-rule-dialog-break-rule") }
 
         TextField {
             width: parent.width
-            label: qsTr("When more than (worked, h:mm)")
+            //% "When more than (worked, h:mm)"
+            label: qsTrId("timerecord-break-rule-dialog-when-more-than-worked-h-mm")
             placeholderText: label
             text: Format.duration(dialog.afterMin)
             inputMethodHints: Qt.ImhPreferNumbers | Qt.ImhNoPredictiveText
@@ -35,7 +37,8 @@ Dialog {
         TextField {
             id: breakField
             width: parent.width
-            label: qsTr("Break of at least (minutes, in total)")
+            //% "Break of at least (minutes, in total)"
+            label: qsTrId("timerecord-break-rule-dialog-break-of-at-least-minutes-in")
             placeholderText: label
             text: String(dialog.breakMin)
             inputMethodHints: Qt.ImhDigitsOnly
@@ -46,8 +49,10 @@ Dialog {
         }
 
         TextSwitch {
-            text: qsTr("At an exact time")
-            description: qsTr("Put this rule's break at a fixed time of day instead of the general placement")
+            //% "At an exact time"
+            text: qsTrId("timerecord-break-rule-dialog-at-an-exact-time")
+            //% "Put this rule's break at a fixed time of day instead of the general placement"
+            description: qsTrId("timerecord-break-rule-dialog-put-this-rule-s-break-at")
             checked: dialog.useTime
             onClicked: {
                 dialog.useTime = checked
@@ -57,7 +62,8 @@ Dialog {
 
         ValueButton {
             visible: dialog.useTime
-            label: qsTr("Break starts at")
+            //% "Break starts at"
+            label: qsTrId("timerecord-break-rule-dialog-break-starts-at")
             value: dialog.at
             onClicked: {
                 var parts = (dialog.at || "12:00").split(":")

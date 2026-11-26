@@ -17,10 +17,12 @@ Page {
     SilicaListView {
         id: list
         anchors.fill: parent
-        model: [{ id: null, name: qsTr("None"), color: "", credit_factor: 0, holiday_days: 0 }].concat(page.types)
+        //% "None"
+        model: [{ id: null, name: qsTrId("timerecord-day-type-none"), color: "", credit_factor: 0, holiday_days: 0 }].concat(page.types)
 
         header: PageHeader {
-            title: qsTr("Day type")
+            //% "Day type"
+            title: qsTrId("timerecord-day-type-day-type")
             description: Format.parseDate(page.date).toLocaleDateString(Qt.locale(), "ddd d MMM yyyy")
         }
 
@@ -61,8 +63,10 @@ Page {
                     truncationMode: TruncationMode.Fade
                     text: {
                         var parts = []
-                        if (modelData.credit_factor > 0) parts.push(qsTr("credits %1% of the target").arg(Math.round(modelData.credit_factor * 100)))
-                        if (modelData.holiday_days > 0) parts.push(qsTr("uses %1 vacation days").arg(modelData.holiday_days))
+                        //% "credits %1% of the target"
+                        if (modelData.credit_factor > 0) parts.push(qsTrId("timerecord-day-type-credits-of-the-target").arg(Math.round(modelData.credit_factor * 100)))
+                        //% "uses %1 vacation days"
+                        if (modelData.holiday_days > 0) parts.push(qsTrId("timerecord-day-type-uses-vacation-days").arg(modelData.holiday_days))
                         return parts.join(" · ")
                     }
                 }

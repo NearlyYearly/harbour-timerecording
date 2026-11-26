@@ -22,7 +22,8 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Refresh")
+                //% "Refresh"
+                text: qsTrId("timerecord-import-refresh")
                 onClicked: page.load()
             }
         }
@@ -30,7 +31,8 @@ Page {
         header: Column {
             width: list.width
 
-            PageHeader { title: qsTr("Import from Android") }
+            //% "Import from Android"
+            PageHeader { title: qsTrId("timerecord-import-import-from-android") }
 
             Label {
                 x: Theme.horizontalPageMargin
@@ -38,10 +40,12 @@ Page {
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.secondaryHighlightColor
-                text: qsTr("In Time Recording on Android, make a backup and copy the file (timerec.db.gz) to Documents on this phone.")
+                //% "In Time Recording on Android, make a backup and copy the file (timerec.db.gz) to Documents on this phone."
+                text: qsTrId("timerecord-import-in-time-recording-on-android-make")
             }
 
-            SectionHeader { text: qsTr("Backups in Documents") }
+            //% "Backups in Documents"
+            SectionHeader { text: qsTrId("timerecord-import-backups-in-documents") }
         }
 
         delegate: BackgroundItem {
@@ -69,8 +73,10 @@ Page {
 
         ViewPlaceholder {
             enabled: page.loaded && list.count === 0
-            text: qsTr("No backup found")
-            hintText: qsTr("Copy timerec.db.gz to Documents, then pull down to refresh")
+            //% "No backup found"
+            text: qsTrId("timerecord-import-no-backup-found")
+            //% "Copy timerec.db.gz to Documents, then pull down to refresh"
+            hintText: qsTrId("timerecord-import-copy-timerec-db-gz-to-documents")
         }
 
         VerticalScrollDecorator { }

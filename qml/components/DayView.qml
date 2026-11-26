@@ -66,8 +66,10 @@ SilicaListView {
     // The popup belongs to the page, so a reload of the rows does not cancel the delete.
     function deleteLine(line) {
         var id = line.id
-        page.remorse.execute(qsTr("Deleting %1 – %2").arg(Format.time(line.check_in))
-                             .arg(line.running ? qsTr("now") : Format.time(line.check_out)),
+        //% "Deleting %1 – %2"
+        page.remorse.execute(qsTrId("timerecord-day-view-deleting").arg(Format.time(line.check_in))
+                             //% "now"
+                             .arg(line.running ? qsTrId("timerecord-day-view-now") : Format.time(line.check_out)),
                              function() { backend.mutate("delete_stamp", [id]) })
     }
 
@@ -83,42 +85,47 @@ SilicaListView {
 
     PullDownMenu {
         MenuItem {
-            text: qsTr("Settings")
+            //% "Settings"
+            text: qsTrId("timerecord-day-view-settings")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/SettingsPage.qml"))
         }
         MenuItem {
-            text: qsTr("Templates")
+            //% "Templates"
+            text: qsTrId("timerecord-day-view-templates")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/TemplatesPage.qml"),
                                       { date: view.date, canSave: !!view.day && view.day.lines.filter(function(l) { return l.kind !== "auto_break" && !l.running }).length > 0 })
         }
         MenuItem {
             text: view.day && view.day.note && view.day.note.type_name
-                  ? qsTr("Day type: %1").arg(view.day.note.type_name) : qsTr("Set day type")
+                  ? /*% "Day type: %1" */ qsTrId("timerecord-day-view-day-type").arg(view.day.note.type_name) : /*% "Set day type" */ qsTrId("timerecord-day-view-set-day-type")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/DayTypePage.qml"),
                                       { date: view.date, note: view.day ? view.day.note : null })
         }
         MenuItem {
-            text: view.day && view.day.note ? qsTr("Edit day note") : qsTr("Add day note")
+            text: view.day && view.day.note ? /*% "Edit day note" */ qsTrId("timerecord-day-view-edit-day-note") : /*% "Add day note" */ qsTrId("timerecord-day-view-add-day-note")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/DayNoteDialog.qml"),
                                       { date: view.date, note: view.day ? view.day.note : null })
         }
         MenuItem {
-            text: qsTr("Add line")
+            //% "Add line"
+            text: qsTrId("timerecord-day-view-add-line")
             onClicked: view.editLine(null)
         }
         MenuItem {
             visible: view.isToday
-            text: backend.status.running ? qsTr("Check out at…") : qsTr("Check in at…")
+            text: backend.status.running ? /*% "Check out at…" */ qsTrId("timerecord-day-view-check-out-at") : /*% "Check in at…" */ qsTrId("timerecord-day-view-check-in-at")
             onClicked: view.punchAt()
         }
         MenuItem {
             visible: !view.isToday
-            text: qsTr("Go to today")
+            //% "Go to today"
+            text: qsTrId("timerecord-day-view-go-to-today")
             onClicked: view.page.goTo(backend.status.today)
         }
         MenuItem {
             visible: view.undoState.redo !== ""
-            text: qsTr("Redo: %1").arg(view.undoState.redo)
+            //% "Redo: %1"
+            text: qsTrId("timerecord-day-view-redo").arg(view.undoState.redo)
             onClicked: backend.mutate("redo")
         }
     }
@@ -126,19 +133,23 @@ SilicaListView {
     // Less frequent pages; the pulley keeps the actions for this day.
     PushUpMenu {
         MenuItem {
-            text: qsTr("Edit several days")
+            //% "Edit several days"
+            text: qsTrId("timerecord-day-view-edit-several-days")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/DaysPage.qml"), { date: view.date })
         }
         MenuItem {
-            text: qsTr("Vacation")
+            //% "Vacation"
+            text: qsTrId("timerecord-day-view-vacation")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/VacationPage.qml"))
         }
         MenuItem {
-            text: qsTr("Flexitime")
+            //% "Flexitime"
+            text: qsTrId("timerecord-day-view-flexitime")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/BalancePage.qml"))
         }
         MenuItem {
-            text: qsTr("SPX export")
+            //% "SPX export"
+            text: qsTrId("timerecord-day-view-spx-export")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/SpxExportPage.qml"), { date: view.date })
         }
     }
@@ -157,7 +168,7 @@ SilicaListView {
             PageHeader {
                 id: pageHeader
                 title: Format.parseDate(view.date).toLocaleDateString(Qt.locale(), "ddd d MMM yyyy")
-                description: view.isToday ? qsTr("Today") : qsTr("Tap for calendar · swipe for days")
+                description: view.isToday ? /*% "Today" */ qsTrId("timerecord-day-view-today") : /*% "Tap for calendar · swipe for days" */ qsTrId("timerecord-day-view-tap-for-calendar-swipe-for-days")
             }
         }
 
@@ -205,25 +216,30 @@ SilicaListView {
             readonly property real cell: width / 4
             SummaryCell {
                 width: parent.cell
-                label: qsTr("worked")
+                //% "worked"
+                label: qsTrId("timerecord-day-view-worked")
                 value: view.day ? Format.duration(view.day.net_min) : ""
             }
             SummaryCell {
                 width: parent.cell
-                label: qsTr("breaks")
+                //% "breaks"
+                label: qsTrId("timerecord-day-view-breaks")
                 value: view.day ? Format.duration(view.day.manual_break_min + view.day.gap_min + view.day.auto_break_min) : ""
                 valueColor: Theme.secondaryHighlightColor
             }
             SummaryCell {
                 width: parent.cell
-                label: view.day && view.day.credit_min ? qsTr("target (credit %1)").arg(Format.duration(view.day.credit_min))
-                                                       : qsTr("target")
+                //% "target (credit %1)"
+                label: view.day && view.day.credit_min ? qsTrId("timerecord-day-view-target-credit").arg(Format.duration(view.day.credit_min))
+                                                       //% "target"
+                                                       : qsTrId("timerecord-day-view-target")
                 value: view.day ? Format.duration(view.day.target_min) : ""
                 valueColor: Theme.secondaryHighlightColor
             }
             SummaryCell {
                 width: parent.cell
-                label: qsTr("day ±")
+                //% "day ±"
+                label: qsTrId("timerecord-day-view-day")
                 value: view.day ? Format.signedDuration(view.day.delta_min) : ""
                 valueColor: !view.day || view.day.delta_min >= 0 ? Theme.highlightColor : Theme.errorColor
             }
@@ -236,11 +252,13 @@ SilicaListView {
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.secondaryHighlightColor
-            text: view.day ? qsTr("Flexitime balance %1").arg(Format.signedDuration(view.day.balance_min)) : ""
+            //% "Flexitime balance %1"
+            text: view.day ? qsTrId("timerecord-day-view-flexitime-balance").arg(Format.signedDuration(view.day.balance_min)) : ""
         }
 
         SectionHeader {
-            text: qsTr("Times")
+            //% "Times"
+            text: qsTrId("timerecord-day-view-times")
             visible: view.count > 0
         }
     }
@@ -257,8 +275,10 @@ SilicaListView {
 
     ViewPlaceholder {
         enabled: !!view.day && view.count === 0 && !view.isToday
-        text: qsTr("No times")
-        hintText: qsTr("Pull down to add a line")
+        //% "No times"
+        text: qsTrId("timerecord-day-view-no-times")
+        //% "Pull down to add a line"
+        hintText: qsTrId("timerecord-day-view-pull-down-to-add-a-line")
     }
 
     VerticalScrollDecorator { }

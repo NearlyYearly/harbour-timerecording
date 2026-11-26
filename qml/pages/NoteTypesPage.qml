@@ -26,16 +26,18 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: page.showArchived ? qsTr("Hide archived") : qsTr("Show archived")
+                text: page.showArchived ? /*% "Hide archived" */ qsTrId("timerecord-note-types-hide-archived") : /*% "Show archived" */ qsTrId("timerecord-note-types-show-archived")
                 onClicked: page.showArchived = !page.showArchived
             }
             MenuItem {
-                text: qsTr("Add day type")
+                //% "Add day type"
+                text: qsTrId("timerecord-note-types-add-day-type")
                 onClicked: pageStack.push(Qt.resolvedUrl("NoteTypeDialog.qml"))
             }
         }
 
-        header: PageHeader { title: qsTr("Day types") }
+        //% "Day types"
+        header: PageHeader { title: qsTrId("timerecord-note-types-day-types") }
 
         delegate: ListItem {
             id: item
@@ -44,7 +46,7 @@ Page {
             onClicked: pageStack.push(Qt.resolvedUrl("NoteTypeDialog.qml"), { type: modelData })
             menu: ContextMenu {
                 MenuItem {
-                    text: modelData.archived ? qsTr("Restore") : qsTr("Archive")
+                    text: modelData.archived ? /*% "Restore" */ qsTrId("timerecord-note-types-restore") : /*% "Archive" */ qsTrId("timerecord-note-types-archive")
                     onClicked: backend.mutate("update_note_type", [modelData.id, { archived: modelData.archived ? 0 : 1 }])
                 }
             }
@@ -73,14 +75,15 @@ Page {
                     width: parent.width
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                    text: qsTr("target credit %1% · vacation days %2").arg(Math.round(modelData.credit_factor * 100)).arg(modelData.holiday_days)
+                    //% "target credit %1% · vacation days %2"
+                    text: qsTrId("timerecord-note-types-target-credit-vacation-days").arg(Math.round(modelData.credit_factor * 100)).arg(modelData.holiday_days)
                 }
             }
         }
         ViewPlaceholder {
             enabled: page.loaded && list.count === 0
-            text: page.types.length > 0 ? qsTr("All day types are archived") : qsTr("No day types")
-            hintText: page.types.length > 0 ? qsTr("Pull down to show them") : qsTr("Pull down to add one")
+            text: page.types.length > 0 ? /*% "All day types are archived" */ qsTrId("timerecord-note-types-all-day-types-are-archived") : /*% "No day types" */ qsTrId("timerecord-note-types-no-day-types")
+            hintText: page.types.length > 0 ? /*% "Pull down to show them" */ qsTrId("timerecord-note-types-pull-down-to-show-them") : /*% "Pull down to add one" */ qsTrId("timerecord-note-types-pull-down-to-add-one")
         }
         VerticalScrollDecorator { }
     }

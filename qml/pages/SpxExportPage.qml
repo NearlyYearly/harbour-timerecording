@@ -48,7 +48,8 @@ SettingsBase {
     function exportCsv() {
         var last = page.severalMonths ? page.lastMonth : page.firstMonth
         backend.run("export_spx", [page.firstMonth, last], function(result) {
-            if (page) page.message = qsTr("Saved %n line(s) to %1", "", result.rows).arg(result.path)
+            //% "Saved %n line(s) to %1"
+            if (page) page.message = qsTrId("timerecord-spx-export-saved-line-s-to", result.rows).arg(result.path)
         })
     }
 
@@ -60,7 +61,8 @@ SettingsBase {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Export CSV")
+                //% "Export CSV"
+                text: qsTrId("timerecord-spx-export-export-csv")
                 onClicked: page.exportCsv()
             }
         }
@@ -69,7 +71,8 @@ SettingsBase {
             id: column
             width: parent.width
 
-            PageHeader { title: qsTr("SPX export") }
+            //% "SPX export"
+            PageHeader { title: qsTrId("timerecord-spx-export-spx-export") }
 
             Label {
                 visible: page.message.length > 0
@@ -82,7 +85,7 @@ SettingsBase {
             }
 
             ValueButton {
-                label: page.severalMonths ? qsTr("From month") : qsTr("Month")
+                label: page.severalMonths ? /*% "From month" */ qsTrId("timerecord-spx-export-from-month") : /*% "Month" */ qsTrId("timerecord-spx-export-month")
                 value: page.monthName(page.firstMonth)
                 onClicked: page.pickMonth(page.firstMonth, function(m) {
                     page.firstMonth = m
@@ -91,14 +94,16 @@ SettingsBase {
             }
 
             TextSwitch {
-                text: qsTr("Several months")
+                //% "Several months"
+                text: qsTrId("timerecord-spx-export-several-months")
                 checked: page.severalMonths
                 onClicked: page.severalMonths = checked
             }
 
             ValueButton {
                 visible: page.severalMonths
-                label: qsTr("Through month")
+                //% "Through month"
+                label: qsTrId("timerecord-spx-export-through-month")
                 value: page.monthName(page.lastMonth)
                 onClicked: page.pickMonth(page.lastMonth, function(m) {
                     page.lastMonth = m
@@ -112,15 +117,19 @@ SettingsBase {
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryHighlightColor
-                text: qsTr("One line per interval, saved in Documents. Work lines are cut around breaks; days still checked in are left out.")
+                //% "One line per interval, saved in Documents. Work lines are cut around breaks; days still checked in are left out."
+                text: qsTrId("timerecord-spx-export-one-line-per-interval-saved-in")
             }
 
-            SectionHeader { text: qsTr("SPX types") }
+            //% "SPX types"
+            SectionHeader { text: qsTrId("timerecord-spx-export-spx-types") }
 
             Repeater {
                 model: page.values ? [
-                    { key: "export.spx_work_type", label: qsTr("Work") },
-                    { key: "export.spx_break_type", label: qsTr("Breaks") }
+                    //% "Work"
+                    { key: "export.spx_work_type", label: qsTrId("timerecord-spx-export-work") },
+                    //% "Breaks"
+                    { key: "export.spx_break_type", label: qsTrId("timerecord-spx-export-breaks") }
                 ] : []
                 TextSettingField {
                     label: modelData.label
@@ -134,30 +143,39 @@ SettingsBase {
             Repeater {
                 model: page.values ? page.tasks : []
                 TextSettingField {
-                    label: qsTr("Task: %1").arg(modelData.name)
+                    //% "Task: %1"
+                    label: qsTrId("timerecord-spx-export-task").arg(modelData.name)
                     // Silica shows the label only with text, so the empty field names the task.
-                    placeholderText: qsTr("%1: %2").arg(modelData.name).arg(page.values["export.spx_work_type"])
+                    //% "%1: %2"
+                    placeholderText: qsTrId("timerecord-spx-export-text").arg(modelData.name).arg(page.values["export.spx_work_type"])
                     value: page.values["export.spx_task_types"][String(modelData.id)] || ""
                     onCommitted: page.saveTaskType(modelData.id, entered)
                 }
             }
 
-            SectionHeader { text: qsTr("Business trip") }
+            //% "Business trip"
+            SectionHeader { text: qsTrId("timerecord-spx-export-business-trip") }
 
             TextSettingField {
                 visible: !!page.values
-                label: qsTr("Day type or note")
-                placeholderText: qsTr("Day type or note (empty = off)")
+                //% "Day type or note"
+                label: qsTrId("timerecord-spx-export-day-type-or-note")
+                //% "Day type or note (empty = off)"
+                placeholderText: qsTrId("timerecord-spx-export-day-type-or-note-empty-off")
                 value: page.values ? page.values["export.spx_trip_note"] : ""
                 onCommitted: page.save("export.spx_trip_note", entered)
             }
 
             Repeater {
                 model: page.values && page.values["export.spx_trip_note"] ? [
-                    { key: "export.spx_trip_start", label: qsTr("Work from") },
-                    { key: "export.spx_trip_break_start", label: qsTr("Break from") },
-                    { key: "export.spx_trip_break_end", label: qsTr("Break until") },
-                    { key: "export.spx_trip_end", label: qsTr("Work until") }
+                    //% "Work from"
+                    { key: "export.spx_trip_start", label: qsTrId("timerecord-spx-export-work-from") },
+                    //% "Break from"
+                    { key: "export.spx_trip_break_start", label: qsTrId("timerecord-spx-export-break-from") },
+                    //% "Break until"
+                    { key: "export.spx_trip_break_end", label: qsTrId("timerecord-spx-export-break-until") },
+                    //% "Work until"
+                    { key: "export.spx_trip_end", label: qsTrId("timerecord-spx-export-work-until") }
                 ] : []
                 ValueButton {
                     label: modelData.label
@@ -172,22 +190,27 @@ SettingsBase {
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryHighlightColor
-                text: qsTr("Replaces the day's work and breaks. Lines of a task with its own type stay.")
+                //% "Replaces the day's work and breaks. Lines of a task with its own type stay."
+                text: qsTrId("timerecord-spx-export-replaces-the-day-s-work-and")
             }
 
-            SectionHeader { text: qsTr("On-call standby") }
+            //% "On-call standby"
+            SectionHeader { text: qsTrId("timerecord-spx-export-on-call-standby") }
 
             TextSettingField {
                 visible: !!page.values
-                label: qsTr("Day type or note")
-                placeholderText: qsTr("Day type or note (empty = off)")
+                //% "Day type or note"
+                label: qsTrId("timerecord-spx-export-day-type-or-note")
+                //% "Day type or note (empty = off)"
+                placeholderText: qsTrId("timerecord-spx-export-day-type-or-note-empty-off")
                 value: page.values ? page.values["export.spx_oncall_note"] : ""
                 onCommitted: page.save("export.spx_oncall_note", entered)
             }
 
             TextSettingField {
                 visible: !!page.values && !!page.values["export.spx_oncall_note"]
-                label: qsTr("SPX type")
+                //% "SPX type"
+                label: qsTrId("timerecord-spx-export-spx-type")
                 value: page.values ? page.values["export.spx_oncall_type"] : ""
                 required: true
                 onCommitted: page.save("export.spx_oncall_type", entered)
@@ -195,7 +218,8 @@ SettingsBase {
 
             ValueButton {
                 visible: !!page.values && !!page.values["export.spx_oncall_note"]
-                label: qsTr("Handover")
+                //% "Handover"
+                label: qsTrId("timerecord-spx-export-handover")
                 value: page.values ? page.values["export.spx_oncall_handover"] : ""
                 onClicked: page.pickTime("export.spx_oncall_handover")
             }
@@ -206,7 +230,8 @@ SettingsBase {
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryHighlightColor
-                text: qsTr("Mon–Fri from the day's last work to the next day's first work, Sat and Sun from handover to handover. A day without work starts or ends at handover.")
+                //% "Mon–Fri from the day's last work to the next day's first work, Sat and Sun from handover to handover. A day without work starts or ends at handover."
+                text: qsTrId("timerecord-spx-export-mon-fri-from-the-day-s")
             }
         }
         VerticalScrollDecorator { }

@@ -66,13 +66,14 @@ Dialog {
             id: column
             width: parent.width
 
-            DialogHeader { title: dialog.entry && dialog.entry.own_entry ? qsTr("Vacation %1").arg(dialog.entry.year) : qsTr("Add year") }
+            DialogHeader { title: dialog.entry && dialog.entry.own_entry ? /*% "Vacation %1" */ qsTrId("timerecord-vacation-year-dialog-vacation").arg(dialog.entry.year) : /*% "Add year" */ qsTrId("timerecord-vacation-year-dialog-add-year") }
 
             TextField {
                 id: yearField
                 width: parent.width
                 readOnly: !!dialog.entry
-                label: qsTr("Year")
+                //% "Year"
+                label: qsTrId("timerecord-vacation-year-dialog-year")
                 placeholderText: label
                 inputMethodHints: Qt.ImhDigitsOnly
                 validator: IntValidator { bottom: 1900; top: 2200 }
@@ -83,7 +84,8 @@ Dialog {
             TextField {
                 id: daysField
                 width: parent.width
-                label: qsTr("Vacation days")
+                //% "Vacation days"
+                label: qsTrId("timerecord-vacation-year-dialog-vacation-days")
                 placeholderText: label
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: DoubleValidator { bottom: 0; top: 366; decimals: 1; notation: DoubleValidator.StandardNotation }
@@ -94,11 +96,13 @@ Dialog {
             TextField {
                 id: carryField
                 width: parent.width
-                label: qsTr("Carried over (may be negative)")
+                //% "Carried over (may be negative)"
+                label: qsTrId("timerecord-vacation-year-dialog-carried-over-may-be-negative")
                 placeholderText: label
                 description: {
                     var previous = dialog.find(dialog.year - 1)
-                    return previous ? qsTr("%1 days were left at the end of %2").arg(Math.round(previous.remaining * 10) / 10).arg(previous.year) : ""
+                    //% "%1 days were left at the end of %2"
+                    return previous ? qsTrId("timerecord-vacation-year-dialog-days-were-left-at-the-end").arg(Math.round(previous.remaining * 10) / 10).arg(previous.year) : ""
                 }
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: DoubleValidator { bottom: -366; top: 366; decimals: 1; notation: DoubleValidator.StandardNotation }
@@ -108,7 +112,7 @@ Dialog {
             }
 
             SectionHeader {
-                text: dialog.days.length > 0 ? qsTr("Taken and planned") : qsTr("No vacation days recorded")
+                text: dialog.days.length > 0 ? /*% "Taken and planned" */ qsTrId("timerecord-vacation-year-dialog-taken-and-planned") : /*% "No vacation days recorded" */ qsTrId("timerecord-vacation-year-dialog-no-vacation-days-recorded")
             }
 
             Repeater {

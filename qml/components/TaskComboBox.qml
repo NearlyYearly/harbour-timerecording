@@ -12,7 +12,8 @@ ComboBox {
 
     signal picked(var value)
 
-    readonly property var entries: allowNone ? [{ id: null, name: qsTr("No task"), color: "" }].concat(tasks || [])
+    //% "No task"
+    readonly property var entries: allowNone ? [{ id: null, name: qsTrId("timerecord-task-combo-box-no-task"), color: "" }].concat(tasks || [])
                                              : (tasks || [])
 
     // Only select once the menu items exist; Silica rejects an index it has no item for.
@@ -24,7 +25,8 @@ ComboBox {
         currentIndex = entries.length > 0 ? 0 : -1
     }
 
-    label: qsTr("Task")
+    //% "Task"
+    label: qsTrId("timerecord-task-combo-box-task")
     onTaskIdChanged: sync()
 
     menu: ContextMenu {

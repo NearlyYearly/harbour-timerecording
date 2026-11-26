@@ -337,6 +337,24 @@ Template:
 - **Consequences:** Commit hashes and the `v0.8.3` tag changed with the rewrite. Grading
   takes a moment per commit; a self-graded label says `retrieval=self-claimed`.
 
+### D-031 — Id-based translations (qsTrId)
+- **Date:** 2026-11-26 · **Status:** Accepted
+- **Context:** Texts used `qsTr()` and no catalogue was built or shipped, so nothing could be
+  translated without first wiring up the tools. sailfish-rag's `SailfishOS/AGENTS.md` and
+  Jolla's own apps use id-based texts: `qsTrId()` with the English in a `//%` comment.
+- **Decision:** Every UI text is `qsTrId("timerecord-<file>-<words>")` with a `//%` (or
+  inline `/*% */`) source. `translations/harbour-timerecord.ts` is the English catalogue,
+  generated with `docker compose run --rm i18n` (`lupdate -noobsolete qml`) and committed;
+  more languages are `harbour-timerecord-<lang>.ts` beside it. The spec compiles them with
+  `lrelease -idbased` (BuildRequires `qt5-qttools-linguist`, present in the target) into
+  `/usr/share/harbour-timerecord/translations/`. The preview image gains
+  `qttools5-dev-tools` (same Debian snapshot) for `lupdate`/`lrelease`, and runs
+  `qmlscene -translation`. `tests/test_translations.py` fails on a plain `qsTr`, a call
+  without source text, or a stale catalogue.
+- **Consequences:** The QML is more verbose (a `//%` line per text). Without the `.qm` the
+  app shows ids, so the catalogue must be compiled without `-nounfinished`. Texts built in
+  Python (reminders, errors, undo names) still need to move to QML to be translatable.
+
 ## Open questions
 
 | # | Question | When |

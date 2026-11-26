@@ -78,22 +78,26 @@ Page {
 
         ToolbarButton {
             width: parent.width / 3
-            text: qsTr("Week")
+            //% "Week"
+            text: qsTrId("timerecord-day-week")
             onClicked: pageStack.push(Qt.resolvedUrl("WeekPage.qml"), { date: dayPage.currentDate, dayPage: dayPage })
         }
         ToolbarButton {
             width: parent.width / 3
-            text: qsTr("Month")
+            //% "Month"
+            text: qsTrId("timerecord-day-month")
             onClicked: pageStack.push(Qt.resolvedUrl("MonthPage.qml"), { date: dayPage.currentDate, dayPage: dayPage })
         }
         ToolbarButton {
             width: parent.width / 3
-            text: qsTr("Undo")
+            //% "Undo"
+            text: qsTrId("timerecord-day-undo")
             hint: toolbar.undoState.undo
             enabled: toolbar.undoState.undo !== ""
             onClicked: {
                 var label = toolbar.undoState.undo
-                backend.mutate("undo", [], function() { backend.notice(qsTr("Undone: %1").arg(label)) })
+                //% "Undone: %1"
+                backend.mutate("undo", [], function() { backend.notice(qsTrId("timerecord-day-undone").arg(label)) })
             }
         }
     }

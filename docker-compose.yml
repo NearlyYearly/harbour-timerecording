@@ -63,6 +63,17 @@ services:
     entrypoint: ["/usr/lib/qt5/bin/qmltestrunner", "-import", "/src/preview/shim", "-input", "/src/preview/tests"]
 
   # Render the launcher icons from icons/harbour-timerecord.svg.
+  # Update translations/*.ts from the qsTrId calls and //% texts in qml/ (commit the result).
+  i18n:
+    build:
+      context: .
+      dockerfile: docker/preview.Dockerfile
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - .:/src
+    working_dir: /src
+    entrypoint: ["sh", "-c", "for ts in translations/*.ts; do /usr/lib/qt5/bin/lupdate -noobsolete qml -ts $$ts; done"]
+
   icons:
     build:
       context: .

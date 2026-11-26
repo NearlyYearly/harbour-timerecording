@@ -35,7 +35,10 @@ unless a decision in `docs/DECISIONS.md` says otherwise.
    - Prefer Silica components (`Notices`, `ColorPickerDialog`, `ValueButton`, …) over custom ones.
    - Exception: task and day-type colors are user data (stored in the database), not UI style.
    - Enforced by `tests/test_qml_tokens.py`; the preview stand-ins in `preview/shim` are exempt.
-6. **All user-visible text is translatable** via `qsTr()`.
+6. **All user-visible text is translatable** via `qsTrId("timerecord-<file>-<words>")` with
+   its English text in a `//% "…"` line before it (or `/*% "…" */` inline when a line has
+   several). After changing texts run `docker compose run --rm i18n` and commit
+   `translations/*.ts` (D-031). Text built in Python is translated in QML.
 7. **Qt 5.6 only.** Old `Connections { onFoo: }` syntax, no `topPadding`, no ES6
    (`let`, `const`, arrow functions, `findIndex`, `padStart`, `Qt.callLater`, …). The
    preview's Qt 5.15 accepts all of these, so `tests/test_qml_qt56.py` checks for them.
@@ -52,7 +55,7 @@ unless a decision in `docs/DECISIONS.md` says otherwise.
       `preview/check-smoke.sh` checks a saved log, as CI does)
 - [ ] `docker compose run --rm build` produces the RPM
 - [ ] New logic has a unit test in `tests/`
-- [ ] Strings wrapped for translation
+- [ ] Strings use `qsTrId` + `//%`, and `translations/*.ts` is regenerated (`i18n`)
 - [ ] No new permission, package or dependency without a `docs/DECISIONS.md` entry;
       dependencies pinned (`requirements.in` → `requirements.txt` with hashes, images by digest)
 - [ ] `docs/TODO.md` and/or `docs/DECISIONS.md` updated if scope changed
@@ -65,7 +68,8 @@ python/timerecord/           # logic: db, store (writes + undo), rules, calc, re
                              #        backup, android (import), settings, api (PyOtherSide)
 qml/                         # QML: harbour-timerecord.qml, pages/, components/, cover/
   components/Backend.qml     # the only bridge to Python
-tests/                       # pytest, incl. the QML token rule
+tests/                       # pytest, incl. the QML token, Qt 5.6 and translation rules
+translations/                # id-based catalogues (.ts); harbour-timerecord.ts = English
 preview/                     # desktop preview: shim/ (Silica + Nemo stand-ins), tests/, smoke
 .github/workflows/ci.yml     # CI: tests on push/PR (D-027)
 dbus/                        # D-Bus service file (notification tap starts the app)
@@ -89,6 +93,7 @@ docker compose run --rm qmltest   # QML tests for the preview stand-ins
 docker compose run --rm smoke     # headless run over every page -> preview/shots/
 docker compose run --rm preview   # run the app on the desktop (Wayland)
 docker compose run --rm icons     # render icons from icons/harbour-timerecord.svg
+docker compose run --rm i18n      # update translations/*.ts from the qsTrId texts
 docker compose run --rm build     # -> RPMS/harbour-timerecord-<ver>-1.noarch.rpm
 ```
 

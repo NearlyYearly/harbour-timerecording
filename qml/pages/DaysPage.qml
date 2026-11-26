@@ -89,27 +89,31 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: page.dates.length < page.days.length ? qsTr("Select all") : qsTr("Select none")
+                text: page.dates.length < page.days.length ? /*% "Select all" */ qsTrId("timerecord-days-select-all") : /*% "Select none" */ qsTrId("timerecord-days-select-none")
                 onClicked: page.selectAll(page.dates.length < page.days.length)
             }
             MenuItem {
                 enabled: page.dates.length > 0
-                text: qsTr("Clear day notes")
+                //% "Clear day notes"
+                text: qsTrId("timerecord-days-clear-day-notes")
                 onClicked: {
                     var n = page.dates.length
                     backend.mutate("set_day_notes", [page.dates, -1, ""], function() {
-                        backend.notice(qsTr("Day notes cleared on %n day(s)", "", n))
+                        //% "Day notes cleared on %n day(s)"
+                        backend.notice(qsTrId("timerecord-days-day-notes-cleared-on-day-s", n))
                     })
                 }
             }
             MenuItem {
                 enabled: page.dates.length > 0
-                text: qsTr("Apply template")
+                //% "Apply template"
+                text: qsTrId("timerecord-days-apply-template")
                 onClicked: pageStack.push(Qt.resolvedUrl("TemplatesPage.qml"), { date: page.dates[0], dates: page.dates })
             }
             MenuItem {
                 enabled: page.dates.length > 0
-                text: qsTr("Set day note")
+                //% "Set day note"
+                text: qsTrId("timerecord-days-set-day-note")
                 onClicked: pageStack.push(Qt.resolvedUrl("DayNoteDialog.qml"), { date: page.dates[0], dates: page.dates })
             }
         }
@@ -118,8 +122,10 @@ Page {
             width: list.width
 
             PageHeader {
-                title: qsTr("Edit days")
-                description: qsTr("%1 of %2 days selected").arg(page.dates.length).arg(page.length)
+                //% "Edit days"
+                title: qsTrId("timerecord-days-edit-days")
+                //% "%1 of %2 days selected"
+                description: qsTrId("timerecord-days-of-days-selected").arg(page.dates.length).arg(page.length)
             }
 
             Row {
@@ -159,18 +165,22 @@ Page {
             }
 
             ValueButton {
-                label: qsTr("From")
+                //% "From"
+                label: qsTrId("timerecord-days-from")
                 value: Format.parseDate(page.from).toLocaleDateString(Qt.locale(), "ddd d MMM yyyy")
                 onClicked: page.pickDate("from")
             }
             ValueButton {
-                label: qsTr("To")
+                //% "To"
+                label: qsTrId("timerecord-days-to")
                 value: Format.parseDate(page.to).toLocaleDateString(Qt.locale(), "ddd d MMM yyyy")
-                description: qsTr("« » move by %n day(s)", "", page.length)
+                //% "« » move by %n day(s)"
+                description: qsTrId("timerecord-days-move-by-day-s", page.length)
                 onClicked: page.pickDate("to")
             }
 
-            SectionHeader { text: qsTr("Days") }
+            //% "Days"
+            SectionHeader { text: qsTrId("timerecord-days-days") }
         }
 
         delegate: TextSwitch {

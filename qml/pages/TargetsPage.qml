@@ -20,7 +20,8 @@ SettingsBase {
             id: column
             width: parent.width
 
-            PageHeader { title: qsTr("Work time targets") }
+            //% "Work time targets"
+            PageHeader { title: qsTrId("timerecord-targets-work-time-targets") }
 
             Repeater {
                 model: page.values ? page.days : []
@@ -39,7 +40,8 @@ SettingsBase {
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryHighlightColor
                 text: page.values
-                      ? qsTr("Week: %1").arg(Format.duration(page.days.reduce(function(sum, d) {
+                      //% "Week: %1"
+                      ? qsTrId("timerecord-targets-week").arg(Format.duration(page.days.reduce(function(sum, d) {
                           return sum + page.values["target." + d.key] }, 0)))
                       : ""
             }
