@@ -323,6 +323,20 @@ Template:
 - **Consequences:** Export only; the app's own totals and balance do not change. Public
   holidays on weekdays follow the weekday rule.
 
+### D-030 — Disclose LLM involvement per commit (LLMGD)
+- **Date:** 2026-11-26 · **Status:** Accepted
+- **Context:** The app is written with an LLM (README). Commits carried a `Co-Authored-By`
+  trailer for the model, which says the model was involved but not how far, or what the
+  owner checked. The sailfish-rag `SailfishOS/AGENTS.md` practice grades each commit with
+  [LLMGD](https://github.com/moWerk/llmgd-specs) instead.
+- **Decision:** No `Co-Authored-By` for a model. Every commit made with an LLM ends with the
+  two LLMGD v0.3 lines (origin tier and assurance tier), graded from evidence; the format
+  is in `AGENTS.md`. The existing history was rewritten once to replace the trailers; the
+  commits before 2026-11-08 were graded without session transcripts, which no longer
+  exist, so their grades are provisional and lean on the owner's report of daily use.
+- **Consequences:** Commit hashes and the `v0.8.3` tag changed with the rewrite. Grading
+  takes a moment per commit; a self-graded label says `retrieval=self-claimed`.
+
 ## Open questions
 
 | # | Question | When |

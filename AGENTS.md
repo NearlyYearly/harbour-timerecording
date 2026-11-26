@@ -121,8 +121,21 @@ sailjail -p harbour-timerecord.desktop -- /usr/bin/sailfish-qml harbour-timereco
 - Versioning: `MAJOR.MINOR.PATCH`, RPM release `-1`; bump the spec and the README together.
 - License GPL-3.0-or-later (D-023): new source files start with
   `SPDX-License-Identifier: GPL-3.0-or-later` (after a shebang or `.pragma library`).
-- Commit messages: `area: short summary`
-  (e.g. `breaks: merge touching parts`).
+- Commit messages: `area: short summary` (at most 50 characters, e.g.
+  `breaks: merge touching parts`). One concern per commit. The body, wrapped at 72, says
+  why, how, `Checked:` (what ran, how) and `Not checked:` (what nobody has seen or tried).
+- No `Co-Authored-By` line for a model. A commit made with an LLM ends with the two LLMGD
+  v0.3 disclosure lines (D-030), graded from evidence, never upgraded to look better:
+
+  ```
+  Disclosure: LLMGD-<n> · origin O<n> (<plain one-line summary>)
+  LLMGD: v0.3; assurance=A<n>; flags=<U,T,R|none>; origin={O0:.x,O1:.y}; origin_headline=O<n>; scope=<code+docs+…>; graded-by=<model>; retrieval=<author-side|third-party|self-claimed>
+  ```
+
+  `T` only when tests or a build ran in the session (observed) or the owner reports testing
+  (attested); `U` only with a citable sign that the owner understood the substance; `X`
+  (external review) is never self-claimed. Tiers and flags:
+  [SPEC.md](https://github.com/moWerk/llmgd-specs/blob/main/SPEC.md).
 
 ## Where things go
 
@@ -140,7 +153,8 @@ sailjail -p harbour-timerecord.desktop -- /usr/bin/sailfish-qml harbour-timereco
 - Add networking, analytics or crash reporting.
 - Store data outside the app's sandboxed directory (backups go to `~/Documents`).
 - Delete tasks or day types — archive them (D-018).
-- Probe or install on a phone yourself; hand over the command.
+- Probe or install on a phone yourself; hand over the command. The only phone is the
+  owner's daily phone; there is no test device.
 
 ## Escalation points
 
