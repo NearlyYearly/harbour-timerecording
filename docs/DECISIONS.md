@@ -353,7 +353,9 @@ Template:
   without source text, or a stale catalogue.
 - **Consequences:** The QML is more verbose (a `//%` line per text). Without the `.qm` the
   app shows ids, so the catalogue must be compiled without `-nounfinished`. Texts built in
-  Python (reminders, errors, undo names) still need to move to QML to be translatable.
+  Python are worded or translated in QML: reminders send their kind and numbers
+  (`Reminders.qml`), undo names and error messages stay English keys that `Backend.qml`
+  translates; tests keep both sides complete.
 
 ## Open questions
 

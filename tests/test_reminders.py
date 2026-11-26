@@ -89,3 +89,19 @@ def test_status_fields(tmp_path, clock):
     api.punch(-1)
     clock.set("2026-10-05T15:00")
     assert api.select_task(1)["last_task_name"] == "Work"
+
+
+def test_reminders_carry_their_numbers(conn, store, clock):
+    # QML words the texts (Reminders.qml); Python sends the kind and the numbers.
+    store.punch(1)
+    clock.set("2026-10-05T12:00")
+    values = settings.get_all(conn)
+    day = calc.day_summary(conn, "2026-10-05", clock(), values)
+    found = {r["kind"]: r for r in reminders.due(values, clock(), day, store.running())}
+    assert found["break"] == {"key": "break:12:00", "kind": "break", "start": "12:00", "end": "12:30",
+                              "split": values["break.mode"] == "split"}
+    clock.set("2026-10-05T18:00")
+    day = calc.day_summary(conn, "2026-10-05", clock(), values)
+    found = {r["kind"]: r for r in reminders.due(values, clock(), day, store.running())}
+    assert found["checkout"]["since"] == "08:00" and found["checkout"]["length_min"] == 600
+    assert found["target"]["target_min"] == 480

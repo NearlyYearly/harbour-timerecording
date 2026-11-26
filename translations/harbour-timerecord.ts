@@ -1489,5 +1489,201 @@
         <source>Days</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="timerecord-undo-add-day-type">
+        <source>Add day type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-add-line">
+        <source>Add line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-add-task">
+        <source>Add task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-apply-template">
+        <source>Apply template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-archive-task">
+        <source>Archive task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-check-in">
+        <source>Check in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-check-out">
+        <source>Check out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-day-note">
+        <source>Day note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-day-notes">
+        <source>Day notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-delete-line">
+        <source>Delete line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-delete-template">
+        <source>Delete template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-delete-vacation">
+        <source>Delete vacation %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-edit-day-type">
+        <source>Edit day type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-edit-line">
+        <source>Edit line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-edit-task">
+        <source>Edit task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-import-android">
+        <source>Import from Android</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-rename-template">
+        <source>Rename template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-restore-task">
+        <source>Restore task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-save-template">
+        <source>Save template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-switch-task">
+        <source>Switch task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-undo-vacation">
+        <source>Vacation %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-line-running">
+        <source>Another line is already running.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-backup-newer">
+        <source>The backup was made by a newer version of the app.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-break-rule">
+        <source>A break rule needs the hours worked and a break length.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-check-in-missing">
+        <source>The check-in time is missing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-check-out-before">
+        <source>The check-out is before the check-in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-date-format">
+        <source>The date must be YYYY-MM-DD.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-days-range">
+        <source>The number of days is out of range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-months-order">
+        <source>The last month is before the first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-name-empty">
+        <source>The name is empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-no-days">
+        <source>No days are selected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-not-backup">
+        <source>This is not a Time Recording backup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-task-name-empty">
+        <source>The task name is empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-template-name-empty">
+        <source>The template name is empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-no-finished-lines">
+        <source>The day has no finished lines.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-future">
+        <source>The time is in the future.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-time-format">
+        <source>The time must be HH:MM.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-type-empty">
+        <source>The type must not be empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-line-kind">
+        <source>Unknown kind of line.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-error-year-range">
+        <source>The year is out of range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-reminder-checkout">
+        <source>Still checked in?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-reminder-checkout-body">
+        <source>Checked in since %1 (%2 h). Did you forget to check out?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-reminder-target">
+        <source>Target reached</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-reminder-target-body">
+        <source>You have worked today&apos;s %1 h.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-reminder-checkin">
+        <source>Not checked in yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-reminder-checkin-body">
+        <source>It is after %1 and you have not checked in today.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-reminder-break">
+        <source>Break time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-reminder-break-split">
+        <source>Break %1–%2. It is booked as check-out and check-in when you check out.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="timerecord-reminder-break-deduct">
+        <source>Break %1–%2. It is deducted automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

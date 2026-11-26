@@ -125,7 +125,7 @@ SilicaListView {
         MenuItem {
             visible: view.undoState.redo !== ""
             //% "Redo: %1"
-            text: qsTrId("timerecord-day-view-redo").arg(view.undoState.redo)
+            text: qsTrId("timerecord-day-view-redo").arg(backend.undoName(view.undoState.redo))
             onClicked: backend.mutate("redo")
         }
     }

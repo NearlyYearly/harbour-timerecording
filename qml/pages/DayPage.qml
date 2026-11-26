@@ -92,10 +92,10 @@ Page {
             width: parent.width / 3
             //% "Undo"
             text: qsTrId("timerecord-day-undo")
-            hint: toolbar.undoState.undo
+            hint: backend.undoName(toolbar.undoState.undo)
             enabled: toolbar.undoState.undo !== ""
             onClicked: {
-                var label = toolbar.undoState.undo
+                var label = backend.undoName(toolbar.undoState.undo)
                 //% "Undone: %1"
                 backend.mutate("undo", [], function() { backend.notice(qsTrId("timerecord-day-undone").arg(label)) })
             }
