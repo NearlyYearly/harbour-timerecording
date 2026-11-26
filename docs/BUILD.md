@@ -61,8 +61,10 @@ push to `main` and every pull request; the screenshots and the smoke log are kep
 A release is built locally and uploaded:
 
 ```sh
-./release.sh    # main clean and pushed, tag v<spec version> new; tests, build, asks, then
-                # tags, pushes the tag and creates the GitHub Release with the RPM (gh)
+./release.sh          # main clean and pushed, tag v<spec version> new, release notes in
+                      # docs/releases/<version>.md; tests, build, asks, then tags, pushes
+                      # the tag and creates the GitHub Release with the RPM (gh)
+./release.sh --notes  # prints the release notes and stops
 ```
 
 ## Testing on the phone

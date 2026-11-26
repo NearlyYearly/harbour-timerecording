@@ -79,7 +79,8 @@ icons/                       # launcher icons (rendered from the SVG)
 harbour-timerecord.desktop   # launcher + [X-Sailjail] permissions
 deploy.sh                    # copy + install the RPM on the phone (run by the phone's owner)
 release.sh                   # test, build, tag and upload a GitHub Release (run by the owner)
-docs/                        # plan, todo, decisions, platform notes, build, publish
+docs/                        # plan, todo, decisions, platform notes, build, publish,
+                             # releases/<version>.md (release notes, PUBLISH.md)
 ```
 
 ## Build & run

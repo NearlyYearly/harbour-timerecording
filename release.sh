@@ -1,9 +1,12 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Release the spec's version: test and build locally, then tag and upload the RPM as a
-# GitHub Release (D-027). Needs a clean main that is already pushed, and a logged-in `gh`.
+# GitHub Release (D-027). Needs a clean main that is already pushed, a logged-in `gh`, and
+# docs/releases/<version>.md with who tested on what and the known quirks (docs/PUBLISH.md).
+# A normal release, not a pre-release (D-033).
 #
 #   ./release.sh            asks before tagging and uploading
+#   ./release.sh --notes    prints the release notes and stops
 set -eu
 
 cd "$(dirname "$0")"
@@ -13,8 +16,32 @@ version=$(sed -n 's/^Version:[[:space:]]*//p' rpm/$NAME.spec)
 release=$(sed -n 's/^Release:[[:space:]]*//p' rpm/$NAME.spec)
 tag=v$version
 rpm=RPMS/$NAME-$version-$release.noarch.rpm
+notes=docs/releases/$version.md
+target=$(sed -n 's/^TARGET=${TARGET:-\(.*\)}$/\1/p' docker/sdk.sh)
 
 fail() { echo "release: $*" >&2; exit 1; }
+
+# The packages table, then the author's notes (Tested: line, known quirks), then the
+# statement from the README. GitHub's generated list of changes follows them.
+release_notes() {
+    echo "## Packages"
+    echo
+    echo "| File | For |"
+    echo "|---|---|"
+    echo "| \`$(basename "$rpm")\` | Sailfish OS 5.x phones, any CPU (noarch: QML and Python); built against the $target SDK target |"
+    echo
+    cat "$notes"
+    echo
+    echo "An LLM-assisted app: an LLM wrote the code and no human has reviewed it (see the README)."
+}
+
+[ -f "$notes" ] || fail "$notes is missing: who tested on what, and the known quirks (docs/PUBLISH.md)"
+grep -q '^Tested: ' "$notes" || fail "$notes needs a line starting with 'Tested: '"
+grep -q '^## Known quirks' "$notes" || fail "$notes needs a '## Known quirks' section"
+if [ "${1:-}" = --notes ]; then
+    release_notes
+    exit 0
+fi
 
 # The tag must point at a commit that is on GitHub, with nothing left out.
 [ "$(git rev-parse --abbrev-ref HEAD)" = main ] || fail "not on main"
@@ -52,4 +79,4 @@ read -r answer || answer=""
 
 git tag -a "$tag" -m "$version"
 git push origin "$tag"
-gh release create "$tag" "$rpm" --verify-tag --title "$version" --generate-notes
+gh release create "$tag" "$rpm" --verify-tag --title "$version" --notes "$(release_notes)" --generate-notes

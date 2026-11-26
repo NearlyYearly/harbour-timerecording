@@ -10,6 +10,30 @@ Bump `Version:` in `rpm/harbour-timerecord.spec` for each release (`MAJOR.MINOR.
 RPM release `-1`) and update the version in `README.md`. A `%changelog` is still to be added
 (`TODO.md`, P6).
 
+## Release notes
+
+Each release has `docs/releases/<version>.md`, committed before the release: a line saying who
+tested on what, and the known quirks with the trade-off behind each. `release.sh` refuses to
+run without it and puts it into the GitHub release between a packages table it writes itself
+and the README's statement on unreviewed code; GitHub's generated list of changes follows.
+`./release.sh --notes` shows the result. Releases are normal releases, not pre-releases
+(D-033). Example:
+
+```markdown
+Tested: by the author on a Jolla Phone (2026), Sailfish OS <release>, in daily use since
+<date>; pytest, QML tests and the desktop smoke run before the build.
+
+## Known quirks
+- Reminders only run while the app is open: reminders with the app closed need `timed`, whose
+  entries show in the Clock app; not decided yet (D-014, Q3).
+- Not in the Jolla Store: its validator does not allow the `Notifications` permission the
+  reminders use, nor the D-Bus file that lets a notification start the app (D-005).
+- English only; the catalogue for other languages is in place (D-031).
+
+## Changes
+- <what changed for the user, one line each>
+```
+
 ## Build
 
 `./release.sh` tests and builds locally, then tags `vX.Y.Z` (the spec version) and uploads
@@ -91,6 +115,7 @@ RPM directly (Settings > Untrusted software, then open it in the File Browser).
 ## Checklist
 
 - [ ] version bumped (spec, README) and changelog updated
+- [ ] `docs/releases/<version>.md` written (`Tested:` line, known quirks) and committed
 - [ ] `test`, `qmltest`, `smoke` green; `build` succeeds
 - [x] license decided, `LICENSE` added (D-023)
 - [ ] installed and run through the device checklist (`TODO.md`, P5)

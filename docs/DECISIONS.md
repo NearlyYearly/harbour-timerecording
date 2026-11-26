@@ -383,7 +383,9 @@ Template:
   review of this code is available, so the condition would never end.
 - **Decision:** Releases stay normal GitHub releases (`release.sh`, D-027). Instead, the README
   says at the top that this is an LLM-assisted app whose code no human has reviewed, with a
-  disclosure block for the whole app; the OpenRepos description says the same.
+  disclosure block for the whole app; the OpenRepos description says the same. Release notes
+  follow sailfish-rag otherwise: a packages table, a line saying who tested on what, and the
+  known quirks with their trade-offs (`docs/releases/<version>.md`, checked by `release.sh`).
 - **Consequences:** GitHub shows releases as ordinary releases; the warning lives in the README
   and the store text. No `review-and-architecture-hints.md` while no review is planned; add one
   if a reviewer turns up.
