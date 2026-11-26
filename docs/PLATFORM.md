@@ -84,10 +84,23 @@ From `usr/lib64/qt5/qml/Sailfish/Silica/plugins.qmltypes`:
 ## Packaging & Harbour
 
 - `rpmbuild` inside the target (`sb2`), `BuildArch: noarch`.
-- `rpmvalidation -t SailfishOS-5.0.0.43-aarch64` (Harbour suite) fails on:
-  missing **ELF binary `/usr/bin/harbour-timerecord`** (desktop `Exec` must be
-  `harbour-timerecord`), and on `Requires: libsailfishapp-launcher` / `python3-base`
-  (not allowed). Everything else passes. Fine for OpenRepos; Harbour needs a C++ launcher.
+- `rpmvalidation -t SailfishOS-5.0.0.43-aarch64` (Harbour suite), re-run 2026-11-26 on
+  0.8.4, fails on:
+  - `Exec=/usr/bin/sailfish-qml harbour-timerecord`: the validator does not recognise the
+    launcher with a path, so it asks for `Exec=harbour-timerecord`, an ELF binary
+    `/usr/bin/harbour-timerecord`, and rejects `Requires: libsailfishapp-launcher`.
+  - `X-Sailjail` permission **`Notifications`**: not in the validator's
+    `allowed_permissions.conf` (Audio Bluetooth Camera Internet Location MediaIndexing
+    Microphone NFC RemovableMedia UserDirs WebView Documents Downloads Music Pictures
+    PublicDir Videos Compatibility Secrets Contacts Accounts).
+  - the D-Bus service file in `/usr/share/dbus-1/services/` (D-015) and the license in
+    `/usr/share/licenses/`: "Installation not allowed in this location".
+- The same build with **`Exec=sailfish-qml harbour-timerecord`** (no path) is reported as
+  "Application is a QML-only app (sailfish-qml launcher)", and the binary, `Exec` and
+  `Requires` errors are gone: Harbour does **not** need a C++ launcher. PyOtherSide, the
+  Python modules and all current `Requires` pass. What is left for Harbour is the
+  `Notifications` permission, the D-Bus service file and the license location.
+  (Checked in a scratch build only; the shipped desktop file still has the path.)
 
 ## Desktop preview
 

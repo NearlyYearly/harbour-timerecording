@@ -164,6 +164,9 @@ sailjail -p harbour-timerecord.desktop -- /usr/bin/sailfish-qml harbour-timereco
   first (Q3).
 - **Notification tap / sandbox** — the bus name must stay `<OrganizationName>.<ApplicationName>`
   (D-015); changing identifiers breaks data paths and updates (D-022).
-- **Harbour validation** — needs a C++ launcher binary and fewer `Requires` (D-005).
+- **Harbour validation** — the validator accepts a QML-only app with
+  `Exec=sailfish-qml harbour-timerecord` (no C++ launcher); it still refuses the
+  `Notifications` permission, the D-Bus service file and the license path
+  (`docs/PLATFORM.md`, D-005).
 - **Android import** — the mapping was checked against a real backup (D-025). Never commit
   a real backup or data from it; tests use `tests/android_fixture.py`.
