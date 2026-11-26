@@ -37,7 +37,8 @@ unless a decision in `docs/DECISIONS.md` says otherwise.
    - Enforced by `tests/test_qml_tokens.py`; the preview stand-ins in `preview/shim` are exempt.
 6. **All user-visible text is translatable** via `qsTr()`.
 7. **Qt 5.6 only.** Old `Connections { onFoo: }` syntax, no `topPadding`, no ES6
-   (`let`, `const`, arrow functions).
+   (`let`, `const`, arrow functions, `findIndex`, `padStart`, `Qt.callLater`, …). The
+   preview's Qt 5.15 accepts all of these, so `tests/test_qml_qt56.py` checks for them.
 8. **PyOtherSide cannot pass JS `null`.** Send `-1` / `""` for "none" (`Backend.optId`,
    `api._opt`); JS numbers arrive as floats (`api._clean`) (D-019).
 9. **Use allowed APIs.** If a module, permission or package is not in `docs/PLATFORM.md`,
@@ -45,7 +46,7 @@ unless a decision in `docs/DECISIONS.md` says otherwise.
 
 ## Definition of done (per change)
 
-- [ ] `docker compose run --rm test` green (logic, API, token rule)
+- [ ] `docker compose run --rm test` green (logic, API, token rule, Qt 5.6 rule)
 - [ ] `docker compose run --rm qmltest` green if `preview/shim` changed
 - [ ] `docker compose run --rm smoke` prints only `SMOKE …` lines (no QML warnings;
       `preview/check-smoke.sh` checks a saved log, as CI does)
