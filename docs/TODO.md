@@ -131,7 +131,7 @@ See [`PUBLISH.md`](PUBLISH.md).
 
 - [x] Decide the license (D-023, GPL-3.0-or-later), add `LICENSE`
 - [x] GitHub Actions: tests on push/PR; releases built locally with `release.sh` (D-027)
-- [ ] First CI run on GitHub; first release with `./release.sh`
+- [x] First CI run on GitHub; first release with `./release.sh` (0.8.3)
 - [ ] OpenRepos project, RPM, description, screenshots
 - [ ] (optional) sign the RPM
 

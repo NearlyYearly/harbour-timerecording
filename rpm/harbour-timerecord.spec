@@ -1,6 +1,6 @@
 Name:       harbour-timerecord
 Summary:    Time recording with tasks, day notes and automatic breaks
-Version:    0.8.4
+Version:    0.9.0
 Release:    1
 License:    GPL-3.0-or-later
 BuildArch:  noarch
