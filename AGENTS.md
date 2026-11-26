@@ -160,7 +160,7 @@ sailjail -p harbour-timerecord.desktop -- /usr/bin/sailfish-qml harbour-timereco
 - Store data outside the app's sandboxed directory (backups go to `~/Documents`).
 - Delete tasks or day types — archive them (D-018).
 - Probe or install on a phone yourself; hand over the command. The only phone is the
-  owner's daily phone; there is no test device.
+  owner's daily phone (Jolla Phone (2026), Sailfish OS 5.2.0.22); there is no test device.
 
 ## Escalation points
 

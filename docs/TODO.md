@@ -5,7 +5,8 @@ New tasks go in the phase they belong to.
 
 ## Now
 
-- [ ] P5 — install 0.8.4 on the phone, import the Android backup there, run the device checklist
+- [ ] P5 — the rest of the device checklist; the ticked items come from the author's daily use
+      on a Jolla Phone (2026), Sailfish OS 5.2.0.22, reported 2026-11-26 (README, *What was checked*)
 
 ## P1 — Core
 
@@ -102,18 +103,18 @@ New tasks go in the phase they belong to.
 - [ ] Install via File Browser and via `pkcon` (`BUILD.md`)
 - [ ] App starts from the launcher; data dir created under `org.timerecord/`
 - [ ] Check in/out from page and cover; double tap is ignored
-- [ ] Edit/delete a line, remorse, undo/redo
+- [x] Edit/delete a line, remorse, undo/redo
 - [ ] While checked in: hold a line, menu stays open; delete and change check-in/out from it
 - [ ] Long day: check-out splits at the break; undo restores one line
 - [ ] Swipe days; week/month navigation; swipe back from a line
 - [ ] Edit several days: vacation on a week sets Mon–Fri only; undo removes all of them
 - [ ] Bring the app to the front from the launcher/cover: day page shows today
 - [ ] Forgot to check in: *Check in at…* 07:50, later check out normally
-- [ ] Change a break rule and see totals update
-- [ ] Reminder arrives with the display off (app on the cover)
+- [x] Change a break rule and see totals update
+- [x] Reminder arrives with the display off (app on the cover)
 - [ ] Tapping a notification opens the app; with the app closed, it starts it (D-015)
-- [ ] Backup lands in `~/Documents`; restore works
-- [ ] Import `timerec.db.gz` from `~/Documents`; balance and vacation match Android
+- [x] Backup lands in `~/Documents`; restore works
+- [x] Import `timerec.db.gz` from `~/Documents`; balance and vacation match Android
 - [ ] Updating from 0.6.0 keeps the vacation numbers (schema v4 migration)
 - [ ] Colours follow a light and a dark ambience (D-016)
 
