@@ -107,7 +107,8 @@ Page {
                     width: parent.width
                     truncationMode: TruncationMode.Fade
                     font.pixelSize: Theme.fontSizeSmall
-                    color: modelData.own_entry ? Theme.primaryColor : Theme.secondaryColor
+                    color: modelData.own_entry ? (item.highlighted ? Theme.highlightColor : Theme.primaryColor)
+                                                : (item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor)
                     text: modelData.carryover !== 0
                           ? qsTr("%1 + %2 days").arg(page.number(modelData.days)).arg(page.number(modelData.carryover))
                           : qsTr("%1 days").arg(page.number(modelData.days))
@@ -116,7 +117,7 @@ Page {
                     width: parent.width
                     truncationMode: TruncationMode.Fade
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
+                    color: item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     text: (modelData.planned > 0
                            ? qsTr("%1 taken · %2 planned").arg(page.number(modelData.taken)).arg(page.number(modelData.planned))
                            : qsTr("%1 taken").arg(page.number(modelData.taken)))
@@ -155,7 +156,7 @@ Page {
                 width: parent.width - 2 * x
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
+                color: Theme.secondaryHighlightColor
                 text: qsTr("Days + carried over. Vacation is counted from day types and tasks that use vacation days (Settings → Day types, Tasks). A year without an entry gets the days of the latest earlier year and no carryover.")
             }
 

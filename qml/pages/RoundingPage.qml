@@ -62,7 +62,7 @@ SettingsBase {
                 width: parent.width - 2 * x
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
+                color: Theme.secondaryHighlightColor
                 text: qsTr("Applies to the check-in/out button. The exact time is kept with each line.")
             }
         }

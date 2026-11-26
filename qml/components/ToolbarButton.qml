@@ -33,7 +33,7 @@ BackgroundItem {
             visible: text.length > 0
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: Theme.fontSizeTiny
-            color: Theme.secondaryColor
+            color: button.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
             truncationMode: TruncationMode.Fade
         }
     }

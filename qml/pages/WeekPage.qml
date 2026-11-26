@@ -103,7 +103,7 @@ Page {
                     }
                     Label {
                         text: Format.parseDate(modelData.date).toLocaleDateString(Qt.locale(), "ddd d MMM")
-                        color: row.today ? Theme.highlightColor : Theme.primaryColor
+                        color: row.today || row.highlighted ? Theme.highlightColor : Theme.primaryColor
                         font.bold: row.today
                     }
                     Label {
@@ -111,7 +111,7 @@ Page {
                         width: parent.width
                         text: modelData.note ? (modelData.note.type_name || modelData.note.text || "") : ""
                         font.pixelSize: Theme.fontSizeExtraSmall
-                        color: Theme.secondaryColor
+                        color: row.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                         truncationMode: TruncationMode.Fade
                     }
                 }
@@ -119,7 +119,7 @@ Page {
                     id: netLabel
                     anchors { right: deltaLabel.left; rightMargin: Theme.paddingLarge; verticalCenter: parent.verticalCenter }
                     text: modelData.net_min || modelData.line_count ? Format.duration(modelData.net_min) : "–"
-                    color: Theme.primaryColor
+                    color: row.highlighted ? Theme.highlightColor : Theme.primaryColor
                 }
                 Label {
                     id: deltaLabel

@@ -37,7 +37,7 @@ SettingsBase {
                 width: parent.width - 2 * x
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
+                color: Theme.secondaryHighlightColor
                 text: page.values
                       ? qsTr("Week: %1").arg(Format.duration(page.days.reduce(function(sum, d) {
                           return sum + page.values["target." + d.key] }, 0)))

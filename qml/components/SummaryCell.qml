@@ -17,6 +17,6 @@ Column {
         id: caption
         anchors.horizontalCenter: parent.horizontalCenter
         font.pixelSize: Theme.fontSizeExtraSmall
-        color: Theme.secondaryColor
+        color: Theme.secondaryHighlightColor
     }
 }

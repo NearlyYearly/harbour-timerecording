@@ -102,8 +102,8 @@ Page {
                                 text: Number(modelData.date.substr(8, 2))
                                 font.pixelSize: Theme.fontSizeSmall
                                 font.bold: cell.today
-                                color: cell.today ? Theme.highlightColor
-                                                  : modelData.target_min ? Theme.primaryColor : Theme.secondaryColor
+                                color: cell.today || cell.highlighted ? Theme.highlightColor
+                                                                     : modelData.target_min ? Theme.primaryColor : Theme.secondaryColor
                             }
                             Label {
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -112,7 +112,7 @@ Page {
                                 visible: modelData.net_min > 0
                                 text: Format.duration(modelData.net_min)
                                 font.pixelSize: Theme.fontSizeTiny
-                                color: !cell.past ? Theme.secondaryColor
+                                color: !cell.past ? (cell.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor)
                                        : modelData.delta_min >= 0 ? Theme.highlightColor : Theme.errorColor
                             }
                         }

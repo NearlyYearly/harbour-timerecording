@@ -31,7 +31,7 @@ Page {
                 Label {
                     text: modelData.hint
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
+                    color: highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                 }
             }
         }

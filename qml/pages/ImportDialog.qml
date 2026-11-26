@@ -160,7 +160,7 @@ Dialog {
                         width: column.width - 2 * x
                         wrapMode: Text.Wrap
                         font.pixelSize: Theme.fontSizeExtraSmall
-                        color: Theme.secondaryColor
+                        color: Theme.secondaryHighlightColor
                         text: modelData.date + " " + modelData.time + ": "
                               + (modelData.problem === "check-out without check-in"
                                  ? qsTr("check-out without check-in") : qsTr("check-in without check-out"))
@@ -173,7 +173,7 @@ Dialog {
                         width: column.width - 2 * x
                         wrapMode: Text.Wrap
                         font.pixelSize: Theme.fontSizeExtraSmall
-                        color: Theme.secondaryColor
+                        color: Theme.secondaryHighlightColor
                         text: {
                             switch (modelData.what) {
                             case "week_targets": return qsTr("%n weekly target override(s)", "", modelData.value)
@@ -191,7 +191,7 @@ Dialog {
                     width: parent.width - 2 * x
                     wrapMode: Text.Wrap
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
+                    color: Theme.secondaryHighlightColor
                     text: qsTr("A backup of the current data is saved to Documents first.")
                 }
             }

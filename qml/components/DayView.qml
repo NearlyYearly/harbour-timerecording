@@ -235,7 +235,7 @@ SilicaListView {
             width: parent.width - 2 * x
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: Theme.fontSizeSmall
-            color: Theme.secondaryColor
+            color: Theme.secondaryHighlightColor
             text: view.day ? qsTr("Flexitime balance %1").arg(Format.signedDuration(view.day.balance_min)) : ""
         }
 

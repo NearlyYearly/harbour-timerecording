@@ -91,7 +91,7 @@ Page {
                 Label {
                     width: parent.width
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
+                    color: item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     truncationMode: TruncationMode.Fade
                     text: modelData.lines.map(function(l) {
                         return (l.kind === "break" ? qsTr("break") + " " : "") + l.start + "–" + l.end

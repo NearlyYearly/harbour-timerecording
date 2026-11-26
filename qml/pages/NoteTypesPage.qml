@@ -72,7 +72,7 @@ Page {
                 Label {
                     width: parent.width
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
+                    color: item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     text: qsTr("target credit %1% · vacation days %2").arg(Math.round(modelData.credit_factor * 100)).arg(modelData.holiday_days)
                 }
             }

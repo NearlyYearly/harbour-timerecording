@@ -57,7 +57,7 @@ Page {
                     width: parent.width
                     visible: text.length > 0
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
+                    color: item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     truncationMode: TruncationMode.Fade
                     text: {
                         var parts = []

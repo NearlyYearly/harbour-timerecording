@@ -62,7 +62,7 @@ Page {
                 Label {
                     text: modelData.mtime.replace("T", " ")
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
+                    color: item.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                 }
             }
         }

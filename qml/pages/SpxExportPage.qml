@@ -111,7 +111,7 @@ SettingsBase {
                 width: parent.width - 2 * x
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
+                color: Theme.secondaryHighlightColor
                 text: qsTr("One line per interval, saved in Documents. Work lines are cut around breaks; days still checked in are left out.")
             }
 
@@ -171,7 +171,7 @@ SettingsBase {
                 width: parent.width - 2 * x
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
+                color: Theme.secondaryHighlightColor
                 text: qsTr("Replaces the day's work and breaks. Lines of a task with its own type stay.")
             }
 
@@ -205,7 +205,7 @@ SettingsBase {
                 width: parent.width - 2 * x
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
+                color: Theme.secondaryHighlightColor
                 text: qsTr("Mon–Fri from the day's last work to the next day's first work, Sat and Sun from handover to handover. A day without work starts or ends at handover.")
             }
         }

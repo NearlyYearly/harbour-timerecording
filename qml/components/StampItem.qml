@@ -63,7 +63,9 @@ ListItem {
             verticalCenter: parent.verticalCenter
         }
         text: (item.isBreak ? "−" : "") + Format.duration(line.duration_min)
-        color: line.running ? Theme.highlightColor : (item.isBreak ? Theme.secondaryColor : Theme.primaryColor)
+        color: line.running ? Theme.highlightColor
+             : item.highlighted ? (item.isBreak ? Theme.secondaryHighlightColor : Theme.highlightColor)
+             : (item.isBreak ? Theme.secondaryColor : Theme.primaryColor)
         font.italic: item.auto
     }
 

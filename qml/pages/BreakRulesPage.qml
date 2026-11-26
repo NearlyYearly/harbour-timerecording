@@ -169,7 +169,7 @@ SettingsBase {
                 width: parent.width - 2 * x
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
+                color: Theme.secondaryHighlightColor
                 text: qsTr("Breaks are cumulative: with 6:00 → 30 min and 9:00 → 45 min, a long day gets 30 minutes at the first rule's time and 15 more at the second rule's time.")
             }
         }
