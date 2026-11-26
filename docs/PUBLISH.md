@@ -78,8 +78,8 @@ What it does:
 
 Notes:
 - Reminders work while the app runs (also on the cover); closing the app stops them.
-- This app was coded and created entirely with AI. Its functionality has been tested.
-  Feedback, issues and pull requests are greatly appreciated:
+- An LLM-assisted app: an LLM wrote the code and no human has reviewed it. The author uses
+  it every day on their phone. Keep backups. Feedback, issues and pull requests are welcome:
   https://github.com/NearlyYearly/harbour-timerecording
 ```
 

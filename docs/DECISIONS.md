@@ -376,6 +376,18 @@ Template:
 - **Consequences:** Vacation, Flexitime and SPX export take two steps (month page first). Undo
   scrolls with the list, like the rest of the day header. Long step names fade in the button.
 
+### D-033 — Normal releases; the README says the code is unreviewed
+- **Date:** 2026-11-26 · **Status:** Accepted
+- **Context:** sailfish-rag's AGENTS.md treats LLM-made work as a prototype until a competent
+  reviewer has checked it, and wants releases published as pre-releases until then. No human
+  review of this code is available, so the condition would never end.
+- **Decision:** Releases stay normal GitHub releases (`release.sh`, D-027). Instead, the README
+  says at the top that this is an LLM-assisted app whose code no human has reviewed, with a
+  disclosure block for the whole app; the OpenRepos description says the same.
+- **Consequences:** GitHub shows releases as ordinary releases; the warning lives in the README
+  and the store text. No `review-and-architecture-hints.md` while no review is planned; add one
+  if a reviewer turns up.
+
 ## Open questions
 
 | # | Question | When |

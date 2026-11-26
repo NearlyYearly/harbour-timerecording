@@ -5,8 +5,19 @@ Time recording for SailfishOS (Silica UI, Python logic via PyOtherSide), modelle
 punch rounding, undo/redo, week/month views, flexitime and vacation per year, day
 templates and JSON backups.
 
-> **Note:** This app was coded and created entirely with AI. Its functionality has been
-> tested. Feedback, issues and pull requests are greatly appreciated.
+> **LLM-assisted app; no human has reviewed the code.** An LLM (Anthropic's Claude, through
+> Claude Code) wrote the code, the tests and these docs. The author decides what the app does
+> and how it behaves, uses it every day on their phone and tries new builds there, but has not
+> reviewed the code. Keep backups (Settings → Backup & general) and expect bugs that the tests
+> and daily use have not found. Issues and pull requests are welcome.
+
+Releases are normal GitHub releases, not pre-releases ([D-033](docs/DECISIONS.md)). Every
+commit ends with LLMGD disclosure lines that grade how it was made and tested
+([D-030](docs/DECISIONS.md)). For the app as a whole, as of 2026-11-26 (origin weighted by the
+lines each commit changed):
+
+    Disclosure: LLMGD-2 · origin O1 (the author set the features and tests them in daily use on their phone; an LLM wrote all code, tests and docs; no human has reviewed the code)
+    LLMGD: v0.3; assurance=A2; flags=T; origin={O0:.06,O1:.94}; origin_headline=O1; scope=code+tests+build+docs; graded-by=claude-opus-5-5; retrieval=self-claimed
 
 Automatic breaks (Settings → Break rules), three modes:
 - **Check out & in** (default): on check-out, a missing break becomes a real check-out at the
